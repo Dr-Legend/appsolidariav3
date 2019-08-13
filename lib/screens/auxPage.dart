@@ -78,9 +78,26 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
   DatabaseReference terceroBasicoRef;
   DatabaseReference rootRef;
 
+  //Define TextEdintingController important for Android to work fine
   var birthDateTEC = TextEditingController();
   var _ubicacion = TextEditingController();
   var cupoOperativoTEC = TextEditingController();
+  var identificacionTEC = TextEditingController();
+  var razonSocialTEC = TextEditingController();
+  var direccionTEC = TextEditingController();
+  var celularTEC = TextEditingController();
+  var fijoTEC = TextEditingController();
+  var correoTEC = TextEditingController();
+  var puntoVentaTEC = TextEditingController();
+  var claveTEC = TextEditingController();
+  var comisionCumpTEC = TextEditingController();
+  var delegacionCumpTEC = TextEditingController();
+  var cumuloActualTEC = TextEditingController();
+  var cupoDisponibleTEC = TextEditingController();
+  var segundoApellidoTEC = TextEditingController();
+  var primerNombreTEC = TextEditingController();
+  var segundoNombreTEC = TextEditingController();
+
 
   //TODO update the focus nodes
   final FocusNode _idFocus = FocusNode();
@@ -153,8 +170,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               decoration: InputDecoration(
                   labelText: 'Primer Nombre',
                   icon: Icon(
-                    Icons.call,
-                    color: Colors.orange,
+                    Icons.filter_1,
                   )),
               enabled: true,
               validator: (value) {
@@ -174,7 +190,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             child: TextFormField(
               decoration: InputDecoration(
                   labelText: 'Segundo Nombre',
-                  icon: Icon(Icons.person_outline)),
+                  icon: Icon(Icons.filter_2)),
               enabled: true,
               onSaved: (val) => setState(() {
                 auxObj.segundoNombre = val;
@@ -185,7 +201,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<Genero>(
               decoration: InputDecoration(
-                  labelText: 'Genero', icon: Icon(Icons.person_outline)),
+                  labelText: 'Genero', icon: Icon(Icons.wc)),
               value: _genero,
               onChanged: (Genero newValue) {
                 setState(() {
@@ -254,7 +270,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<EstadoCivil>(
               decoration: InputDecoration(
-                  labelText: 'Estado Civil', icon: Icon(Icons.person_outline)),
+                  labelText: 'Estado Civil', icon: Icon(Icons.contacts)),
               value: _estadoCivil,
               onChanged: (EstadoCivil newValue) {
                 setState(() {
@@ -289,7 +305,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField<String>(
             decoration: InputDecoration(
-                labelText: "Tipo de tercero", icon: Icon(Icons.contact_mail)),
+                labelText: "Tipo de tercero", icon: Icon(Icons.person_pin)),
             value: _tercero,
             onChanged: (String newValue) {
               setState(() {
@@ -313,7 +329,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField<Tipo>(
             decoration: InputDecoration(
-                labelText: "Tipo Documento", icon: Icon(Icons.contact_mail)),
+                labelText: "Tipo Documento", icon: Icon(Icons.person)),
             value: _tipo,
             onChanged: (Tipo newValue) {
               setState(() {
@@ -348,7 +364,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           child: TextFormField(
             decoration: InputDecoration(
                 labelText: 'Número identificación',
-                icon: Icon(Icons.person_outline)),
+                icon: Icon(Icons.check)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -371,7 +387,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField<Clasificacion>(
             decoration: InputDecoration(
-                labelText: "Tipo de cliente", icon: Icon(Icons.contact_mail)),
+                labelText: "Tipo de cliente", icon: Icon(Icons.person_add)),
             value: _clasificacion,
             onChanged: (Clasificacion newValue) {
               setState(() {
@@ -405,7 +421,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           child: TextFormField(
             decoration: InputDecoration(
                 labelText: 'Primer Apellido/Razón Social',
-                icon: Icon(Icons.person)),
+                icon: Icon(Icons.filter_1)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -513,7 +529,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Telefono celular', icon: Icon(Icons.home)),
+                labelText: 'Telefono celular', icon: Icon(Icons.phone_iphone)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -534,7 +550,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Telefono fijo', icon: Icon(Icons.home)),
+                labelText: 'Telefono fijo', icon: Icon(Icons.phone)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -555,7 +571,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Correo electrónico', icon: Icon(Icons.home)),
+                labelText: 'Correo electrónico', icon: Icon(Icons.alternate_email)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -584,7 +600,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField<Agencia>(
             decoration: InputDecoration(
-                labelText: "Agencia", icon: Icon(Icons.text_fields)),
+                labelText: "Agencia", icon: Icon(Icons.account_balance)),
             value: agenciaValue,
             onChanged: (Agencia newValue) {
               setState(() {
@@ -614,7 +630,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Punto de venta', icon: Icon(Icons.home)),
+                labelText: 'Punto de venta', icon: Icon(Icons.business_center)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -631,7 +647,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration:
-                InputDecoration(labelText: 'Clave', icon: Icon(Icons.home)),
+                InputDecoration(labelText: 'Clave', icon: Icon(Icons.vpn_key)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -648,7 +664,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Comision Cumplimiento %', icon: Icon(Icons.home)),
+                labelText: 'Comision Cumplimiento %', icon: Icon(Icons.account_circle)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -665,7 +681,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Delegacion Cumplimiento', icon: Icon(Icons.home)),
+                labelText: 'Delegacion Cumplimiento', icon: Icon(Icons.attach_money)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -695,7 +711,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             controller: cupoOperativoTEC,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-                labelText: 'Cupo Operativo', icon: Icon(Icons.home)),
+                labelText: 'Cupo Operativo', icon: Icon(Icons.monetization_on)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -712,7 +728,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Cumulo Actual', icon: Icon(Icons.home)),
+                labelText: 'Cumulo Actual', icon: Icon(Icons.touch_app)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
@@ -729,7 +745,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             decoration: InputDecoration(
-                labelText: 'Cupo Disponible', icon: Icon(Icons.home)),
+                labelText: 'Cupo Disponible', icon: Icon(Icons.tag_faces)),
             enabled: true,
             validator: (value) {
               if (value.isEmpty) {
