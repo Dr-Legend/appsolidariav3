@@ -149,6 +149,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: segundoApellidoTEC,
               decoration: InputDecoration(
                   labelText: 'Segundo Apellido',
                   icon: Icon(Icons.person_outline)),
@@ -159,6 +160,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
+              onChanged: (val) => setState(() {
+                segundoApellidoTEC.text = val;
+              }),
               onSaved: (val) => setState(() {
                 auxObj.segundoApellido = val;
               }),
@@ -167,6 +171,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: primerNombreTEC,
               decoration: InputDecoration(
                   labelText: 'Primer Nombre',
                   icon: Icon(
@@ -179,6 +184,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
+              onChanged: (val) => setState(() {
+                primerNombreTEC.text = val;
+              }),
               onSaved: (val) => setState(() {
                 auxObj.primerNombre = val;
                 auxBasicoObj.primerNombre = val;
@@ -188,10 +196,14 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: segundoNombreTEC,
               decoration: InputDecoration(
                   labelText: 'Segundo Nombre',
                   icon: Icon(Icons.filter_2)),
               enabled: true,
+              onChanged: (val) => setState(() {
+                segundoNombreTEC.text = val;
+              }),
               onSaved: (val) => setState(() {
                 auxObj.segundoNombre = val;
               }),
@@ -362,6 +374,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: identificacionTEC,
             decoration: InputDecoration(
                 labelText: 'Número identificación',
                 icon: Icon(Icons.check)),
@@ -373,8 +386,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               return null;
             },
             onChanged: (val) => setState(() {
-              auxObj.identificacion = int.parse(val);
-              auxBasicoObj.identificacion = int.parse(val);
+              identificacionTEC.text = val;
             }),
             onSaved: (val) => setState(() {
               auxObj.identificacion = int.parse(val);
@@ -419,6 +431,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: razonSocialTEC,
             decoration: InputDecoration(
                 labelText: 'Primer Apellido/Razón Social',
                 icon: Icon(Icons.filter_1)),
@@ -429,6 +442,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              razonSocialTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.primerApellido = val;
               auxBasicoObj.primerApellido = val;
@@ -456,6 +472,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: direccionTEC,
             decoration:
                 InputDecoration(labelText: 'Dirección', icon: Icon(Icons.home)),
             enabled: true,
@@ -465,6 +482,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              direccionTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.direccion = val;
             }),
@@ -528,6 +548,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: celularTEC,
             decoration: InputDecoration(
                 labelText: 'Telefono celular', icon: Icon(Icons.phone_iphone)),
             enabled: true,
@@ -537,6 +558,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              celularTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.movil = int.parse(val);
             }),
@@ -549,6 +573,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: fijoTEC,
             decoration: InputDecoration(
                 labelText: 'Telefono fijo', icon: Icon(Icons.phone)),
             enabled: true,
@@ -558,6 +583,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              fijoTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.fijo = int.parse(val);
             }),
@@ -570,6 +598,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: correoTEC,
             decoration: InputDecoration(
                 labelText: 'Correo electrónico', icon: Icon(Icons.alternate_email)),
             enabled: true,
@@ -579,6 +608,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              correoTEC.text = val;
+            }),
             onSaved: (val) {
               auxObj.correo = val;
             },
@@ -629,6 +661,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: puntoVentaTEC,
             decoration: InputDecoration(
                 labelText: 'Punto de venta', icon: Icon(Icons.business_center)),
             enabled: true,
@@ -638,6 +671,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              puntoVentaTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.descPuntoVenta = val;
             }),
@@ -646,6 +682,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: claveTEC,
             decoration:
                 InputDecoration(labelText: 'Clave', icon: Icon(Icons.vpn_key)),
             enabled: true,
@@ -655,6 +692,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              claveTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.clave = int.parse(val);
             }),
@@ -663,6 +703,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: comisionCumpTEC,
             decoration: InputDecoration(
                 labelText: 'Comision Cumplimiento %', icon: Icon(Icons.account_circle)),
             enabled: true,
@@ -672,6 +713,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              comisionCumpTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.comCumplimiento = double.parse(val) / 100;
             }),
@@ -680,6 +724,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: delegacionCumpTEC,
             decoration: InputDecoration(
                 labelText: 'Delegacion Cumplimiento', icon: Icon(Icons.attach_money)),
             enabled: true,
@@ -689,6 +734,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              delegacionCumpTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.delegacionCumpl = int.parse(val);
             }),
@@ -719,6 +767,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              cupoOperativoTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.cupoOperativo = int.parse(val);
             }),
@@ -727,6 +778,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: cumuloActualTEC,
             decoration: InputDecoration(
                 labelText: 'Cumulo Actual', icon: Icon(Icons.touch_app)),
             enabled: true,
@@ -736,6 +788,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              cumuloActualTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.cumuloActual = int.parse(val);
             }),
@@ -744,6 +799,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: cupoDisponibleTEC,
             decoration: InputDecoration(
                 labelText: 'Cupo Disponible', icon: Icon(Icons.tag_faces)),
             enabled: true,
@@ -753,6 +809,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val) => setState(() {
+              cupoDisponibleTEC.text = val;
+            }),
             onSaved: (val) => setState(() {
               auxObj.cupoDisponible = int.parse(val);
             }),
