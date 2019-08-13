@@ -160,11 +160,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
-              onChanged: (val) => setState(() {
-                segundoApellidoTEC.text = val;
-              }),
               onSaved: (val) => setState(() {
-                auxObj.segundoApellido = val;
+                auxObj.segundoApellido = segundoApellidoTEC.text;
               }),
             ),
           ),
@@ -184,9 +181,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
-              onChanged: (val) => setState(() {
-                primerNombreTEC.text = val;
-              }),
               onSaved: (val) => setState(() {
                 auxObj.primerNombre = val;
                 auxBasicoObj.primerNombre = val;
@@ -201,9 +195,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                   labelText: 'Segundo Nombre',
                   icon: Icon(Icons.filter_2)),
               enabled: true,
-              onChanged: (val) => setState(() {
-                segundoNombreTEC.text = val;
-              }),
               onSaved: (val) => setState(() {
                 auxObj.segundoNombre = val;
               }),
@@ -385,11 +376,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              identificacionTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
-              auxObj.identificacion = int.parse(val);
+              auxObj.identificacion = int.parse(identificacionTEC.text);
               auxBasicoObj.identificacion = int.parse(val);
             }),
           ),
@@ -442,12 +430,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              razonSocialTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
-              auxObj.primerApellido = val;
-              auxBasicoObj.primerApellido = val;
+              auxObj.primerApellido = razonSocialTEC.text;
+              auxBasicoObj.primerApellido = razonSocialTEC.text;
             }),
           ),
         ),
@@ -482,9 +467,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              direccionTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.direccion = val;
             }),
@@ -558,9 +540,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              celularTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.movil = int.parse(val);
             }),
@@ -583,9 +562,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              fijoTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.fijo = int.parse(val);
             }),
@@ -608,9 +584,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              correoTEC.text = val;
-            }),
             onSaved: (val) {
               auxObj.correo = val;
             },
@@ -671,9 +644,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              puntoVentaTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.descPuntoVenta = val;
             }),
@@ -692,9 +662,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              claveTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.clave = int.parse(val);
             }),
@@ -713,9 +680,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              comisionCumpTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.comCumplimiento = double.parse(val) / 100;
             }),
@@ -734,9 +698,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              delegacionCumpTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.delegacionCumpl = int.parse(val);
             }),
@@ -767,9 +728,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              cupoOperativoTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.cupoOperativo = int.parse(val);
             }),
@@ -788,9 +746,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              cumuloActualTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.cumuloActual = int.parse(val);
             }),
@@ -809,9 +764,6 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
-            onChanged: (val) => setState(() {
-              cupoDisponibleTEC.text = val;
-            }),
             onSaved: (val) => setState(() {
               auxObj.cupoDisponible = int.parse(val);
             }),
@@ -883,7 +835,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                     child: ListBody(
                       children: <Widget>[
                         Text(
-                            'El ${auxObj.tipoTercero} ${auxObj.primerNombre != null ? auxObj.primerNombre : ""} ${auxObj.segundoApellido}'),
+                            'El ${auxObj.tipoTercero} ${auxObj.primerNombre != null ? auxObj.primerNombre : ""} ${auxObj.primerApellido}'),
                         Text(
                             'con identificación ${auxObj.identificacion} ha sido creado exitosamente'),
                       ],
