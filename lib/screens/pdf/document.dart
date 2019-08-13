@@ -12,8 +12,8 @@ const PdfColor grey = PdfColor.fromInt(0xA9A9A9);
 class MyPage extends Page {
   MyPage(
       {PdfPageFormat pageFormat = PdfPageFormat.a4,
-        BuildCallback build,
-        EdgeInsets margin})
+      BuildCallback build,
+      EdgeInsets margin})
       : super(pageFormat: pageFormat, margin: margin, build: build);
 
   @override
@@ -96,7 +96,7 @@ class BlackBoldText extends StatelessWidget {
   Widget build(Context context) {
     return Text(title,
         style:
-        TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: black));
+            TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: black));
   }
 }
 
@@ -176,7 +176,7 @@ Future<Document> generateDocument(PdfPageFormat format) async {
   final PdfImage profileImage = await pdfImageFromImageProvider(
       pdf: pdf.document,
       image:
-      const fw.NetworkImage('https://i.ibb.co/dQDz2ys/logo-Solidaria.png'),
+          const fw.NetworkImage('https://i.ibb.co/dQDz2ys/logo-Solidaria.png'),
       onError: (dynamic exception, StackTrace stackTrace) {
         print('Unable to download image');
       });
@@ -189,14 +189,71 @@ Future<Document> generateDocument(PdfPageFormat format) async {
           right: 0.3 * PdfPageFormat.cm,
           bottom: 0.3 * PdfPageFormat.cm),
       build: (Context context) => Column(children: <Widget>[
+        Row(children: <Widget>[
+          //Imagen Solidaria
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            height: 55,
+            alignment: Alignment.centerLeft,
+            child: Image(profileImage, fit: BoxFit.contain),
+          ),
+          //Titulo póliza
+          SizedBox(width: 30.0),
+          Text("POLIZA SEGURO DE CUMPLIMIENTO DISPOSICIONES LEGALES",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
+        ]),
+        Row(children: <Widget>[
+          //Numero electrónico para pagos
+          Container(
+              margin: EdgeInsets.only(left:10),
+              decoration: const BoxDecoration(
+                border: BoxBorder(
+                    left: true,
+                    top: true,
+                    bottom: true,
+                    right: true,
+                    color: grey,
+                    width: 2),
+              ),
+              padding: const EdgeInsets.all(10.0),
+              child: Column(children: <Widget>[
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("NÚMERO ELECTRONICO",
+                                style: TextStyle(
+                                    fontSize: 10, fontWeight: FontWeight.bold)),
+                            Text("PARA PAGOS",
+                                style: TextStyle(
+                                    fontSize: 7, fontWeight: FontWeight.bold)),
+                            SizedBox(height: 10.0),
+                            //TODO Add numero para pagos en el objeto poliza
+                            Text("22874359807",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold)),
+                          ]),
+                    ]),
+              ])),
+          SizedBox(width: 40.0),
+          //Poliza y Anexo
+          Row(children: <Widget>[
+            Text("PÓLIZA No: ",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            Text("660-46-784000000192",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(width: 50.0),
+            Text("ANEXO:",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            Text(" 1",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          ]),
+        ]),
+        //Bloque Agencia
         Container(
-          margin: EdgeInsets.only(bottom: 10),
-          height: 55,
-          alignment: Alignment.centerLeft,
-          child: Image(profileImage, fit: BoxFit.contain),
-        ),
-        Container(
-            margin: EdgeInsets.all(10),
+            margin: EdgeInsets.only(left: 10,right: 10),
             decoration: const BoxDecoration(
                 border: BoxBorder(
                     left: true,
@@ -324,24 +381,349 @@ Future<Document> generateDocument(PdfPageFormat format) async {
                               alignment: Alignment.center,
                               width: 20,
                               child: BlackBoldText(
-                                  title:
-                                  tempObject.IMPRESION_DIA.toString()),
+                                  title: tempObject.IMPRESION_DIA.toString()),
                             ),
                             Container(height: 11, width: 1, color: black),
                             Container(
                               alignment: Alignment.center,
                               width: 20,
                               child: BlackBoldText(
-                                  title:
-                                  tempObject.IMPRESION_MES.toString()),
+                                  title: tempObject.IMPRESION_MES.toString()),
                             ),
                             Container(height: 11, width: 1, color: black),
                             Container(
                               alignment: Alignment.center,
                               width: 31,
                               child: BlackBoldText(
-                                  title:
-                                  tempObject.IMPRESION_ANO.toString()),
+                                  title: tempObject.IMPRESION_ANO.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                          ]),
+                          Container(
+                              margin: EdgeInsets.only(left: 5, right: 5),
+                              height: 1,
+                              width: 75,
+                              color: black),
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text("FECHA DE IMPRESIÓN",
+                                style: TextStyle(fontSize: 5)),
+                          )
+                        ]),
+                      ]),
+                    ])
+                  ]),
+            ])),
+        //Bloque Afianzado
+        TitleText(title:"DATOS DEL AFIANZADO"),
+        Container(
+            margin: EdgeInsets.only(left: 10,right: 10),
+            decoration: const BoxDecoration(
+                border: BoxBorder(
+                    left: true,
+                    top: true,
+                    bottom: true,
+                    right: true,
+                    color: grey,
+                    width: 1),
+                borderRadius: 16),
+            padding: const EdgeInsets.all(10.0),
+            child: Column(children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      TitleText(title: "AGENCIA EXPEDIDORA:  "),
+                      TitleTextValue(title: tempObject.AGENCIA_EXPEDIDORA)
+                    ]),
+                    Row(children: <Widget>[
+                      Row(children: <Widget>[
+                        TitleText(title: "COD. AGENCIA:  "),
+                        TitleText(title: tempObject.COD_AGENCIA.toString())
+                      ]),
+                      Container(width: 10),
+                      Row(children: <Widget>[
+                        TitleText(title: "RAMO:"),
+                        TitleText(title: "  45")
+                      ]),
+                      Container(width: 100),
+                    ]),
+                  ]),
+              Container(height: 10),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      TitleText(title: "TIPO DE MOVIMIENTO:  "),
+                      TitleTextValue(title: tempObject.TIPO_DE_MOVIMIENTO)
+                    ]),
+                    Row(children: <Widget>[
+                      TitleText(title: "TIPO DE IMPRESIÓN:  "),
+                      TitleText(title: tempObject.TIPO_DE_IMPRESION)
+                    ]),
+                    Row(children: <Widget>[
+                      Row(children: <Widget>[
+                        Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              width: 22,
+                              child: NormalText(title: 'DIA'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: NormalText(title: 'MES'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 33,
+                              child: NormalText(title: 'AÑO'),
+                            ),
+                          ]),
+                          Container(margin: EdgeInsets.only(bottom: 2)),
+                          Row(children: <Widget>[
+                            Container(width: 1, height: 11, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_DIA.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_MES.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 31,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_ANO.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                          ]),
+                          Container(
+                              margin: EdgeInsets.only(left: 5, right: 5),
+                              height: 1,
+                              width: 75,
+                              color: black),
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text("FECHA DE EXPEDICIÓN",
+                                style: TextStyle(fontSize: 5)),
+                          )
+                        ]),
+                      ]),
+                      Container(width: 10),
+                      Row(children: <Widget>[
+                        Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              width: 22,
+                              child: NormalText(title: 'DIA'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: NormalText(title: 'MES'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 33,
+                              child: NormalText(title: 'AÑO'),
+                            ),
+                          ]),
+                          Container(margin: EdgeInsets.only(bottom: 2)),
+                          Row(children: <Widget>[
+                            Container(width: 1, height: 11, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_DIA.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_MES.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 31,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_ANO.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                          ]),
+                          Container(
+                              margin: EdgeInsets.only(left: 5, right: 5),
+                              height: 1,
+                              width: 75,
+                              color: black),
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text("FECHA DE IMPRESIÓN",
+                                style: TextStyle(fontSize: 5)),
+                          )
+                        ]),
+                      ]),
+                    ])
+                  ]),
+            ])),
+        //Bloque Beneficiario
+        TitleText(title:"DATOS DEL ASEGURADO Y BENEFICIARIO"),
+        Container(
+            margin: EdgeInsets.only(left: 10,right: 10),
+            decoration: const BoxDecoration(
+                border: BoxBorder(
+                    left: true,
+                    top: true,
+                    bottom: true,
+                    right: true,
+                    color: grey,
+                    width: 1),
+                borderRadius: 16),
+            padding: const EdgeInsets.all(10.0),
+            child: Column(children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      TitleText(title: "AGENCIA EXPEDIDORA:  "),
+                      TitleTextValue(title: tempObject.AGENCIA_EXPEDIDORA)
+                    ]),
+                    Row(children: <Widget>[
+                      Row(children: <Widget>[
+                        TitleText(title: "COD. AGENCIA:  "),
+                        TitleText(title: tempObject.COD_AGENCIA.toString())
+                      ]),
+                      Container(width: 10),
+                      Row(children: <Widget>[
+                        TitleText(title: "RAMO:"),
+                        TitleText(title: "  45")
+                      ]),
+                      Container(width: 100),
+                    ]),
+                  ]),
+              Container(height: 10),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(children: <Widget>[
+                      TitleText(title: "TIPO DE MOVIMIENTO:  "),
+                      TitleTextValue(title: tempObject.TIPO_DE_MOVIMIENTO)
+                    ]),
+                    Row(children: <Widget>[
+                      TitleText(title: "TIPO DE IMPRESIÓN:  "),
+                      TitleText(title: tempObject.TIPO_DE_IMPRESION)
+                    ]),
+                    Row(children: <Widget>[
+                      Row(children: <Widget>[
+                        Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              width: 22,
+                              child: NormalText(title: 'DIA'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: NormalText(title: 'MES'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 33,
+                              child: NormalText(title: 'AÑO'),
+                            ),
+                          ]),
+                          Container(margin: EdgeInsets.only(bottom: 2)),
+                          Row(children: <Widget>[
+                            Container(width: 1, height: 11, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_DIA.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_MES.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 31,
+                              child: BlackBoldText(
+                                  title: tempObject.FECHA_ANO.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                          ]),
+                          Container(
+                              margin: EdgeInsets.only(left: 5, right: 5),
+                              height: 1,
+                              width: 75,
+                              color: black),
+                          Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: Text("FECHA DE EXPEDICIÓN",
+                                style: TextStyle(fontSize: 5)),
+                          )
+                        ]),
+                      ]),
+                      Container(width: 10),
+                      Row(children: <Widget>[
+                        Column(children: <Widget>[
+                          Row(children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              width: 22,
+                              child: NormalText(title: 'DIA'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: NormalText(title: 'MES'),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 33,
+                              child: NormalText(title: 'AÑO'),
+                            ),
+                          ]),
+                          Container(margin: EdgeInsets.only(bottom: 2)),
+                          Row(children: <Widget>[
+                            Container(width: 1, height: 11, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_DIA.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 20,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_MES.toString()),
+                            ),
+                            Container(height: 11, width: 1, color: black),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 31,
+                              child: BlackBoldText(
+                                  title: tempObject.IMPRESION_ANO.toString()),
                             ),
                             Container(height: 11, width: 1, color: black),
                           ]),

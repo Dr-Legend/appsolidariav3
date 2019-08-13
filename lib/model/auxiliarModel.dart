@@ -180,6 +180,10 @@ class AuxBasico {
   String primerNombre;
   String primerApellido;
   int identificacion;
+  String direccion;
+  String municipio;
+  String departamento;
+  String fijo;
 
   AuxBasico({this.primerNombre, this.primerApellido, this.identificacion});
 
@@ -189,6 +193,10 @@ class AuxBasico {
     map['primerNombre'] = primerNombre;
     map['primerApellido'] = primerApellido;
     map['identificacion'] = identificacion;
+    map['direccion'] = direccion;
+    map['municipio'] = municipio;
+    map['departament'] = departamento;
+    map['fijo'] = fijo;
     return map;
   }
 
@@ -196,6 +204,10 @@ class AuxBasico {
     this.primerNombre = map['primerNombre'];
     this.primerApellido = map['primerApellido'];
     this.identificacion = map['identificacion'];
+    this.direccion = map['direccion'];
+    this.municipio = map['municipio'];
+    this.departamento = map['departamento'];
+    this.fijo = map['fijo'];
   }
 
   @override
