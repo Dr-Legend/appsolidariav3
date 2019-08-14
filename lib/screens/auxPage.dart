@@ -101,14 +101,14 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
 
   //TODO update the focus nodes
   final FocusNode _idFocus = FocusNode();
-  final FocusNode _nombresFocus = FocusNode();
-  final FocusNode _apellidosFocus = FocusNode();
-  final FocusNode _favoritoFocus = FocusNode();
-
-  final FocusNode _movilFocus = FocusNode();
-  final FocusNode _fijoFocus = FocusNode();
-  final FocusNode _correoFocus = FocusNode();
-  final FocusNode _documentoFocus = FocusNode();
+  FocusNode _municipioFocus;
+  FocusNode _fijoFocus; 
+  FocusNode _correoFocus;
+  FocusNode _claveFocus;
+  FocusNode _comCumpFocus;
+  FocusNode _delegaCumpFocus;
+  FocusNode _cumActualFocus;
+  FocusNode _cupoDispFocus;
 
   DateTime nacimiento;
 
@@ -119,6 +119,20 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
 
   @override
   void initState() {
+
+    _municipioFocus = FocusNode();
+    //_movilFocus = FocusNode();
+    _fijoFocus = FocusNode();
+    _correoFocus = FocusNode();
+    _claveFocus = FocusNode();
+    _comCumpFocus = FocusNode();
+    _delegaCumpFocus = FocusNode();
+    _cumActualFocus = FocusNode();
+    _cupoDispFocus = FocusNode();
+
+    //Start listening for changes on controllers
+    cumuloActualTEC.addListener(_calcCupoDisp);
+
     initializeDateFormatting();
     dateFormat = new DateFormat('dd-MM-yyyy'); //new DateFormat.yMMMMd('es');
 
@@ -132,6 +146,12 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
 
     //Initialize the list of nits from Firebase /auxCont/keys
     ubicacionRef.onChildAdded.listen(_onAdded);
+  }
+
+
+  @override
+  void dispose() {
+    //TODO dispose FocusNodes and Controllers
   }
 
   @override
@@ -467,6 +487,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (_){
+              FocusScope.of(context).requestFocus(_municipioFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.direccion = val;
             }),
@@ -543,6 +566,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onSaved: (val) => setState(() {
               auxObj.movil = int.parse(val);
             }),
+            onFieldSubmitted: (_){
+              FocusScope.of(context).requestFocus(_fijoFocus);
+            },
             keyboardType: TextInputType.phone,
             inputFormatters: [
               WhitelistingTextInputFormatter.digitsOnly,
@@ -553,6 +579,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             controller: fijoTEC,
+            focusNode: _fijoFocus,
             decoration: InputDecoration(
                 labelText: 'Telefono fijo', icon: Icon(Icons.phone)),
             enabled: true,
@@ -566,6 +593,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               auxObj.fijo = int.parse(val);
             }),
             keyboardType: TextInputType.phone,
+            onFieldSubmitted:(_){
+              FocusScope.of(context).requestFocus(_correoFocus);
+            },
             inputFormatters: [
               WhitelistingTextInputFormatter.digitsOnly,
             ],
@@ -574,6 +604,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            focusNode: _correoFocus,
             controller: correoTEC,
             decoration: InputDecoration(
                 labelText: 'Correo electrónico', icon: Icon(Icons.alternate_email)),
@@ -644,6 +675,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (_){
+              FocusScope.of(context).requestFocus(_claveFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.descPuntoVenta = val;
             }),
@@ -652,6 +686,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            focusNode: _claveFocus,
             controller: claveTEC,
             decoration:
                 InputDecoration(labelText: 'Clave', icon: Icon(Icons.vpn_key)),
@@ -662,6 +697,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (_){
+              FocusScope.of(context).requestFocus(_comCumpFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.clave = int.parse(val);
             }),
@@ -670,6 +708,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            focusNode: _comCumpFocus,
             controller: comisionCumpTEC,
             decoration: InputDecoration(
                 labelText: 'Comision Cumplimiento %', icon: Icon(Icons.account_circle)),
@@ -680,6 +719,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (_){
+              FocusScope.of(context).requestFocus(_delegaCumpFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.comCumplimiento = double.parse(val) / 100;
             }),
@@ -688,6 +730,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            focusNode:_delegaCumpFocus,
             controller: delegacionCumpTEC,
             decoration: InputDecoration(
                 labelText: 'Delegacion Cumplimiento', icon: Icon(Icons.attach_money)),
@@ -728,6 +771,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (v){
+              FocusScope.of(context).requestFocus(_cumActualFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.cupoOperativo = int.parse(val);
             }),
@@ -736,6 +782,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            focusNode: _cumActualFocus,
             controller: cumuloActualTEC,
             decoration: InputDecoration(
                 labelText: 'Cumulo Actual', icon: Icon(Icons.touch_app)),
@@ -746,6 +793,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onFieldSubmitted: (v){
+              FocusScope.of(context).requestFocus(_cupoDispFocus);
+            },
             onSaved: (val) => setState(() {
               auxObj.cumuloActual = int.parse(val);
             }),
@@ -754,6 +804,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            readOnly: true,
+            focusNode: _cupoDispFocus,
             controller: cupoDisponibleTEC,
             decoration: InputDecoration(
                 labelText: 'Cupo Disponible', icon: Icon(Icons.tag_faces)),
@@ -898,5 +950,20 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           event.snapshot.value.cast<String, dynamic>()));
       //print("Add ${event.snapshot.key}");
     });
+  }
+
+  void _calcCupoDisp() {
+    if(cupoOperativoTEC.text != "" && cumuloActualTEC.text != "") {
+      var cupoOper = int.parse(cupoOperativoTEC.text);
+      var cumuloAct = int.parse(cumuloActualTEC.text);
+      if(cumuloAct>cupoOper){
+        cupoDisponibleTEC.text = "0";
+      } else{
+        cupoDisponibleTEC.text = (cupoOper - cumuloAct).toString();
+      }
+    }else{
+      cupoDisponibleTEC.text = cupoOperativoTEC.text;
+    }
+
   }
 }
