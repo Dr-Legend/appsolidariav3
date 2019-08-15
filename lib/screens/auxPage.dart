@@ -60,8 +60,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
   var _clasificacion = null;
   var _tercero = null;
 
-  Auxiliar auxObj = Auxiliar();
-  AuxBasico auxBasicoObj = AuxBasico();
+  Auxiliar auxObj;
+  AuxBasico auxBasicoObj;
 
   //---AutoComplete variables
 
@@ -120,6 +120,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
   @override
   void initState() {
 
+    //Init Objects
+
+    auxObj = Auxiliar();
+    auxBasicoObj = AuxBasico();
+
     _municipioFocus = FocusNode();
     //_movilFocus = FocusNode();
     _fijoFocus = FocusNode();
@@ -151,7 +156,35 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
 
   @override
   void dispose() {
-    //TODO dispose FocusNodes and Controllers
+
+    birthDateTEC.dispose();
+    _ubicacion.dispose();
+    cupoOperativoTEC.dispose();
+    identificacionTEC.dispose();
+    razonSocialTEC.dispose();
+    direccionTEC.dispose();
+    celularTEC.dispose();
+    fijoTEC.dispose();
+    correoTEC.dispose();
+    puntoVentaTEC.dispose();
+    claveTEC.dispose();
+    comisionCumpTEC.dispose();
+    delegacionCumpTEC.dispose();
+    cumuloActualTEC.dispose();
+    cupoDisponibleTEC.dispose();
+    segundoApellidoTEC.dispose();
+    primerNombreTEC.dispose();
+    segundoNombreTEC.dispose();
+
+    _idFocus.dispose();
+    _municipioFocus.dispose();
+    _fijoFocus.dispose();
+    _correoFocus.dispose();
+    _claveFocus.dispose();
+    _comCumpFocus.dispose();
+    _delegaCumpFocus.dispose();
+    _cumActualFocus.dispose();
+    _cupoDispFocus.dispose();
   }
 
   @override
@@ -169,6 +202,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              textCapitalization: TextCapitalization.sentences,
               controller: segundoApellidoTEC,
               decoration: InputDecoration(
                   labelText: 'Segundo Apellido',
@@ -180,14 +214,18 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
+              onChanged: (val){
+                auxObj.segundoApellido = val;
+            },
               onSaved: (val) => setState(() {
-                auxObj.segundoApellido = segundoApellidoTEC.text;
+                auxObj.segundoApellido = val;
               }),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              textCapitalization: TextCapitalization.sentences,
               controller: primerNombreTEC,
               decoration: InputDecoration(
                   labelText: 'Primer Nombre',
@@ -201,6 +239,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 }
                 return null;
               },
+              onChanged: (val){
+                auxObj.primerNombre = val;
+                auxBasicoObj.primerNombre = val;
+              },
               onSaved: (val) => setState(() {
                 auxObj.primerNombre = val;
                 auxBasicoObj.primerNombre = val;
@@ -210,11 +252,15 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              textCapitalization: TextCapitalization.sentences,
               controller: segundoNombreTEC,
               decoration: InputDecoration(
                   labelText: 'Segundo Nombre',
                   icon: Icon(Icons.filter_2)),
               enabled: true,
+              onChanged: (val){
+                auxObj.segundoNombre = val;
+              },
               onSaved: (val) => setState(() {
                 auxObj.segundoNombre = val;
               }),
@@ -229,6 +275,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               onChanged: (Genero newValue) {
                 setState(() {
                   _genero = newValue;
+                  auxObj.descGenero = newValue.descripcion;
+                  auxObj.genero = newValue.registro;
                   //print("Nuevo genero seleccionado ${newValue.descripcion}");
                 });
               },
@@ -298,6 +346,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               onChanged: (EstadoCivil newValue) {
                 setState(() {
                   _estadoCivil = newValue;
+                  auxObj.descEstadoCivil = newValue.descripcion;
+                  auxObj.estadoCivil = newValue.registro;
                   //print("Nuevo genero seleccionado ${newValue.descripcion}");
                 });
               },
@@ -334,8 +384,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               setState(() {
                 _tercero = newValue;
                 auxObj.tipoTercero = newValue;
-                print("Nuevo tipo tercero seleccionado ${newValue}");
               });
+            },
+            onSaved: (String value){
+              auxObj.tipoTercero = value;
             },
             items: tipoTercero.map((String tipo) {
               return new DropdownMenuItem<String>(
@@ -396,8 +448,12 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val){
+              auxObj.identificacion = int.parse(val);
+              auxBasicoObj.identificacion = int.parse(val);
+            },
             onSaved: (val) => setState(() {
-              auxObj.identificacion = int.parse(identificacionTEC.text);
+              auxObj.identificacion = int.parse(val);
               auxBasicoObj.identificacion = int.parse(val);
             }),
           ),
@@ -412,7 +468,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onChanged: (Clasificacion newValue) {
               setState(() {
                 _clasificacion = newValue;
-                print("Nuevo genero seleccionado ${newValue.descripcion}");
+                auxObj.descClasificacion = newValue.descripcion;
+                auxObj.clasificacion = newValue.registro;
+                print("Nuevo tipo de cliente seleccionado ${newValue.descripcion}");
               });
             },
             onSaved: (Clasificacion newValue) {
@@ -439,6 +497,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             controller: razonSocialTEC,
             decoration: InputDecoration(
                 labelText: 'Primer Apellido/Razón Social',
@@ -450,9 +509,17 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val){
+              setState(() {
+                auxObj.primerApellido = val;
+                auxBasicoObj.primerApellido = val;
+                //TODO make this work with listners on _tercero
+                _tercero.text == "Intermediario" ? puntoVentaTEC.text = razonSocialTEC.text : "";
+              });
+            },
             onSaved: (val) => setState(() {
-              auxObj.primerApellido = razonSocialTEC.text;
-              auxBasicoObj.primerApellido = razonSocialTEC.text;
+              auxObj.primerApellido = val;
+              auxBasicoObj.primerApellido = val;
             }),
           ),
         ),
@@ -477,6 +544,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             controller: direccionTEC,
             decoration:
                 InputDecoration(labelText: 'Dirección', icon: Icon(Icons.home)),
@@ -492,15 +560,18 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             },
             onSaved: (val) => setState(() {
               auxObj.direccion = val;
+              auxBasicoObj.direccion = val;
             }),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SimpleAutocompleteFormField<Ubicacion>(
+            //TODO Freelancer - Capitalize the first letter with inputFormatters: [],
+            focusNode: _municipioFocus,
             controller: _ubicacion,
             decoration: InputDecoration(
-                labelText: 'Ciudad/Municipio', icon: Icon(Icons.search)),
+                labelText: 'Ciudad/Municipio', icon: Icon(Icons.search),),
             suggestionsHeight: 120.0,
             itemBuilder: (context, ubicacion) => Padding(
               padding: EdgeInsets.all(8.0),
@@ -532,10 +603,12 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onChanged: (value) {
               setState(() {
                 selectedPlace = value;
+                //auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
                 if (value != null) {
                   _ubicacion.text = value.municipio;
                   print(
                       "Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
+                  print("${auxObj.c_digo_dane_del_departamento}");
                 }
               });
             },
@@ -543,8 +616,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               selectedPlace = value;
               auxObj.municipio = value.municipio;
               auxObj.departamento = value.departamento;
-              //auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
-              //auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
+              auxBasicoObj.municipio = value.municipio;
+              auxBasicoObj.departamento = value.departamento;
+              //TODO Freelancer - Remove comments on the ubication codes
+              auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
+              auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
             }),
             autofocus: false,
             validator: (user) => user == null ? 'Campo obligatorio.' : null,
@@ -557,15 +633,13 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             decoration: InputDecoration(
                 labelText: 'Telefono celular', icon: Icon(Icons.phone_iphone)),
             enabled: true,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Campo obligatorio';
-              }
-              return null;
-            },
+            //Not required
             onSaved: (val) => setState(() {
               auxObj.movil = int.parse(val);
             }),
+            onChanged: (val){
+              auxObj.movil = int.parse(val);
+            },
             onFieldSubmitted: (_){
               FocusScope.of(context).requestFocus(_fijoFocus);
             },
@@ -589,8 +663,13 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               }
               return null;
             },
+            onChanged: (val){
+              auxObj.fijo = int.parse(val);
+              auxBasicoObj.fijo = int.parse(val);
+            },
             onSaved: (val) => setState(() {
               auxObj.fijo = int.parse(val);
+              auxBasicoObj.fijo = int.parse(val);
             }),
             keyboardType: TextInputType.phone,
             onFieldSubmitted:(_){
@@ -614,6 +693,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 return 'Campo obligatorio';
               }
               return null;
+            },
+            onChanged: (val){
+              auxObj.correo = val;
             },
             onSaved: (val) {
               auxObj.correo = val;
@@ -665,6 +747,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             controller: puntoVentaTEC,
             decoration: InputDecoration(
                 labelText: 'Punto de venta', icon: Icon(Icons.business_center)),
@@ -677,6 +760,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             },
             onFieldSubmitted: (_){
               FocusScope.of(context).requestFocus(_claveFocus);
+            },
+            onChanged: (val){
+              auxObj.descPuntoVenta = val;
             },
             onSaved: (val) => setState(() {
               auxObj.descPuntoVenta = val;
@@ -700,6 +786,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onFieldSubmitted: (_){
               FocusScope.of(context).requestFocus(_comCumpFocus);
             },
+            onChanged: (val){
+              auxObj.clave = int.parse(val);
+            },
             onSaved: (val) => setState(() {
               auxObj.clave = int.parse(val);
             }),
@@ -722,6 +811,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onFieldSubmitted: (_){
               FocusScope.of(context).requestFocus(_delegaCumpFocus);
             },
+            onChanged: (val){
+              auxObj.comCumplimiento = double.parse(val) / 100;
+            },
             onSaved: (val) => setState(() {
               auxObj.comCumplimiento = double.parse(val) / 100;
             }),
@@ -740,6 +832,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 return 'Campo obligatorio';
               }
               return null;
+            },
+            onChanged: (val){
+              auxObj.delegacionCumpl = int.parse(val);
             },
             onSaved: (val) => setState(() {
               auxObj.delegacionCumpl = int.parse(val);
@@ -774,6 +869,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onFieldSubmitted: (v){
               FocusScope.of(context).requestFocus(_cumActualFocus);
             },
+            onChanged: (val){
+              auxObj.cupoOperativo = int.parse(val);
+            },
             onSaved: (val) => setState(() {
               auxObj.cupoOperativo = int.parse(val);
             }),
@@ -796,6 +894,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onFieldSubmitted: (v){
               FocusScope.of(context).requestFocus(_cupoDispFocus);
             },
+            onChanged: (val){
+              auxObj.cumuloActual = int.parse(val);
+            },
             onSaved: (val) => setState(() {
               auxObj.cumuloActual = int.parse(val);
             }),
@@ -815,6 +916,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 return 'Campo obligatorio';
               }
               return null;
+            },
+            onChanged: (val){
+              auxObj.cupoDisponible = int.parse(val);
             },
             onSaved: (val) => setState(() {
               auxObj.cupoDisponible = int.parse(val);
@@ -869,14 +973,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             form.save();
             //Firestore.instance.collection("terceros").add({"Chao":"Andy"});
             //Firestore.instance.document("terceros/${auxObj.identificacion}").setData(auxObj.toMap());
-            terceroRef
-                .child("${auxObj.tipoTercero}")
-                .child("${auxObj.identificacion}")
-                .set(auxObj.toMap());
-            terceroBasicoRef
-                .child("${auxObj.tipoTercero}")
-                .child("${auxObj.identificacion}")
-                .set(auxBasicoObj.toMap());
+            print("Identificacion despuès de validad ${auxObj.identificacion}");
+            saveToFirebase();
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button!
@@ -965,5 +1063,16 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
       cupoDisponibleTEC.text = cupoOperativoTEC.text;
     }
 
+  }
+
+  void saveToFirebase() {
+    terceroRef
+        .child("${auxObj.tipoTercero}")
+        .child("${auxObj.identificacion}")
+        .set(auxObj.toMap());
+    terceroBasicoRef
+        .child("${auxObj.tipoTercero}")
+        .child("${auxObj.identificacion}")
+        .set(auxBasicoObj.toMap());
   }
 }

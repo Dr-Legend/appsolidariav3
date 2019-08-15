@@ -183,7 +183,7 @@ class AuxBasico {
   String direccion;
   String municipio;
   String departamento;
-  String fijo;
+  int fijo;
 
   AuxBasico({this.primerNombre, this.primerApellido, this.identificacion});
 
