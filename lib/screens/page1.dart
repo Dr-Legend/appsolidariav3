@@ -239,7 +239,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 ),
                 //Bug solved.
                 //Can't search for primerNombre because Nit don't have primerNombre
-                onSearch: (search) async => contratantes
+                onSearch: (search) async => afianzados
                     .where((aux) =>
                 aux.primerApellido
                     .toLowerCase()
