@@ -14,12 +14,20 @@ String polizaToJson(Poliza data) {
 }
 
 class Poliza with ChangeNotifier{
+
+
+
   ///NOT in the Form  Informacion del punto de venta de emisión
   String descAgencia = "Agencia Bogota";
   String descPuntoVenta = "AC Seguros Ltda";
 
   ///NOT IN THE FORM
-  Auxiliar intermediarios = Auxiliar(tipoTercero: "Intermediario");
+  Auxiliar intermediario = Auxiliar(tipoTercero: "Intermediario");
+  Auxiliar afianzado = Auxiliar(tipoTercero: "Afianzado");
+  Auxiliar contratante = Auxiliar(tipoTercero: "Contratante");
+  Auxiliar beneficiario = Auxiliar(tipoTercero: "Beneficiario");
+
+  
   //version 1: 1 Intermediario version2: varios intermediarios
   double comision;  //Porcentaje de comisión
   //Ramo comercial
@@ -90,7 +98,7 @@ class Poliza with ChangeNotifier{
   double primaTotal;
   double valComision;
 
-  Poliza({this.descAgencia, this.descPuntoVenta, this.intermediarios,
+  Poliza({this.descAgencia, this.descPuntoVenta, this.intermediario,this.afianzado,this.contratante,this.beneficiario,
     this.comision, this.descRamo, this.tipoDocumento, this.numeroDocumento,
     this.apellidoRazonSocial, this.cupoOperativo, this.cumuloActual, this.cupoDisponible,
     this.fechaEmision, this.vigDesde, this.vigHasta,
@@ -102,8 +110,8 @@ class Poliza with ChangeNotifier{
     this.valAsegTotal, this.primaTotal, this.valComision});
 
   factory Poliza.fromMap(Map<String, dynamic> json) => new Poliza(
-      descAgencia: json["descAgencia"], descPuntoVenta: json["descPuntoVenta"], intermediarios: json["intermediarios"],
-      comision: json["comision"], descRamo: json["descRamo"], tipoDocumento: json["tipoDocumento"], numeroDocumento: json["numeroDocumento"],
+      descAgencia: json["descAgencia"], descPuntoVenta: json["descPuntoVenta"], intermediario: json["intermediario"], afianzado:  json["afianzado"], contratante:  json["contratante"],
+      beneficiario: json["beneficiario"], comision: json["comision"], descRamo: json["descRamo"], tipoDocumento: json["tipoDocumento"], numeroDocumento: json["numeroDocumento"],
       apellidoRazonSocial: json["apellidoRazonSocial"], cupoOperativo: json["cupoOperativo"], cumuloActual: json["cumuloActual"],cupoDisponible: json["cupoDisponible"],
       fechaEmision: json["fechaEmision"], vigDesde: json["vigDesde"], vigHasta: json["vigHasta"],
       tipoCambio: json["tipoCambio"], productoClausulado: json["productoClausulado"],textoClausulado: json["textoClausulado"], descTipoOperacion: json["descTipoOperacion"],
@@ -116,8 +124,8 @@ class Poliza with ChangeNotifier{
 
   Map<String, dynamic> toMap() => {
 
-    "descAgencia": descAgencia , "descPuntoVenta": descPuntoVenta , "intermediarios" : intermediarios,
-    "comision": comision, "descRamo" : descRamo , "tipoDocumento" : tipoDocumento , "numeroDocumento" : numeroDocumento,
+    "descAgencia": descAgencia , "descPuntoVenta": descPuntoVenta , "intermediario" : intermediario, "afianzado" : afianzado, "contratante" : contratante,
+    "beneficiario": beneficiario, "comision": comision, "descRamo" : descRamo , "tipoDocumento" : tipoDocumento , "numeroDocumento" : numeroDocumento,
     "apellidoRazonSocial" : apellidoRazonSocial, "cupoOperativo" : cupoOperativo, "cumuloActual" : cumuloActual, "cupoDisponible":cupoDisponible,
     "fechaEmision": fechaEmision, "vigDesde": vigDesde, "vigHasta": vigHasta,
     "tipoCambio": tipoCambio, "productoClausulado": productoClausulado, "textoClausulado":textoClausulado, "descTipoOperacion": descTipoOperacion,
@@ -127,5 +135,10 @@ class Poliza with ChangeNotifier{
     "objetoSeguro": objetoSeguro, "textoAclaratorio": textoAclaratorio, "amparos": amparos, "estado": estado,
     "valAsegTotal": valAsegTotal, "primaTotal": primaTotal, "valComision": valComision,
   };
+
+  @override
+  String toString() {
+    return 'Poliza{afianzado: $afianzado}';
+  }
 }
 

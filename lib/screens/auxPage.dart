@@ -185,6 +185,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
     _delegaCumpFocus.dispose();
     _cumActualFocus.dispose();
     _cupoDispFocus.dispose();
+
+    //TODO 15/08/2019 se agrego posterior a que funcionara!! BORRAR
+    super.dispose();
   }
 
   @override

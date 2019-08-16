@@ -36,6 +36,8 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
       child: Card(
           child: Column(
             children: <Widget>[
+              ///Campo numero de contrato
+              //TODO ver si funciona sin controlador
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -55,6 +57,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                   }),
                 ),
               ),
+              ///Campo valor del contrato
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -80,6 +83,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                       setState(() => polizaObj.valorContrato = double.parse(val)),
                 ),
               ),
+              ///Campo Plazo ejecución
               Padding(
                 //TODO Make it optional
                 padding: const EdgeInsets.all(8.0),
@@ -105,6 +109,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                       setState(() => polizaObj.plazoEjecucion = int.parse(val)),
                 ),
               ),
+              ///Campo objeto seguro
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButtonFormField<String>(
@@ -186,6 +191,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                   itemCount:
                   polizaObj.amparos != null ? polizaObj.amparos.length : 0,
                   itemBuilder: (BuildContext context, int index) {
+                    ///Campo amparos -------------------------------------------------------
                     return Dismissible(
                         key: UniqueKey(),
                         //confirmDismiss: ,

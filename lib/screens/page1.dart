@@ -71,6 +71,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
     afianzadoBasicoRef.onChildAdded
         .listen(_onAddedAfianzado)
         .onDone(loadingFunc());
+    //Initialize the list of Contratante from Firebase /auxCont/keys
     contratanteBasicoRef.onChildAdded.listen(_onAddedContratante);
 
     super.initState();
@@ -78,6 +79,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    var polizaObj = Provider.of<Poliza>(context);
     return Column(
       children: <Widget>[
         Card(
@@ -93,6 +95,8 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                   });
                 },
               ),
+              ///Campo Afianzado
+              //TODO Importante!!! PostVenta Debe guardarse la fecha de consulta del cupo disponible
               loading
                   ? CircularProgressIndicator()
                   : SimpleAutocompleteFormField<AuxBasico>(
@@ -125,16 +129,25 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     auxbasico.primerApellido.toLowerCase() ==
                         string.toLowerCase(),
                     orElse: () => null),
-                onChanged: (value) {
+                onChanged: (AuxBasico value) async {
+                  //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+                  if (value != null) {
+                    polizaObj.afianzado = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                      print("Afianzado Snapshot ${val.value}");
+                      return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                    });
+                    polizaObj.notifyListeners();
+                  }
                   setState(() {
                     selectedAuxBasico = value;
                     if (value != null) {
-                      auxBasicoController.text = value.primerApellido;
+                      auxBasicoController.text = polizaObj.afianzado.primerApellido;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
                   });
                 },
                 onSaved: (value) => setState(() {
+                  //TODO AFR Evaluar si es necesario guardar algo en este punto. Ej. Realizar la consulta del nit nuevamente
                   selectedAuxBasico = value;
                   //auxObj.municipio = value.municipio;
                   //auxObj.departamento = value.departamento;
@@ -145,6 +158,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 validator: (user) =>
                 user == null ? 'Campo obligatorio.' : null,
               ),
+              ///Campo Tomador / Asegurado
               loading
                   ? CircularProgressIndicator()
                   : SimpleAutocompleteFormField<AuxBasico>(
@@ -177,7 +191,14 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     auxbasico.primerApellido.toLowerCase() ==
                         string.toLowerCase(),
                     orElse: () => null),
-                onChanged: (value) {
+                onChanged: (value) async {
+                  //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+                  if (value != null) {
+                    polizaObj.contratante = await contratanteRef.child("${value.identificacion}").once().then((val){
+                      print("Contratante Snapshot ${val.value}");
+                      return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                    });
+                  }
                   setState(() {
                     selectedAsegBasico = value;
                     if (value != null) {
@@ -197,6 +218,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 validator: (user) =>
                 user == null ? 'Campo obligatorio.' : null,
               ),
+              ///Campo Beneficiario
               _isSelected == false ? loading
                   ? CircularProgressIndicator()
                   : SimpleAutocompleteFormField<AuxBasico>(
@@ -229,7 +251,14 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     auxbasico.primerApellido.toLowerCase() ==
                         string.toLowerCase(),
                     orElse: () => null),
-                onChanged: (value) {
+                onChanged: (value) async {
+                  //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+                  if (value != null) {
+                    polizaObj.beneficiario = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                      print("Afianzado Snapshot ${val.value}");
+                      return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                    });
+                  }
                   setState(() {
                     selectedAsegBasico = value;
                     if (value != null) {
@@ -240,10 +269,6 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 },
                 onSaved: (value) => setState(() {
                   selectedAsegBasico = value;
-                  //auxObj.municipio = value.municipio;
-                  //auxObj.departamento = value.departamento;
-                  //auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
-                  //auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
                 }),
                 autofocus: false,
                 validator: (user) =>
@@ -314,7 +339,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
   DateTime _fromDate1;
   DateTime minDate;
 
-  ///Listado Producto Clausulado
+  //TODO Definir Listado Producto Clausulado
   List<Clausulado> prodClausulado = <Clausulado>[
     Clausulado("Decreto123", "Lorem ipsum1"),
     Clausulado("Decreto456", "Lorem ipsum2")
@@ -361,9 +386,24 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
     super.initState();
   }
 
+
+  @override
+  void dispose() {
+   //TODO dispose Controlladores y FocusNodes
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var polizaObj = Provider.of<Poliza>(context);
+
+    //TODO Freelancer verify if this is the right place to put this. What happen if afianzado==null?
+    setState(() {
+      if(polizaObj.afianzado != null){
+        print("Cupo disponible ${polizaObj.afianzado.cupoDisponible}");
+      cupoController.text = polizaObj.afianzado.cupoDisponible.toString();
+      }
+    });
 
     return Card(
       elevation: 8.0,
@@ -374,6 +414,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 "Datos Básicos",
                 style: TextStyle(fontSize: 16.0, color: Colors.blue),
               )),
+          ///Campo Vigencia Desde
           DateTimeField(
             format: dateFormat,
             controller: initialDate,
@@ -414,7 +455,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 polizaObj.vigDesde.substring(3, 5) +
                 polizaObj.vigDesde.substring(0, 2)))
                 : null,
-            //TODO Se cambia de "" a null 06 Agosto 2019
+            //TODO Revisar Se cambia de "" a null 06 Agosto 2019
             onChanged: (DateTime date) {
               setState(() {
                 //_fromDate1 = date;
@@ -445,6 +486,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 icon: Icon(Icons.date_range),
                 labelText: 'Vigencia Desde /From'),
           ),
+          ///Campo Clausulado
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<Clausulado>(
@@ -475,6 +517,8 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               }),
             ),
           ),
+          ///Campo Tipo de Póliza
+          //TODO PostVenta - Verificar con IT si el campo está codificado
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<String>(
@@ -501,6 +545,8 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               onSaved: (val) => setState(() => polizaObj.descTipoPoliza = val),
             ),
           ),
+          ///Campo Tipo de Negocio, guarda poliza.amparos
+          //TODO PostVenta - Verificar con IT si el campo está codificado
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<String>(
@@ -532,9 +578,14 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                   child: Text(value),
                 );
               }).toList(),
-              onSaved: (val) => setState(() => polizaObj.descTipoNegocio = val),
+              onSaved: (val) {
+                setState(() {
+                  polizaObj.descTipoNegocio = val;
+                });
+              },
             ),
           ),
+          ///Campo cupo disponible Read only
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
@@ -542,7 +593,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               decoration: InputDecoration(
                   labelText: 'Budget /Cupo Disponible',
                   icon: Icon(Icons.attach_money)),
-              enabled: true,
+              readOnly: true,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Debe verificarse el cupo';
