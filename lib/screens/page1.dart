@@ -450,11 +450,11 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               return null;
             },
             initialValue:
-            (polizaObj.vigDesde != null && polizaObj.vigDesde != "")
+            (polizaObj.vigDesde != null && polizaObj.vigDesde == 10)
                 ? DateTime.parse((polizaObj.vigDesde.substring(6, 10) +
                 polizaObj.vigDesde.substring(3, 5) +
                 polizaObj.vigDesde.substring(0, 2)))
-                : null,
+                : DateTime.now(),
             //TODO Revisar Se cambia de "" a null 06 Agosto 2019
             onChanged: (DateTime date) {
               setState(() {

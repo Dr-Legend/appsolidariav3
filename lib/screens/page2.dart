@@ -64,6 +64,9 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                   //controller: cupoController,
                   onChanged: (val) {
                     setState(() => polizaObj.valorContrato = double.parse(val));
+                    //polizaObj.notifyListeners();
+                  },
+                  onFieldSubmitted: (_){
                     polizaObj.notifyListeners();
                   },
                   decoration: InputDecoration(
@@ -156,6 +159,9 @@ class Page3 extends StatefulWidget {
 
 class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
   TextEditingController porcentajeTEC;
+  TextEditingController vlrAmparoTEC;
+
+
   TextEditingController initialDateTEC;
   TextEditingController finalDateTEC;
   DateFormat dateFormat;
@@ -165,12 +171,188 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
+
+    porcentajeTEC = TextEditingController();
+    vlrAmparoTEC = TextEditingController();
+
     initializeDateFormatting();
     dateFormat = new DateFormat('dd-MM-yyyy'); //new DateFormat.yMMMMd('es');
     ///Define fecha mínima como control del sistema.
     minDate = DateTime(
         _fechaEmision.year, _fechaEmision.month - 5, _fechaEmision.day);
+
     super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    porcentajeTEC.dispose();
+    vlrAmparoTEC.dispose();
+    super.dispose();
+  }
+
+  Widget amparoIndividual(int index, Poliza polizaObj){
+    return ExpansionTile(
+      initiallyExpanded: true,
+      title: Text(polizaObj.amparos[index].concepto),
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            //controller: listPorcentjeTEC[index],
+            decoration: InputDecoration(
+                labelText: "Porcentaje:",
+                icon: Icon(Icons.assessment)),
+            initialValue: polizaObj.amparos[index].porcentaje.toString(),
+            onChanged: (val){
+              polizaObj.amparos[index].porcentaje = double.parse(val);
+              /*
+                                  Future.delayed(const Duration(seconds: 3)).then((val){
+                                    polizaObj.notifyListeners();
+                                  });
+                                  */
+            },
+            onFieldSubmitted: (_){
+              polizaObj.notifyListeners();
+            },
+            onSaved: (val){
+              polizaObj.amparos[index].porcentaje = double.parse(val);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            //controller: listVlrAmparoTEC.length >0 ? listVlrAmparoTEC[index]: vlrAmparoTEC,
+            decoration: InputDecoration(
+                labelText: "Vlr. Asegurado amparo:",
+                icon: Icon(Icons.assessment)),
+            initialValue: polizaObj.valorContrato != null ? (polizaObj.amparos[index].porcentaje * polizaObj.valorContrato).toString() : "",
+          ),
+        ),
+        DateTimeField(
+          format: dateFormat,
+          //controller: initialDateTEC,
+          //Lo agregue ver si es necesario
+          onShowPicker: (context, currentValue) async {
+            final date = await showDatePicker(
+                context: context,
+                firstDate: DateTime(1900),
+                initialDate: currentValue ?? DateTime.now(),
+                lastDate: DateTime(2100));
+            /*
+                                if (date != null) {
+                                  final time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.fromDateTime(
+                                        currentValue ?? DateTime.now()),
+                                  );
+                                  return DateTimeField.combine(date, time);
+                                } else {
+                                  return currentValue;
+                                }
+                                */
+            return date;
+          },
+          autovalidate: false,
+          validator: (value) {
+            if (value == null) {
+              return 'Debe ingresar una fecha inicial valida';
+            } else if (minDate.isAfter(value)) {
+              return 'Retroactividad máxima superada';
+            }
+            return null;
+          },
+          //TODO Bug
+          //TODO I/flutter ( 9212): Invalid date format
+          //TODO I/flutter ( 9212): 8-169-20
+          initialValue: (polizaObj.vigDesde != null && polizaObj.vigDesde.length == 10)
+              ? DateTime.parse(
+              (polizaObj.vigDesde.substring(6, 10) +
+                  polizaObj.vigDesde.substring(3, 5) +
+                  polizaObj.vigDesde.substring(0, 2)))
+              : DateTime.now(),
+          onChanged: (date) => setState(() {
+            initialDateTEC.text = date.toString();
+          }),
+          onSaved: (DateTime date) {
+            setState(() {
+              polizaObj.amparos[index].fechaInicial =
+                  date.toString();
+            });
+          },
+          resetIcon: Icon(Icons.delete),
+          readOnly: false,
+          decoration: InputDecoration(
+              icon: Icon(Icons.date_range),
+              labelText: 'Vigencia Desde amparo'),
+        ),
+        DateTimeField(
+          format: dateFormat,
+          controller: finalDateTEC,
+          onShowPicker: (context, currentValue) async {
+            final date = await showDatePicker(
+                context: context,
+                firstDate: DateTime(1900),
+                initialDate: currentValue ?? DateTime.now(),
+                lastDate: DateTime(2100));
+            /*
+                                if (date != null) {
+                                  final time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.fromDateTime(
+                                        currentValue ?? DateTime.now()),
+                                  );
+                                  return DateTimeField.combine(date, time);
+                                } else {
+                                  return currentValue;
+                                }
+                                */
+            return date;
+          },
+          autovalidate: false,
+          validator: (value) {
+            if (value == null) {
+              return 'Debe ingresar una fecha inicial valida';
+            } else if (minDate.isAfter(value)) {
+              return 'Retroactividad máxima superada';
+            }
+            return null;
+          },
+          initialValue: polizaObj.vigDesde != null
+              ? DateTime.parse(((int.parse(polizaObj
+              .vigDesde
+              .substring(6, 10)) +
+              polizaObj.plazoEjecucion +
+              polizaObj
+                  .amparos[index].plazoAdic)
+              .toString() +
+              polizaObj.vigDesde.substring(3, 5) +
+              polizaObj.vigDesde.substring(0, 2)))
+              : null,
+          onChanged: (date) => setState(() {
+            initialDateTEC.text = date.toString();
+            polizaObj.amparos[index].fechaInicial =
+                initialDateTEC.text;
+          }),
+          onSaved: (DateTime date) {
+            setState(() {
+              polizaObj.amparos[index].fechaInicial =
+                  date.toString();
+            });
+          },
+          resetIcon: Icon(Icons.delete),
+          readOnly: false,
+          decoration: InputDecoration(
+              icon: Icon(Icons.date_range),
+              labelText: 'Vigencia Hasta amparo'),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 
   @override
@@ -188,8 +370,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
             children: <Widget>[
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount:
-                  polizaObj.amparos != null ? polizaObj.amparos.length : 0,
+                  itemCount: polizaObj.amparos != null ? polizaObj.amparos.length : 0,
                   itemBuilder: (BuildContext context, int index) {
                     ///Campo amparos -------------------------------------------------------
                     return Dismissible(
@@ -247,153 +428,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                             }
                           });
                         },
-                        child: ExpansionTile(
-                          initiallyExpanded: false,
-                          title: Text(polizaObj.amparos[index].concepto),
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                    labelText: "Porcentaje:",
-                                    icon: Icon(Icons.assessment)),
-                                initialValue: polizaObj
-                                    .amparos[index].porcentaje
-                                    .toString(),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                    labelText: "Vlr. Asegurado amparo:",
-                                    icon: Icon(Icons.assessment)),
-                                initialValue: polizaObj.valorContrato != null
-                                    ? (polizaObj.amparos[index].porcentaje *
-                                    polizaObj.valorContrato)
-                                    .toString()
-                                    : "",
-                              ),
-                            ),
-                            DateTimeField(
-                              format: dateFormat,
-                              controller: initialDateTEC,
-                              //Lo agregue ver si es necesario
-                              onShowPicker: (context, currentValue) async {
-                                final date = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: currentValue ?? DateTime.now(),
-                                    lastDate: DateTime(2100));
-                                /*
-                                if (date != null) {
-                                  final time = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.fromDateTime(
-                                        currentValue ?? DateTime.now()),
-                                  );
-                                  return DateTimeField.combine(date, time);
-                                } else {
-                                  return currentValue;
-                                }
-                                */
-                                return date;
-                              },
-                              autovalidate: false,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Debe ingresar una fecha inicial valida';
-                                } else if (minDate.isAfter(value)) {
-                                  return 'Retroactividad máxima superada';
-                                }
-                                return null;
-                              },
-                              initialValue: polizaObj.vigDesde != null
-                                  ? DateTime.parse(
-                                  (polizaObj.vigDesde.substring(6, 10) +
-                                      polizaObj.vigDesde.substring(3, 5) +
-                                      polizaObj.vigDesde.substring(0, 2)))
-                                  : "",
-                              onChanged: (date) => setState(() {
-                                initialDateTEC.text = date.toString();
-                              }),
-                              onSaved: (DateTime date) {
-                                setState(() {
-                                  polizaObj.amparos[index].fechaInicial =
-                                      date.toString();
-                                });
-                              },
-                              resetIcon: Icon(Icons.delete),
-                              readOnly: false,
-                              decoration: InputDecoration(
-                                  icon: Icon(Icons.date_range),
-                                  labelText: 'Vigencia Desde amparo'),
-                            ),
-                            DateTimeField(
-                              format: dateFormat,
-                              controller: finalDateTEC,
-                              onShowPicker: (context, currentValue) async {
-                                final date = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: currentValue ?? DateTime.now(),
-                                    lastDate: DateTime(2100));
-                                /*
-                                if (date != null) {
-                                  final time = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.fromDateTime(
-                                        currentValue ?? DateTime.now()),
-                                  );
-                                  return DateTimeField.combine(date, time);
-                                } else {
-                                  return currentValue;
-                                }
-                                */
-                                return date;
-                              },
-                              autovalidate: false,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Debe ingresar una fecha inicial valida';
-                                } else if (minDate.isAfter(value)) {
-                                  return 'Retroactividad máxima superada';
-                                }
-                                return null;
-                              },
-                              initialValue: polizaObj.vigDesde != null
-                                  ? DateTime.parse(((int.parse(polizaObj
-                                  .vigDesde
-                                  .substring(6, 10)) +
-                                  polizaObj.plazoEjecucion +
-                                  polizaObj
-                                      .amparos[index].plazoAdic)
-                                  .toString() +
-                                  polizaObj.vigDesde.substring(3, 5) +
-                                  polizaObj.vigDesde.substring(0, 2)))
-                                  : null,
-                              onChanged: (date) => setState(() {
-                                initialDateTEC.text = date.toString();
-                                polizaObj.amparos[index].fechaInicial =
-                                    initialDateTEC.text;
-                              }),
-                              onSaved: (DateTime date) {
-                                setState(() {
-                                  polizaObj.amparos[index].fechaInicial =
-                                      date.toString();
-                                });
-                              },
-                              resetIcon: Icon(Icons.delete),
-                              readOnly: false,
-                              decoration: InputDecoration(
-                                  icon: Icon(Icons.date_range),
-                                  labelText: 'Vigencia Hasta amparo'),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ));
+                        child: amparoIndividual(index, polizaObj));
                   }),
             ],
           )
@@ -404,4 +439,5 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
 }

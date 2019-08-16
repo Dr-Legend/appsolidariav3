@@ -4,6 +4,7 @@ import 'package:appsolidariav3/model/amparoModel.dart';
 import 'package:appsolidariav3/model/polizaModel.dart';
 import 'package:appsolidariav3/screens/page1.dart';
 import 'package:appsolidariav3/screens/page2.dart';
+import 'package:appsolidariav3/screens/page4.dart';
 import 'package:appsolidariav3/theme/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _PolizaFormState extends State<PolizaForm> {
     ),
     Step(
       title: Text('Revision'),
-      content: Page3(),
+      content: Page4(),
       state: StepState.complete,
       isActive: true,
     ),
@@ -144,42 +145,44 @@ class _PolizaFormState extends State<PolizaForm> {
             setState(() {
               if (current_step < steps.length - 1) {
                 current_step = current_step + 1;
-              } else {
-                if (form.validate()) {
-                  //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
-                  form.save();
-                  Navigator.pop(context);
-                } else {
-                  print("form.validate: ${form.validate()}");
-                  print("form state: $form");
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Formulario incompleto'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text(
-                                  'Para emitir la poliza correctamente'),
-                              Text('agradecemos diligenciar el formulario en su totalidad'),
-                            ],
+                if(current_step ==4){
+                  if (form.validate()) {
+                    //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                    form.save();
+                    //Navigator.pop(context);
+                  } else {
+                    current_step = 0;
+                    print("form.validate: ${form.validate()}");
+                    print("form state: $form");
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Formulario incompleto'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text(
+                                    'Para emitir la poliza correctamente'),
+                                Text('agradecemos diligenciar el formulario en su totalidad'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('Aceptar'),
-                            onPressed: () {
-                              current_step = 0;
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Aceptar'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
+              } else {
                 current_step = 0;
               }
             });

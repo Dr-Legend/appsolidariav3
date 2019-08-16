@@ -11,6 +11,7 @@ String amparoToJson(Amparo data) {
 }
 
 class Amparo {
+  
   int amparo;
   int orden;
   int poliza;
@@ -27,11 +28,6 @@ class Amparo {
   double prima;
 
   String descripcion;
-
-  @override
-  String toString() {
-    return 'Amparo{concepto: $concepto}';
-  }
 
   Amparo({
     this.amparo,
@@ -83,4 +79,13 @@ class Amparo {
     "tasaMinima": tasaMinima,
     "prima": prima,
   };
+
+  @override
+  String toString() {
+    return "$amparo,$orden,$poliza,$concepto,"
+        "Fecha inicial Amparo: $fechaInicial,Fecha inicial Amparo:$fechaFinal,$plazoAdic,$porcentaje,"
+        "$valorAsegurado,$tasaAmparo,$tasaMinima,"
+        "$prima,$descripcion";
+
+  }
 }

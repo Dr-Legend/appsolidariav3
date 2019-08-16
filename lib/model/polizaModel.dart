@@ -15,6 +15,7 @@ String polizaToJson(Poliza data) {
 
 class Poliza with ChangeNotifier{
 
+  
 
 
   ///NOT in the Form  Informacion del punto de venta de emisión
@@ -138,7 +139,17 @@ class Poliza with ChangeNotifier{
 
   @override
   String toString() {
-    return 'Poliza{afianzado: $afianzado}';
+    return '$descAgencia, $descPuntoVenta, $intermediario,$afianzado,$contratante,$beneficiario,'
+    '$comision, $descRamo, $tipoDocumento, $numeroDocumento,'
+    '$apellidoRazonSocial, $cupoOperativo, $cumuloActual, $cupoDisponible,'
+    '$fechaEmision,VigDesde: $vigDesde, VigHasta $vigHasta,'
+    '$tipoCambio, $productoClausulado, $textoClausulado, $descTipoOperacion,'
+    '$descTipoPoliza, $descTipoNegocio, $temporario,'
+    '$numPoliza, $nitContratante, $numeroContrato,'
+    '$valorContrato, $plazoEjecucion, $fechaFinContrato,'
+    '$objetoSeguro, $textoAclaratorio, $amparos, $estado,'
+    '$valAsegTotal, $primaTotal, $valComision';
   }
+  
 }
 
