@@ -109,16 +109,16 @@ class _PolizaFormState extends State<PolizaForm> {
                     onPressed: () async {
                       otherAmparos = List();
                       allAmparosMap = await getAllAmparos();
-                      if(polizaObj.amparos!=null){}
-                      amparosObjList = polizaObj.amparos.map((amp){
-                        return amp.concepto;
+                      if(polizaObj.covers!=null){}
+                      amparosObjList = polizaObj.covers.map((amp){
+                        return amp.coverName;
                       }).toList();
                       allAmparosMap.data.forEach((key,value){
                         if(!amparosObjList.contains(key)){
                           otherAmparos.add(Amparo.fromMap(value.cast<String,dynamic>()));
                         }
                       });
-                      polizaObj.amparos.addAll(otherAmparos);
+                      polizaObj.covers.addAll(otherAmparos);
                       polizaObj.notifyListeners();
                       print("OtherAmparos: ${otherAmparos.toString()}");
                     },

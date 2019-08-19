@@ -63,7 +63,7 @@ class Auxiliar with ChangeNotifier{
 
   @override
   String toString() {
-    return 'Auxiliar {tipoTercero: $tipoTercero, identificacion: $identificacion}';
+    return 'Auxiliar {tipoTercero: $tipoTercero, identificacion: $identificacion} ';
   }
 
   Auxiliar(

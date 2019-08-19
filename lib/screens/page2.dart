@@ -53,7 +53,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                     return null;
                   },
                   onSaved: (val) => setState(() {
-                    polizaObj.numeroContrato = val;
+                    polizaObj.treatyNumber = val;
                   }),
                 ),
               ),
@@ -64,7 +64,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                 child: TextFormField(
                   //controller: cupoController,
                   onChanged: (val) {
-                    setState(() => polizaObj.valorContrato = double.parse(val));
+                    setState(() => polizaObj.treatyValue = double.parse(val));
                     //polizaObj.notifyListeners();
                   },
                   onFieldSubmitted: (_) {
@@ -84,7 +84,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                     return null;
                   },
                   onSaved: (val) =>
-                      setState(() => polizaObj.valorContrato = double.parse(val)),
+                      setState(() => polizaObj.treatyValue = double.parse(val)),
                 ),
               ),
 
@@ -106,12 +106,12 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                   },
                   onChanged: (val) {
                     setState(() {
-                      polizaObj.plazoEjecucion = int.parse(val);
+                      polizaObj.excecutionTime = int.parse(val);
                       polizaObj.notifyListeners();
                     });
                   },
                   onSaved: (val) =>
-                      setState(() => polizaObj.plazoEjecucion = int.parse(val)),
+                      setState(() => polizaObj.excecutionTime = int.parse(val)),
                 ),
               ),
 
@@ -139,7 +139,7 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                       child: Text(value),
                     );
                   }).toList(),
-                  onSaved: (val) => setState(() => polizaObj.objetoSeguro = val),
+                  onSaved: (val) => setState(() => polizaObj.insuranceObject = val),
                 ),
               ),
               SizedBox(
@@ -213,7 +213,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
     var polizaObj = Provider.of<Poliza>(context);
     Poliza poliza = Poliza();
     setState(() {
-      polizaObj.amparos = polizaObj.amparos;
+      polizaObj.covers = polizaObj.covers;
     });
     return Container(
       child: Card(
@@ -224,12 +224,12 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
               ListView.builder(
                   shrinkWrap: true,
                   itemCount:
-                  polizaObj.amparos != null ? polizaObj.amparos.length : 0,
+                  polizaObj.covers != null ? polizaObj.covers.length : 0,
                   itemBuilder: (BuildContext context, int index) {
-                    listPorcentajeTEC = polizaObj.amparos.map((a){
+                    listPorcentajeTEC = polizaObj.covers.map((a){
                       return TextEditingController();
                     }).toList();
-                    listPorcentajeTEC[index].text = polizaObj.amparos[index].porcentaje.toString();
+                    listPorcentajeTEC[index].text = polizaObj.covers[index].porcentage.toString();
                     /*
                     listVlrAmparoTEC[index] = TextEditingController();
                     listInitialDateTEC[index] = TextEditingController();
@@ -289,7 +289,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                         onDismissed: (direction) {
                           setState(() {
                             if (direction == DismissDirection.endToStart) {
-                              polizaObj.amparos.removeAt(index);
+                              polizaObj.covers.removeAt(index);
                             } else {
                               print("Amparo confirmado");
                             }
@@ -297,7 +297,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                         },
                         child: ExpansionTile(
                           initiallyExpanded: true,
-                          title: Text(polizaObj.amparos[index].concepto),
+                          title: Text(polizaObj.covers[index].coverName),
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -308,7 +308,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                     icon: Icon(Icons.assessment)),
                                 //initialValue: polizaObj.amparos[index].porcentaje.toString(),
                                 onChanged: (val) {
-                                  polizaObj.amparos[index].porcentaje = double.parse(val);
+                                  polizaObj.covers[index].porcentage = double.parse(val);
                                   /*
                                   Future.delayed(const Duration(seconds: 3)).then((val){
                                     polizaObj.notifyListeners();
@@ -319,7 +319,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                   polizaObj.notifyListeners();
                                 },
                                 onSaved: (val) {
-                                  polizaObj.amparos[index].porcentaje =
+                                  polizaObj.covers[index].porcentage =
                                       double.parse(val);
                                 },
                               ),
@@ -331,9 +331,9 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 decoration: InputDecoration(
                                     labelText: "Vlr. Asegurado amparo:",
                                     icon: Icon(Icons.assessment)),
-                                initialValue: polizaObj.valorContrato != null
-                                    ? (polizaObj.amparos[index].porcentaje *
-                                    polizaObj.valorContrato)
+                                initialValue: polizaObj.treatyValue != null
+                                    ? (polizaObj.covers[index].porcentage *
+                                    polizaObj.treatyValue)
                                     .toString()
                                     : "",
                               ),
@@ -374,19 +374,19 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                               //TODO Bug
                               //TODO I/flutter ( 9212): Invalid date format
                               //TODO I/flutter ( 9212): 8-169-20
-                              initialValue: (polizaObj.vigDesde != null &&
-                                  polizaObj.vigDesde.length == 10)
+                              initialValue: (polizaObj.policyInitialDate != null &&
+                                  polizaObj.policyInitialDate.length == 10)
                                   ? DateTime.parse(
-                                  (polizaObj.vigDesde.substring(6, 10) +
-                                      polizaObj.vigDesde.substring(3, 5) +
-                                      polizaObj.vigDesde.substring(0, 2)))
+                                  (polizaObj.policyInitialDate.substring(6, 10) +
+                                      polizaObj.policyInitialDate.substring(3, 5) +
+                                      polizaObj.policyInitialDate.substring(0, 2)))
                                   : DateTime.now(),
                               onChanged: (date) => setState(() {
                                 initialDateTEC.text = date.toString();
                               }),
                               onSaved: (DateTime date) {
                                 setState(() {
-                                  polizaObj.amparos[index].fechaInicial =
+                                  polizaObj.covers[index].inicialDate =
                                       date.toString();
                                 });
                               },
@@ -428,25 +428,25 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 }
                                 return null;
                               },
-                              initialValue: polizaObj.vigDesde != null
+                              initialValue: polizaObj.policyInitialDate != null
                                   ? DateTime.parse(((int.parse(polizaObj
-                                  .vigDesde
+                                  .policyInitialDate
                                   .substring(6, 10)) +
-                                  polizaObj.plazoEjecucion +
+                                  polizaObj.excecutionTime +
                                   polizaObj
-                                      .amparos[index].plazoAdic)
+                                      .covers[index].additionalTerm)
                                   .toString() +
-                                  polizaObj.vigDesde.substring(3, 5) +
-                                  polizaObj.vigDesde.substring(0, 2)))
+                                  polizaObj.policyInitialDate.substring(3, 5) +
+                                  polizaObj.policyInitialDate.substring(0, 2)))
                                   : null,
                               onChanged: (date) => setState(() {
                                 initialDateTEC.text = date.toString();
-                                polizaObj.amparos[index].fechaInicial =
+                                polizaObj.covers[index].inicialDate =
                                     initialDateTEC.text;
                               }),
                               onSaved: (DateTime date) {
                                 setState(() {
-                                  polizaObj.amparos[index].fechaInicial =
+                                  polizaObj.covers[index].inicialDate =
                                       date.toString();
                                 });
                               },

@@ -78,7 +78,7 @@ class _PaginaInicioState extends State<PaginaInicio>{
                       onTap: () async {
                         Navigator.pushNamed(context, entry.route);
                         if(entry.route == "/poliza"){
-                          polizaObj.intermediario = await intermediarioInit(intermediarioRef, 1234);
+                          polizaObj.intermediary = await intermediarioInit(intermediarioRef, 1234);
                           polizaObj.notifyListeners();
                           print("PolizaObj en ruta ${polizaObj.toString()}");
                         }

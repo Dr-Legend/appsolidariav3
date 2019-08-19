@@ -12,79 +12,73 @@ String amparoToJson(Amparo data) {
 
 class Amparo {
   
-  int amparo;
-  int orden;
-  int poliza;
+  int cover;
+  int policy;
 
-  String concepto; //Nombre del amparo
-  String fechaInicial;
-  String fechaFinal;
-  int plazoAdic; //Plazo adicional del amparo en años
+  String coverName; //Nombre del amparo
+  String inicialDate;
+  String finalDate;
+  int additionalTerm; //Plazo adicional del amparo en años
 
-  double porcentaje;
-  double valorAsegurado;
-  double tasaAmparo;
-  double tasaMinima;
-  double prima;
-
-  String descripcion;
+  double porcentage;
+  double insuredValue;
+  double coverRate;
+  double minimumRate;
+  double insurancePremium;
+  
 
   Amparo({
-    this.amparo,
-    this.orden,
-    this.poliza,
+    this.cover,
+    this.policy,
 
-    this.concepto,
-    this.fechaInicial,
-    this.fechaFinal,
-    this.plazoAdic,
+    this.coverName,
+    this.inicialDate,
+    this.finalDate,
+    this.additionalTerm,
 
-    this.porcentaje,
-    this.valorAsegurado,
-    this.tasaAmparo,
-    this.tasaMinima,
-    this.prima,
-
-    this.descripcion,
+    this.porcentage,
+    this.insuredValue,
+    this.coverRate,
+    this.minimumRate,
+    this.insurancePremium,
+    
   });
 
   factory Amparo.fromMap(Map<String, dynamic> json) => new Amparo(
-    amparo: json["amparo"],
-    orden: json["orden"],
-    poliza: json["poliza"],
+    cover: json["amparo"],
+    policy: json["poliza"],
 
-    concepto: json["concepto"],
-    fechaInicial: json["fechaInicial"],
-    fechaFinal: json["fechaFinal"],
-    plazoAdic: json["plazoAdic"],
+    coverName: json["concepto"],
+    inicialDate: json["fechaInicial"],
+    finalDate: json["fechaFinal"],
+    additionalTerm: json["plazoAdic"],
 
-    porcentaje: json["porcentaje"],
-    valorAsegurado: json["valorAsegurado"],
-    tasaAmparo: json["tasaAmparo"],
-    tasaMinima: json["tasaMinima"],
-    prima: json["prima"],
-
-    descripcion: json["descripcion"],
+    porcentage: json["porcentaje"],
+    insuredValue: json["valorAsegurado"],
+    coverRate: json["tasaAmparo"],
+    minimumRate: json["tasaMinima"],
+    insurancePremium: json["prima"],
+    
   );
 
   Map<String, dynamic> toMap() => {
-    "concepto": concepto,
-    "fechaInicial": fechaInicial,
-    "fechaFinal": fechaFinal,
-    "plazoAdic" :plazoAdic,
+    "concepto": coverName,
+    "fechaInicial": inicialDate,
+    "fechaFinal": finalDate,
+    "plazoAdic" :additionalTerm,
 
-    "porcentaje": porcentaje,
-    "valorAsegurado": valorAsegurado,
-    "tasaAmparo": tasaAmparo,
-    "tasaMinima": tasaMinima,
-    "prima": prima,
+    "porcentaje": porcentage,
+    "valorAsegurado": insuredValue,
+    "tasaAmparo": coverRate,
+    "tasaMinima": minimumRate,
+    "prima": insurancePremium,
   };
 
   @override
   String toString() {
-    return "Amparo: $amparo, Order: $orden, Policy: $poliza, Concept: $concepto, "
-        "AmparoInitialDate: $fechaInicial, AmparoFinalDate: $fechaFinal, AditionalTime: $plazoAdic, Porcentage: $porcentaje,"
-        "InsuredValue: $valorAsegurado, AmparoRate: $tasaAmparo, MinimumInsuranceRate: $tasaMinima,"
-        "Premium: $prima, Description: $descripcion";
+    return "Cover: $cover, Policy: $policy, CoverNAme: $coverName, "
+        "CoverInitialDate: $inicialDate, CoverFinalDate: $finalDate, AditionalTerm: $additionalTerm, Porcentage: $porcentage,"
+        "InsuredValue: $insuredValue, CoverRate: $coverRate, MinimumInsuranceRate: $minimumRate,"
+        "Premium: $insurancePremium";
   }
 }

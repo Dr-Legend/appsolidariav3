@@ -134,14 +134,14 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onChanged: (AuxBasico value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
                   if (value != null) {
-                    polizaObj.afianzado = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                    polizaObj.policyBuyer = await afianzadoRef.child("${value.identificacion}").once().then((val){
                       print("Afianzado Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
                     selectedAuxBasico = value;
                     if (value != null) {
-                      auxBasicoController.text = polizaObj.afianzado.primerApellido;
+                      auxBasicoController.text = polizaObj.policyBuyer.primerApellido;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
                 },
@@ -149,7 +149,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     //TODO AFR Evaluar si es necesario guardar algo en este punto. Ej. Realizar la consulta del nit nuevamente
                     selectedAuxBasico = value;
                     if (value != null) {
-                      polizaObj.afianzado = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                      polizaObj.policyBuyer = await afianzadoRef.child("${value.identificacion}").once().then((val){
                         print("Afianzado Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
@@ -198,7 +198,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onChanged: (value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
                   if (value != null) {
-                    polizaObj.contratante = await contratanteRef.child("${value.identificacion}").once().then((val){
+                    polizaObj.contractor = await contratanteRef.child("${value.identificacion}").once().then((val){
                       print("Contratante Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
@@ -212,7 +212,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onSaved: (value) async {
                     selectedAsegBasico = value;
                     if (value != null) {
-                      polizaObj.contratante = await contratanteRef.child("${value.identificacion}").once().then((val){
+                      polizaObj.contractor = await contratanteRef.child("${value.identificacion}").once().then((val){
                         print("Contratante Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
@@ -261,12 +261,12 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onChanged: (value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
                   if (value != null) {
-                    polizaObj.beneficiario = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                    polizaObj.beneficiary = await afianzadoRef.child("${value.identificacion}").once().then((val){
                       print("Beneficiario Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
-                  polizaObj.beneficiario.tipoTercero = "Beneficiario";
+                  polizaObj.beneficiary.tipoTercero = "Beneficiario";
                     selectedAsegBasico = value;
                     if (value != null) {
                       auxBasicoController.text = value.primerApellido;
@@ -276,12 +276,12 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onSaved: (value) async{
                     selectedAsegBasico = value;
                     if (value != null) {
-                      polizaObj.beneficiario = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                      polizaObj.beneficiary = await afianzadoRef.child("${value.identificacion}").once().then((val){
                         print("Afianzado Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
                     }
-                    polizaObj.beneficiario.tipoTercero = "Beneficiario" ;
+                    polizaObj.beneficiary.tipoTercero = "Beneficiario" ;
                 },
                 onFieldSubmitted: (_){
                   polizaObj.notifyListeners();
@@ -415,9 +415,9 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
 
     //TODO Freelancer verify if this is the right place to put this. What happen if afianzado==null?
     setState(() {
-      if(polizaObj.afianzado != null){
-        print("Cupo disponible ${polizaObj.afianzado.cupoDisponible}");
-      cupoController.text = polizaObj.afianzado.cupoDisponible.toString();
+      if(polizaObj.policyBuyer != null){
+        print("Cupo disponible ${polizaObj.policyBuyer.cupoDisponible}");
+      cupoController.text = polizaObj.policyBuyer.cupoDisponible.toString();
       }
     });
 
@@ -470,11 +470,11 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
             //TODO Revisar Se cambia de "" a null 06 Agosto 2019
             onChanged: (DateTime date) {
               setState(() {
-                polizaObj.vigDesde = dateFormat.format(date);
+                polizaObj.policyInitialDate = dateFormat.format(date);
               });
             },
             onSaved: (DateTime date) {
-              polizaObj.vigDesde = dateFormat.format(date);
+              polizaObj.policyInitialDate = dateFormat.format(date);
             },
             onFieldSubmitted: (_){
               polizaObj.notifyListeners();
@@ -482,7 +482,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
             resetIcon: Icon(Icons.delete),
             readOnly: false,
           ),
-          Text("Fecha Inicial: ${polizaObj.vigDesde}"),
+          Text("Fecha Inicial: ${polizaObj.policyInitialDate}"),
           Text("Fecha Inicial en TEC: ${initialDate.text}"),
 
           ///Campo Clausulado
@@ -511,8 +511,8 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 );
               }).toList(),
               onSaved: (val) {
-                polizaObj.textoClausulado = val.textoClausulado;
-                polizaObj.productoClausulado = val.prodClausulado;
+                polizaObj.textProdConditions = val.textoClausulado;
+                polizaObj.productConditions = val.prodClausulado;
                 polizaObj.notifyListeners();
               },
             ),
@@ -542,7 +542,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                   child: Text(value),
                 );
               }).toList(),
-              onSaved: (val) => setState(() => polizaObj.descTipoPoliza = val),
+              onSaved: (val) => setState(() => polizaObj.polizaType = val),
             ),
           ),
           ///Campo Tipo de Negocio, guarda poliza.amparos
@@ -561,7 +561,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 });
                 setState(() {
                   tipoNegocioValue = newValue;
-                  polizaObj.amparos = amparos;
+                  polizaObj.covers = amparos;
                   //Notify listeners updates the object and refresh all the UI
                   polizaObj.notifyListeners();
                 });
@@ -580,7 +580,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               }).toList(),
               onSaved: (val) {
                 setState(() {
-                  polizaObj.descTipoNegocio = val;
+                  polizaObj.businessType = val;
                 });
               },
             ),
@@ -601,7 +601,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                 return null;
               },
               onSaved: (val) =>
-                  setState(() => polizaObj.cupoDisponible = int.parse(val)),
+                  setState(() => polizaObj.avaliableQuota = int.parse(val)),
             ),
           ),
           SizedBox(
