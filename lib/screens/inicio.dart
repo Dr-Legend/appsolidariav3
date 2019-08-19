@@ -1,5 +1,9 @@
+import 'package:appsolidariav3/model/auxiliarModel.dart';
+import 'package:appsolidariav3/model/polizaModel.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:appsolidariav3/theme/style.dart';
+import 'package:provider/provider.dart';
 
 class MenuRoute {
   const MenuRoute(this.name, this.route, this.widget);
@@ -9,7 +13,12 @@ class MenuRoute {
   final String route;
 }
 
-class PaginaInicio extends StatelessWidget {
+class PaginaInicio extends StatefulWidget {
+  @override
+  _PaginaInicioState createState() => _PaginaInicioState();
+}
+
+class _PaginaInicioState extends State<PaginaInicio>{
   final List<MenuRoute> menu = <MenuRoute>[
     MenuRoute("Poliza Nueva", '/poliza',
         Icon(Icons.add, size: 60.0, color: amarilloSolidaria1)),
@@ -19,20 +28,26 @@ class PaginaInicio extends StatelessWidget {
         Icon(Icons.picture_as_pdf, size: 60.0, color: amarilloSolidaria1)),
     MenuRoute("ML Kit", '/mlKit',
         Icon(Icons.add_circle_outline, size: 60.0, color: amarilloSolidaria1)),
-/*
-    menuRoute("Temporarios", '/polizas',
-        Icon(Icons.list, size: 60.0, color: amarilloSolidaria1)),
-    menuRoute("Conocimiento Cliente", '/auxiliares',
-        Icon(Icons.people, size: 60.0, color: amarilloSolidaria1)),
-    menuRoute("g_Registro", '/gregistro',
-        Icon(Icons.ac_unit, size: 60.0, color: amarilloSolidaria1)),
-    menuRoute("CRUD firebase", '/crudFB',
-        Icon(Icons.check_circle, size: 60.0, color: amarilloSolidaria1))
-        */
   ];
+  //Crear instancia de Base de datos de firebase
+  final FirebaseDatabase database = FirebaseDatabase.instance;
+  DatabaseReference intermediarioRef;
+
+
+  @override
+  void initState(){
+    intermediarioRef = database.reference().child("terceros").child("Intermediario");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var polizaObj = Provider.of<Poliza>(context);
+
+    //Init polizaObj with intermediario id 1234
+
+    //print("PolizaObj After init: ${polizaObj.toString()}");
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Menú Inicio"),
@@ -60,8 +75,14 @@ class PaginaInicio extends StatelessWidget {
                 children: menu.map((entry) {
                   if (entry != null) {
                     return InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, entry.route),
+                      onTap: () async {
+                        Navigator.pushNamed(context, entry.route);
+                        if(entry.route == "/poliza"){
+                          polizaObj.intermediario = await intermediarioInit(intermediarioRef, 1234);
+                          polizaObj.notifyListeners();
+                          print("PolizaObj en ruta ${polizaObj.toString()}");
+                        }
+                      },
                       child: Card(
                           margin: EdgeInsets.all(5.0),
                           color: azulSolidaria2,
@@ -93,4 +114,17 @@ class PaginaInicio extends StatelessWidget {
       ),
     );
   }
+
+  Future<Auxiliar> intermediarioInit(DatabaseReference dbRef, int idInterm) async {
+    Auxiliar intermediario;
+    intermediario = await dbRef.child("$idInterm").once().then((val){
+      if(val.value != null){
+        return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+      } else{
+        return null;
+      }
+    });
+    return intermediario;
+  }
 }
+

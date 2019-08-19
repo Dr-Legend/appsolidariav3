@@ -152,8 +152,6 @@ class _PolizaFormState extends State<PolizaForm> {
                     //Navigator.pop(context);
                   } else {
                     current_step = 0;
-                    print("form.validate: ${form.validate()}");
-                    print("form state: $form");
                     showDialog<void>(
                       context: context,
                       barrierDismissible: false, // user must tap button!

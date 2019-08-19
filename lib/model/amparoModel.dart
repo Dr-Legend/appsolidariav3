@@ -82,10 +82,9 @@ class Amparo {
 
   @override
   String toString() {
-    return "$amparo,$orden,$poliza,$concepto,"
-        "Fecha inicial Amparo: $fechaInicial,Fecha inicial Amparo:$fechaFinal,$plazoAdic,$porcentaje,"
-        "$valorAsegurado,$tasaAmparo,$tasaMinima,"
-        "$prima,$descripcion";
-
+    return "Amparo: $amparo, Orden: $orden, Poliza: $poliza, Concepto: $concepto, "
+        "Fecha inicial Amparo: $fechaInicial,Fecha final Amparo:$fechaFinal, Plazo Adic: $plazoAdic, Porcentaje: $porcentaje,"
+        "Vlr. Aseg: $valorAsegurado, Tasa Amparo: $tasaAmparo, Tasa Minima: $tasaMinima,"
+        "Prima: $prima, Descripción: $descripcion";
   }
 }

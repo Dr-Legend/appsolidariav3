@@ -61,10 +61,9 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
     //Inicializar referencias de RealTimeDatabase firebase
     terceroRef = database.reference().child("terceros");
     afianzadoRef = database.reference().child("terceros").child("Afianzado");
-    afianzadoBasicoRef =
-        database.reference().child("terceroBasico").child("Afianzado");
-    contratanteBasicoRef =
-        database.reference().child("terceroBasico").child("Contratante");
+    contratanteRef = database.reference().child("terceros").child("Contratante");
+    afianzadoBasicoRef = database.reference().child("terceroBasico").child("Afianzado");
+    contratanteBasicoRef = database.reference().child("terceroBasico").child("Contratante");
     rootRef = database.reference();
 
     //Initialize the list of Afianzados from Firebase /auxCont/keys
@@ -80,6 +79,9 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     var polizaObj = Provider.of<Poliza>(context);
+
+    print("Poliza en pagina 1: ${polizaObj.toString()}");
+
     return Column(
       children: <Widget>[
         Card(
@@ -136,29 +138,31 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                       print("Afianzado Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
-                    polizaObj.notifyListeners();
                   }
-                  setState(() {
                     selectedAuxBasico = value;
                     if (value != null) {
                       auxBasicoController.text = polizaObj.afianzado.primerApellido;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
-                  });
                 },
-                onSaved: (value) => setState(() {
-                  //TODO AFR Evaluar si es necesario guardar algo en este punto. Ej. Realizar la consulta del nit nuevamente
-                  selectedAuxBasico = value;
-                  //auxObj.municipio = value.municipio;
-                  //auxObj.departamento = value.departamento;
-                  //auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
-                  //auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
-                }),
+                onSaved: (value) async {
+                    //TODO AFR Evaluar si es necesario guardar algo en este punto. Ej. Realizar la consulta del nit nuevamente
+                    selectedAuxBasico = value;
+                    if (value != null) {
+                      polizaObj.afianzado = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                        print("Afianzado Snapshot ${val.value}");
+                        return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                      });
+                    }
+                },
+                onFieldSubmitted: (_){
+                  polizaObj.notifyListeners();
+                },
                 autofocus: false,
                 validator: (user) =>
                 user == null ? 'Campo obligatorio.' : null,
               ),
-              ///Campo Tomador / Asegurado
+              ///Campo Tomador / Asegurado - Contratante
               loading
                   ? CircularProgressIndicator()
                   : SimpleAutocompleteFormField<AuxBasico>(
@@ -199,21 +203,24 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
-                  setState(() {
                     selectedAsegBasico = value;
                     if (value != null) {
                       auxBasicoController.text = value.primerApellido;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
-                  });
                 },
-                onSaved: (value) => setState(() {
-                  selectedAsegBasico = value;
-                  //auxObj.municipio = value.municipio;
-                  //auxObj.departamento = value.departamento;
-                  //auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
-                  //auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
-                }),
+                onSaved: (value) async {
+                    selectedAsegBasico = value;
+                    if (value != null) {
+                      polizaObj.contratante = await contratanteRef.child("${value.identificacion}").once().then((val){
+                        print("Contratante Snapshot ${val.value}");
+                        return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                      });
+                    }
+                },
+                onFieldSubmitted: (_){
+                  polizaObj.notifyListeners();
+                },
                 autofocus: false,
                 validator: (user) =>
                 user == null ? 'Campo obligatorio.' : null,
@@ -255,21 +262,30 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
                   if (value != null) {
                     polizaObj.beneficiario = await afianzadoRef.child("${value.identificacion}").once().then((val){
-                      print("Afianzado Snapshot ${val.value}");
+                      print("Beneficiario Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
-                  setState(() {
+                  polizaObj.beneficiario.tipoTercero = "Beneficiario";
                     selectedAsegBasico = value;
                     if (value != null) {
                       auxBasicoController.text = value.primerApellido;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
-                  });
                 },
-                onSaved: (value) => setState(() {
-                  selectedAsegBasico = value;
-                }),
+                onSaved: (value) async{
+                    selectedAsegBasico = value;
+                    if (value != null) {
+                      polizaObj.beneficiario = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                        print("Afianzado Snapshot ${val.value}");
+                        return Auxiliar.fromMap(val.value.cast<String, dynamic>());
+                      });
+                    }
+                    polizaObj.beneficiario.tipoTercero = "Beneficiario" ;
+                },
+                onFieldSubmitted: (_){
+                  polizaObj.notifyListeners();
+                },
                 autofocus: false,
                 validator: (user) =>
                 user == null ? 'Campo obligatorio.' : null,
@@ -416,6 +432,9 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               )),
           ///Campo Vigencia Desde
           DateTimeField(
+            decoration: InputDecoration(
+                icon: Icon(Icons.date_range),
+                labelText: 'Vigencia Desde /From'),
             format: dateFormat,
             controller: initialDate,
             //Lo agregue ver si es necesario
@@ -430,8 +449,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               if (date != null) {
                 final time = await showTimePicker(
                   context: context,
-                  initialTime:
-                      TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                  initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
                 );
                 return DateTimeField.combine(date, time);
               } else {
@@ -449,43 +467,24 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               }
               return null;
             },
-            initialValue:
-            (polizaObj.vigDesde != null && polizaObj.vigDesde == 10)
-                ? DateTime.parse((polizaObj.vigDesde.substring(6, 10) +
-                polizaObj.vigDesde.substring(3, 5) +
-                polizaObj.vigDesde.substring(0, 2)))
-                : DateTime.now(),
             //TODO Revisar Se cambia de "" a null 06 Agosto 2019
             onChanged: (DateTime date) {
               setState(() {
-                //_fromDate1 = date;
-                //initialDate.text = date.toString();
-                //finalDate is the controller for the next date
-                finalDate.text = initialDate.text != ""
-                    ? initialDate.text.substring(0, 2) +
-                    "-" +
-                    initialDate.text.substring(3, 5) +
-                    "-" +
-                    (int.parse(initialDate.text.substring(6, 10)) +
-                        int.parse(periodoController.text))
-                        .toString()
-                    : "";
-                print("initialDate: ${initialDate.text}");
-                polizaObj.vigDesde = initialDate.text;
-                //polizaObj.notifyListeners();
+                polizaObj.vigDesde = dateFormat.format(date);
               });
             },
             onSaved: (DateTime date) {
-              setState(() {
-                polizaObj.vigDesde = date.toString(); //TODO Revisar
-              });
+              polizaObj.vigDesde = dateFormat.format(date);
+            },
+            onFieldSubmitted: (_){
+              polizaObj.notifyListeners();
             },
             resetIcon: Icon(Icons.delete),
             readOnly: false,
-            decoration: InputDecoration(
-                icon: Icon(Icons.date_range),
-                labelText: 'Vigencia Desde /From'),
           ),
+          Text("Fecha Inicial: ${polizaObj.vigDesde}"),
+          Text("Fecha Inicial en TEC: ${initialDate.text}"),
+
           ///Campo Clausulado
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -511,10 +510,11 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                   child: Text(value.prodClausulado),
                 );
               }).toList(),
-              onSaved: (val) => setState(() {
+              onSaved: (val) {
                 polizaObj.textoClausulado = val.textoClausulado;
                 polizaObj.productoClausulado = val.prodClausulado;
-              }),
+                polizaObj.notifyListeners();
+              },
             ),
           ),
           ///Campo Tipo de Póliza

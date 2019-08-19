@@ -63,7 +63,7 @@ class Auxiliar with ChangeNotifier{
 
   @override
   String toString() {
-    return 'Auxiliar{tipoTercero: $tipoTercero, clasificacion: $clasificacion, descClasificacion: $descClasificacion, tipo: $tipo, descTipo: $descTipo, identificacion: $identificacion, primerNombre: $primerNombre, segundoNombre: $segundoNombre, primerApellido: $primerApellido, segundoApellido: $segundoApellido, favorito: $favorito, nacimiento: $nacimiento, c_digo_dane_del_departamento: $c_digo_dane_del_departamento, departamento: $departamento, genero: $genero, descGenero: $descGenero, estadoCivil: $estadoCivil, descEstadoCivil: $descEstadoCivil, direccion: $direccion, c_digo_dane_del_municipio: $c_digo_dane_del_municipio, municipio: $municipio, movil: $movil, fijo: $fijo, correo: $correo, documento: $documento, sincronizar: $sincronizar, agencia: $agencia, descAgencia: $descAgencia, puntoVenta: $puntoVenta, descPuntoVenta: $descPuntoVenta, clave: $clave, comCumplimiento: $comCumplimiento, delegacionCumpl: $delegacionCumpl, cupoOperativo: $cupoOperativo, cumuloActual: $cumuloActual, cupoDisponible: $cupoDisponible}';
+    return 'Auxiliar {tipoTercero: $tipoTercero, identificacion: $identificacion}';
   }
 
   Auxiliar(

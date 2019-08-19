@@ -120,6 +120,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
   @override
   void initState() {
 
+    //Initialize date formats
+    initializeDateFormatting();
+    dateFormat = new DateFormat('dd-MM-yyyy'); //new DateFormat.yMMMMd('es');
+
     //Init Objects
 
     auxObj = Auxiliar();

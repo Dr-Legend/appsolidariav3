@@ -15,39 +15,22 @@ String polizaToJson(Poliza data) {
 
 class Poliza with ChangeNotifier{
 
-  
-
-
-  ///NOT in the Form  Informacion del punto de venta de emisión
-  String descAgencia = "Agencia Bogota";
-  String descPuntoVenta = "AC Seguros Ltda";
-
   ///NOT IN THE FORM
-  Auxiliar intermediario = Auxiliar(tipoTercero: "Intermediario");
-  Auxiliar afianzado = Auxiliar(tipoTercero: "Afianzado");
-  Auxiliar contratante = Auxiliar(tipoTercero: "Contratante");
-  Auxiliar beneficiario = Auxiliar(tipoTercero: "Beneficiario");
+  Auxiliar intermediario;
+  Auxiliar afianzado;
+  Auxiliar contratante;
+  Auxiliar beneficiario;
 
   
   //version 1: 1 Intermediario version2: varios intermediarios
-  double comision;  //Porcentaje de comisión
+  //double comision;  //Porcentaje de comisión se utiliza cuando hay varios intermediarios
+
   //Ramo comercial
   String descRamo = "Cumplimiento";
 
 
   //Tipo de movimiento: Tipos de anexos. Espedicion
   //TODO definir que campos van a nivel de anexo y separarlos en un objeto aparte
-
-  ///title: Informacion del afianzado
-
-  String tipoDocumento; // Comes from the Afianzado / Viene del afianzado
-  ///Autocomplete Afianzado search for numeroDocumento/id and apellidoRazonSocial/name
-  int numeroDocumento; // Autocomplete form
-  String apellidoRazonSocial; //Autocomplete form Primer apellido
-  ///CupoOperativo and cumulo actual are in the form as text when you get the info of the afianzado
-  int cupoOperativo; // Comes from the Afianzado
-  int cumuloActual;  //Comes from the Afianzado
-  int cupoDisponible; // = cupoOperativo - cumuloActual;
 
   //Afianzado afianzado;
   //version 1: 1 Afianzado version2: varios afianzados
@@ -58,7 +41,9 @@ class Poliza with ChangeNotifier{
   ///title: Caracteristicas de la póliza
   String fechaEmision = DateTime.now().toString(); //Not in the form
   String vigDesde; //In the form as Date field Vigencia desde hora desde 00:00
-  String vigHasta;  //Not in the form TODO Calcular con la máxima fecha de los amparos
+  String vigHasta;  //Not in the form TODO 1. Calcular con la máxima fecha de los amparos
+  int cupoDisponible;
+
   String tipoCambio = "Pesos"; //Not in the form
   //Cobra iva siempre
   String productoClausulado; //Dropdown in the form "Clausulado1: "Lorem ipsum", "Clausulado2":"Lorem ipsum2", "Clausuado3":"Lorem ipsum3"
@@ -78,14 +63,15 @@ class Poliza with ChangeNotifier{
   int nitContratante;
   String numeroContrato;
   double valorContrato;  //Nivel anexo
-  int plazoEjecucion; //En años
+  int plazoEjecucion;   //En años
   String fechaFinContrato;  //Asignar a vigDesde
   String objetoSeguro;  //Contrato, Orden compra, Orden servicio, Orden suministro, Factura venta, Pliego condiciones
-  String textoAclaratorio; //Ver como funciona con un texto largo
+  String textoAclaratorio; //Ver como funciona con un texto largo TODO crear en formulario
 
   ///Coberturas
 
   List<Amparo> amparos = [];
+  List<DateTime> vigAmparos = List();
 
 
   //int poliza;  //Consecutivo sistema, revisar si se necesita
@@ -99,10 +85,8 @@ class Poliza with ChangeNotifier{
   double primaTotal;
   double valComision;
 
-  Poliza({this.descAgencia, this.descPuntoVenta, this.intermediario,this.afianzado,this.contratante,this.beneficiario,
-    this.comision, this.descRamo, this.tipoDocumento, this.numeroDocumento,
-    this.apellidoRazonSocial, this.cupoOperativo, this.cumuloActual, this.cupoDisponible,
-    this.fechaEmision, this.vigDesde, this.vigHasta,
+  Poliza({this.vigAmparos, this.intermediario,this.afianzado,this.contratante,this.beneficiario,
+    this.cupoDisponible,this.descRamo, this.fechaEmision, this.vigDesde, this.vigHasta,
     this.tipoCambio, this.productoClausulado, this.textoClausulado, this.descTipoOperacion,
     this.descTipoPoliza, this.descTipoNegocio, this.temporario,
     this.numPoliza, this.nitContratante, this.numeroContrato,
@@ -111,23 +95,23 @@ class Poliza with ChangeNotifier{
     this.valAsegTotal, this.primaTotal, this.valComision});
 
   factory Poliza.fromMap(Map<String, dynamic> json) => new Poliza(
-      descAgencia: json["descAgencia"], descPuntoVenta: json["descPuntoVenta"], intermediario: json["intermediario"], afianzado:  json["afianzado"], contratante:  json["contratante"],
-      beneficiario: json["beneficiario"], comision: json["comision"], descRamo: json["descRamo"], tipoDocumento: json["tipoDocumento"], numeroDocumento: json["numeroDocumento"],
-      apellidoRazonSocial: json["apellidoRazonSocial"], cupoOperativo: json["cupoOperativo"], cumuloActual: json["cumuloActual"],cupoDisponible: json["cupoDisponible"],
-      fechaEmision: json["fechaEmision"], vigDesde: json["vigDesde"], vigHasta: json["vigHasta"],
-      tipoCambio: json["tipoCambio"], productoClausulado: json["productoClausulado"],textoClausulado: json["textoClausulado"], descTipoOperacion: json["descTipoOperacion"],
-      descTipoPoliza: json["descTipoPoliza"], descTipoNegocio: json["descTipoNegocio"], temporario: json["temporario"],
-      numPoliza: json["numPoliza"], nitContratante: json["nitContratante"], numeroContrato: json["numeroContrato"],
+      intermediario: json["intermediario"], afianzado:  json["afianzado"], contratante:  json["contratante"],
+      cupoDisponible: json["cupoDisponible"], beneficiario: json["beneficiario"], descRamo: json["descRamo"], fechaEmision: json["fechaEmision"],
+      vigDesde: json["vigDesde"], vigHasta: json["vigHasta"], tipoCambio: json["tipoCambio"],
+      productoClausulado: json["productoClausulado"],textoClausulado: json["textoClausulado"],
+      descTipoOperacion: json["descTipoOperacion"], descTipoPoliza: json["descTipoPoliza"],
+      descTipoNegocio: json["descTipoNegocio"], temporario: json["temporario"], numPoliza: json["numPoliza"],
+      nitContratante: json["nitContratante"], numeroContrato: json["numeroContrato"],
       valorContrato: json["valorContrato"], plazoEjecucion: json["plazoEjecucion"], fechaFinContrato: json["fechaFinContrato"],
-      objetoSeguro: json["objetoSeguro"], textoAclaratorio: json["textoAclaratorio"], amparos: json["amparos"], estado: json["estado"],
-      valAsegTotal: json["valAsegTotal"], primaTotal: json["primaTotal"], valComision: json["valComision"]
+      objetoSeguro: json["objetoSeguro"], textoAclaratorio: json["textoAclaratorio"],
+      amparos: json["amparos"], estado: json["estado"], valAsegTotal: json["valAsegTotal"],
+      primaTotal: json["primaTotal"], valComision: json["valComision"]
   );
 
   Map<String, dynamic> toMap() => {
 
-    "descAgencia": descAgencia , "descPuntoVenta": descPuntoVenta , "intermediario" : intermediario, "afianzado" : afianzado, "contratante" : contratante,
-    "beneficiario": beneficiario, "comision": comision, "descRamo" : descRamo , "tipoDocumento" : tipoDocumento , "numeroDocumento" : numeroDocumento,
-    "apellidoRazonSocial" : apellidoRazonSocial, "cupoOperativo" : cupoOperativo, "cumuloActual" : cumuloActual, "cupoDisponible":cupoDisponible,
+    "intermediario" : intermediario, "afianzado" : afianzado, "contratante" : contratante,
+    "cupoDisponible": cupoDisponible,"beneficiario": beneficiario, "descRamo" : descRamo ,
     "fechaEmision": fechaEmision, "vigDesde": vigDesde, "vigHasta": vigHasta,
     "tipoCambio": tipoCambio, "productoClausulado": productoClausulado, "textoClausulado":textoClausulado, "descTipoOperacion": descTipoOperacion,
     "descTipoPoliza": descTipoPoliza, "descTipoNegocio": descTipoNegocio, "temporario": temporario,
@@ -137,19 +121,18 @@ class Poliza with ChangeNotifier{
     "valAsegTotal": valAsegTotal, "primaTotal": primaTotal, "valComision": valComision,
   };
 
+
+
   @override
   String toString() {
-    return '$descAgencia, $descPuntoVenta, $intermediario,$afianzado,$contratante,$beneficiario,'
-    '$comision, $descRamo, $tipoDocumento, $numeroDocumento,'
-    '$apellidoRazonSocial, $cupoOperativo, $cumuloActual, $cupoDisponible,'
-    '$fechaEmision,VigDesde: $vigDesde, VigHasta $vigHasta,'
-    '$tipoCambio, $productoClausulado, $textoClausulado, $descTipoOperacion,'
-    '$descTipoPoliza, $descTipoNegocio, $temporario,'
-    '$numPoliza, $nitContratante, $numeroContrato,'
-    '$valorContrato, $plazoEjecucion, $fechaFinContrato,'
-    '$objetoSeguro, $textoAclaratorio, $amparos, $estado,'
-    '$valAsegTotal, $primaTotal, $valComision';
+    return 'VigDesde: $vigDesde, VigHasta $vigHasta, vigAmparos: ${vigAmparos.toString()}, Intermediario: $intermediario, Afianzado: $afianzado, Contratante: $contratante, Beneficiario: $beneficiario,'
+    'CupoDisp: $cupoDisponible, Ramo: $descRamo, FechaEmision: $fechaEmision, TipoCambio: $tipoCambio, ProdClausulado: $productoClausulado, TextoClaus: $textoClausulado, TipoOperacion: $descTipoOperacion,'
+    'TipoPoliza: $descTipoPoliza, TipoNegocio: $descTipoNegocio, Temporario: $temporario,'
+    'NumPoliza: $numPoliza, NitContratante: $nitContratante, NumeroContrato: $numeroContrato,'
+    'ValorContrato: $valorContrato, PlazoEjecucion: $plazoEjecucion, FinContrato: $fechaFinContrato,'
+    'ObjetoSeguro: $objetoSeguro, TextoAclarat: $textoAclaratorio, Amparos:---$amparos, Estado: $estado,'
+    'VlrAsegTotal: $valAsegTotal, PrimaTotal: $primaTotal, ValComision: $valComision';
   }
-  
+
 }
 
