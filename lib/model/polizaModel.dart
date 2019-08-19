@@ -125,13 +125,13 @@ class Poliza with ChangeNotifier{
 
   @override
   String toString() {
-    return 'VigDesde: $vigDesde, VigHasta $vigHasta, vigAmparos: ${vigAmparos.toString()}, Intermediario: $intermediario, Afianzado: $afianzado, Contratante: $contratante, Beneficiario: $beneficiario,'
-    'CupoDisp: $cupoDisponible, Ramo: $descRamo, FechaEmision: $fechaEmision, TipoCambio: $tipoCambio, ProdClausulado: $productoClausulado, TextoClaus: $textoClausulado, TipoOperacion: $descTipoOperacion,'
-    'TipoPoliza: $descTipoPoliza, TipoNegocio: $descTipoNegocio, Temporario: $temporario,'
-    'NumPoliza: $numPoliza, NitContratante: $nitContratante, NumeroContrato: $numeroContrato,'
-    'ValorContrato: $valorContrato, PlazoEjecucion: $plazoEjecucion, FinContrato: $fechaFinContrato,'
-    'ObjetoSeguro: $objetoSeguro, TextoAclarat: $textoAclaratorio, Amparos:---$amparos, Estado: $estado,'
-    'VlrAsegTotal: $valAsegTotal, PrimaTotal: $primaTotal, ValComision: $valComision';
+    return 'InitialDate: $vigDesde, FinalDate $vigHasta, listDateAmparos: ${vigAmparos.toString()}, Intermediarie: $intermediario, PolicyBuyer: $afianzado, Contractor: $contratante, Beneficiary: $beneficiario,'
+    'BudgetDisp: $cupoDisponible, Product: $descRamo, IssueDate: $fechaEmision, ExchangeRate: $tipoCambio, ProdConditions: $productoClausulado, TextProdConditions: $textoClausulado, OperationType: $descTipoOperacion,'
+    'PolicyType: $descTipoPoliza, BusinessType: $descTipoNegocio, TemporaryNumber: $temporario,'
+    'PolicyNumber: $numPoliza, IdContractor: $nitContratante, NumberOfContract: $numeroContrato,'
+    'ValueContract: $valorContrato, ExecutionTime: $plazoEjecucion, EndDateContract: $fechaFinContrato,'
+    'InsuranceObject: $objetoSeguro, AclaratoryText: $textoAclaratorio, Amparos:---$amparos, PolicyState: $estado,'
+    'TotalInsuranceValue: $valAsegTotal, TotalPremium: $primaTotal, ComisionValue: $valComision';
   }
 
 }
