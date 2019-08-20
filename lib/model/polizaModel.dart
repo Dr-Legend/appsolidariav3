@@ -88,7 +88,10 @@ class Poliza with ChangeNotifier{
   int insuranceTotalValue;
   double totalPremium;  //The total premium is the sum of all coverages premium
   double comisionValue; //This is calculated multipling the comision rate by the premium by coverage
-  
+
+  void initPoliza(){
+    
+  }
 
   Poliza({this.listDatesCovers, this.intermediary,this.policyBuyer,this.contractor,this.beneficiary,
     this.avaliableQuota,this.insuranceBranch, this.issueDate, this.policyInitialDate, this.policyFinalDate,

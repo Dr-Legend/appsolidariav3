@@ -13,48 +13,46 @@ String auxiliarToJson(Auxiliar data) {
 }
 
 class Auxiliar with ChangeNotifier{
-  String tipoTercero;
-  int clasificacion;
-  String descClasificacion;
-  int tipo;
-  String descTipo;
-  int identificacion;
-  String primerNombre;
-  String segundoNombre;
-  String primerApellido;
-  String segundoApellido;
-  String favorito;
+  String thirdPartyType;
+  int clasification;
+  String descClasification;
+  int type;
+  String descTypo;
+  int id;
+  String firstName;
+  String lastName;
+  String surname;
+  String secondSurname;
+  String favourite;
 
-  String nacimiento;
-  int c_digo_dane_del_departamento;
-  String departamento;
-  int genero;
-  String descGenero;
-  int estadoCivil;
-  String descEstadoCivil;
+  String birthDate;
+  int stateCode;
+  String state; //State as location
+  int genderCode;
+  String gender;
+  int civilStatusCode;
+  String civilStatus;
 
-  String direccion;
-  int c_digo_dane_del_municipio;
-  String municipio;
-  int movil;
-  int fijo;
-  String correo;
+  String address;
+  int cityCode;
+  String city;
+  int movilPhone;
+  int phone;
+  String email;
 
-  String documento;
-  bool sincronizar;
+  String document;
 
-  //Intermediario
+  //Intermediary
+  int agencyCode;
+  String agency;
 
-  int agencia;
-  String descAgencia;
+  int pointOfSaleCode;
+  String pointOfSale;
+  int companyKey;
+  double cumplimientoComision;
+  int authorizedIssueQuota;
 
-  int puntoVenta;
-  String descPuntoVenta;
-  int clave;
-  double comCumplimiento;
-  int delegacionCumpl;
-
-  //Afianzado
+  //Policy Buyer - Afianzado
 
   int cupoOperativo;
   int cumuloActual;
@@ -63,119 +61,117 @@ class Auxiliar with ChangeNotifier{
 
   @override
   String toString() {
-    return 'Auxiliar {tipoTercero: $tipoTercero, identificacion: $identificacion} ';
+    return 'Auxiliar {tipoTercero: $thirdPartyType, identificacion: $id} ';
   }
 
   Auxiliar(
-      {this.tipoTercero,
-        this.clasificacion,
-        this.descClasificacion,
-        this.tipo,
-        this.descTipo,
-        this.identificacion,
-        this.primerNombre,
-        this.segundoNombre,
-        this.primerApellido,
-        this.segundoApellido,
-        this.favorito,
-        this.nacimiento,
-        this.c_digo_dane_del_departamento,
-        this.departamento,
-        this.genero,
-        this.descGenero,
-        this.estadoCivil,
-        this.descEstadoCivil,
-        this.direccion,
-        this.c_digo_dane_del_municipio,
-        this.municipio,
-        this.movil,
-        this.fijo,
-        this.correo,
-        this.documento,
-        this.sincronizar,
-        this.agencia,
-        this.descAgencia,
-        this.puntoVenta,
-        this.descPuntoVenta,
-        this.clave,
-        this.comCumplimiento,
-        this.delegacionCumpl,
+      {this.thirdPartyType,
+        this.clasification,
+        this.descClasification,
+        this.type,
+        this.descTypo,
+        this.id,
+        this.firstName,
+        this.lastName,
+        this.surname,
+        this.secondSurname,
+        this.favourite,
+        this.birthDate,
+        this.stateCode,
+        this.state,
+        this.genderCode,
+        this.gender,
+        this.civilStatusCode,
+        this.civilStatus,
+        this.address,
+        this.cityCode,
+        this.city,
+        this.movilPhone,
+        this.phone,
+        this.email,
+        this.document,
+        this.agencyCode,
+        this.agency,
+        this.pointOfSaleCode,
+        this.pointOfSale,
+        this.companyKey,
+        this.cumplimientoComision,
+        this.authorizedIssueQuota,
         this.cupoOperativo,
         this.cumuloActual,
         this.cupoDisponible});
 
 
   factory Auxiliar.fromMap(Map<String, dynamic> json) => new Auxiliar(
-      tipoTercero: json["auxiliar"],
-      clasificacion: json["clasificacion"],
-      descClasificacion: json["descClasificacion"],
-      tipo: json["tipo"],
-      descTipo: json["descTipo"],
-      identificacion: json["identificacion"],
-      primerNombre: json["primerNombre"],
-      segundoNombre: json["segundoNombre"],
-      primerApellido: json["primerApellido"],
-      segundoApellido: json["segundoApellido"],
-      favorito: json["favorito"],
-      nacimiento: json["nacimiento"],
-      c_digo_dane_del_departamento: json["c_digo_dane_del_departamento"],
-      departamento: json["departamento"],
-      genero: json["genero"],
-      descGenero: json["descGenero"],
-      estadoCivil: json["estadoCivil"],
-      descEstadoCivil: json["descEstadoCivil"],
-      direccion: json["direccion"],
-      c_digo_dane_del_municipio: json["c_digo_dane_del_municipio"],
-      municipio: json["municipio"],
-      movil: json["movil"],
-      fijo: json["fijo"],
-      correo: json["correo"],
-      documento: json["documento"],
-      sincronizar: json["sincronizar"] == 1,
-      agencia: json["agencia"],
-      descAgencia: json["descAgencia"],
-      puntoVenta: json["puntoVenta"],
-      descPuntoVenta: json["descPuntoVenta"],
-      clave: json["clave"],
-      comCumplimiento: json["comCumplimiento"],
-      delegacionCumpl: json["delegacionCumpl"],
+      thirdPartyType: json["auxiliar"],
+      clasification: json["clasificacion"],
+      descClasification: json["descClasificacion"],
+      type: json["tipo"],
+      descTypo: json["descTipo"],
+      id: json["identificacion"],
+      firstName: json["primerNombre"],
+      lastName: json["segundoNombre"],
+      surname: json["primerApellido"],
+      secondSurname: json["segundoApellido"],
+      favourite: json["favorito"],
+      birthDate: json["nacimiento"],
+      stateCode: json["c_digo_dane_del_departamento"],
+      state: json["departamento"],
+      genderCode: json["genero"],
+      gender: json["descGenero"],
+      civilStatusCode: json["estadoCivil"],
+      civilStatus: json["descEstadoCivil"],
+      address: json["direccion"],
+      cityCode: json["c_digo_dane_del_municipio"],
+      city: json["municipio"],
+      movilPhone: json["movil"],
+      phone: json["fijo"],
+      email: json["correo"],
+      document: json["documento"],
+      agencyCode: json["agencia"],
+      agency: json["descAgencia"],
+      pointOfSaleCode: json["puntoVenta"],
+      pointOfSale: json["descPuntoVenta"],
+      companyKey: json["clave"],
+      cumplimientoComision: json["comCumplimiento"],
+      authorizedIssueQuota: json["delegacionCumpl"],
       cupoOperativo: json["cupoOperativo"],
       cumuloActual: json["cumuloActual"],
       cupoDisponible: json["cupoDisponible"]);
 
   Map<String, dynamic> toMap() => {
-    "clasificacion": clasificacion,
-    "descClasificacion": descClasificacion,
-    "tipo": tipo,
-    "descTipo": descTipo,
-    "auxiliar": tipoTercero,
-    "identificacion": identificacion,
-    "primerNombre": primerNombre,
-    "segundoNombre": segundoNombre,
-    "primerApellido": primerApellido,
-    "segundoApellido": segundoApellido,
-    "favorito": favorito,
-    "nacimiento": nacimiento,
-    "c_digo_dane_del_departamento": c_digo_dane_del_departamento,
-    "departamento": departamento,
-    "genero": genero,
-    "descGenero": descGenero,
-    "estadoCivil": estadoCivil,
-    "descEstadoCivil": descEstadoCivil,
-    "direccion": direccion,
-    "c_digo_dane_del_municipio": c_digo_dane_del_municipio,
-    "municipio": municipio,
-    "movil": movil,
-    "fijo": fijo,
-    "correo": correo,
-    "documento": documento,
-    "agencia": agencia,
-    "descAgencia": descAgencia,
-    "puntoVenta": puntoVenta,
-    "descPuntoVenta": descPuntoVenta,
-    "clave": clave,
-    "comCumplimiento": comCumplimiento,
-    "delegacionCumpl": delegacionCumpl,
+    "clasificacion": clasification,
+    "descClasificacion": descClasification,
+    "tipo": type,
+    "descTipo": descTypo,
+    "auxiliar": thirdPartyType,
+    "identificacion": id,
+    "primerNombre": firstName,
+    "segundoNombre": lastName,
+    "primerApellido": surname,
+    "segundoApellido": secondSurname,
+    "favorito": favourite,
+    "nacimiento": birthDate,
+    "c_digo_dane_del_departamento": stateCode,
+    "departamento": state,
+    "genero": genderCode,
+    "descGenero": gender,
+    "estadoCivil": civilStatusCode,
+    "descEstadoCivil": civilStatus,
+    "direccion": address,
+    "c_digo_dane_del_municipio": cityCode,
+    "municipio": city,
+    "movil": movilPhone,
+    "fijo": phone,
+    "correo": email,
+    "documento": document,
+    "agencia": agencyCode,
+    "descAgencia": agency,
+    "puntoVenta": pointOfSaleCode,
+    "descPuntoVenta": pointOfSale,
+    "clave": companyKey,
+    "comCumplimiento": cumplimientoComision,
+    "delegacionCumpl": authorizedIssueQuota,
     "cupoOperativo": cupoOperativo,
     "cumuloActual": cumuloActual,
     "cupoDisponible": cupoDisponible,

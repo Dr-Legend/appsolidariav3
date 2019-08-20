@@ -222,10 +222,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 return null;
               },
               onChanged: (val){
-                auxObj.segundoApellido = val;
+                auxObj.secondSurname = val;
             },
               onSaved: (val) => setState(() {
-                auxObj.segundoApellido = val;
+                auxObj.secondSurname = val;
               }),
             ),
           ),
@@ -247,11 +247,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 return null;
               },
               onChanged: (val){
-                auxObj.primerNombre = val;
+                auxObj.firstName = val;
                 auxBasicoObj.primerNombre = val;
               },
               onSaved: (val) => setState(() {
-                auxObj.primerNombre = val;
+                auxObj.firstName = val;
                 auxBasicoObj.primerNombre = val;
               }),
             ),
@@ -266,10 +266,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                   icon: Icon(Icons.filter_2)),
               enabled: true,
               onChanged: (val){
-                auxObj.segundoNombre = val;
+                auxObj.lastName = val;
               },
               onSaved: (val) => setState(() {
-                auxObj.segundoNombre = val;
+                auxObj.lastName = val;
               }),
             ),
           ),
@@ -282,8 +282,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               onChanged: (Genero newValue) {
                 setState(() {
                   _genero = newValue;
-                  auxObj.descGenero = newValue.descripcion;
-                  auxObj.genero = newValue.registro;
+                  auxObj.gender = newValue.descripcion;
+                  auxObj.genderCode = newValue.registro;
                   //print("Nuevo genero seleccionado ${newValue.descripcion}");
                 });
               },
@@ -331,11 +331,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             },
             initialValue: initialBirth,
             onChanged: (date) => setState(() {
-              auxObj.nacimiento = date.toString();
+              auxObj.birthDate = date.toString();
             }),
             onSaved: (DateTime date) {
               setState(() {
-                auxObj.nacimiento = date.toString();
+                auxObj.birthDate = date.toString();
               });
             },
             resetIcon: Icon(Icons.delete),
@@ -353,8 +353,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               onChanged: (EstadoCivil newValue) {
                 setState(() {
                   _estadoCivil = newValue;
-                  auxObj.descEstadoCivil = newValue.descripcion;
-                  auxObj.estadoCivil = newValue.registro;
+                  auxObj.civilStatus = newValue.descripcion;
+                  auxObj.civilStatusCode = newValue.registro;
                   //print("Nuevo genero seleccionado ${newValue.descripcion}");
                 });
               },
@@ -390,11 +390,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onChanged: (String newValue) {
               setState(() {
                 _tercero = newValue;
-                auxObj.tipoTercero = newValue;
+                auxObj.thirdPartyType = newValue;
               });
             },
             onSaved: (String value){
-              auxObj.tipoTercero = value;
+              auxObj.thirdPartyType = value;
             },
             items: tipoTercero.map((String tipo) {
               return new DropdownMenuItem<String>(
@@ -416,16 +416,16 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onChanged: (Tipo newValue) {
               setState(() {
                 _tipo = newValue;
-                auxObj.descTipo = newValue.descripcion;
-                auxObj.tipo = newValue.registro;
+                auxObj.descTypo = newValue.descripcion;
+                auxObj.type = newValue.registro;
                 print("Nuevo genero seleccionado ${newValue.descripcion}");
               });
             },
             onSaved: (Tipo newValue) {
               setState(() {
                 _tipo = newValue;
-                auxObj.descTipo = newValue.descripcion;
-                auxObj.tipo = newValue.registro;
+                auxObj.descTypo = newValue.descripcion;
+                auxObj.type = newValue.registro;
                 print("Nuevo genero guardado ${newValue.descripcion}");
               });
             },
@@ -456,11 +456,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               return null;
             },
             onChanged: (val){
-              auxObj.identificacion = int.parse(val);
+              auxObj.id = int.parse(val);
               auxBasicoObj.identificacion = int.parse(val);
             },
             onSaved: (val) => setState(() {
-              auxObj.identificacion = int.parse(val);
+              auxObj.id = int.parse(val);
               auxBasicoObj.identificacion = int.parse(val);
             }),
           ),
@@ -475,16 +475,16 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             onChanged: (Clasificacion newValue) {
               setState(() {
                 _clasificacion = newValue;
-                auxObj.descClasificacion = newValue.descripcion;
-                auxObj.clasificacion = newValue.registro;
+                auxObj.descClasification = newValue.descripcion;
+                auxObj.clasification = newValue.registro;
                 print("Nuevo tipo de cliente seleccionado ${newValue.descripcion}");
               });
             },
             onSaved: (Clasificacion newValue) {
               setState(() {
                 _clasificacion = newValue;
-                auxObj.descClasificacion = newValue.descripcion;
-                auxObj.clasificacion = newValue.registro;
+                auxObj.descClasification = newValue.descripcion;
+                auxObj.clasification = newValue.registro;
               });
             },
             items: clasificaciones.map((Clasificacion clasificacion) {
@@ -518,14 +518,14 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             },
             onChanged: (val){
               setState(() {
-                auxObj.primerApellido = val;
+                auxObj.surname = val;
                 auxBasicoObj.primerApellido = val;
                 //TODO make this work with listners on _tercero
                 _tercero.text == "Intermediario" ? puntoVentaTEC.text = razonSocialTEC.text : "";
               });
             },
             onSaved: (val) => setState(() {
-              auxObj.primerApellido = val;
+              auxObj.surname = val;
               auxBasicoObj.primerApellido = val;
             }),
           ),
@@ -566,7 +566,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               FocusScope.of(context).requestFocus(_municipioFocus);
             },
             onSaved: (val) => setState(() {
-              auxObj.direccion = val;
+              auxObj.address = val;
               auxBasicoObj.direccion = val;
             }),
           ),
@@ -614,20 +614,20 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                 if (value != null) {
                   _ubicacion.text = value.municipio;
                   print(
-                      "Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
-                  print("${auxObj.c_digo_dane_del_departamento}");
+                      "Selected ubicacion departamento: ${auxObj.state},municipio: ${auxObj.city}");
+                  print("${auxObj.stateCode}");
                 }
               });
             },
             onSaved: (value) => setState(() {
               selectedPlace = value;
-              auxObj.municipio = value.municipio;
-              auxObj.departamento = value.departamento;
+              auxObj.city = value.municipio;
+              auxObj.state = value.departamento;
               auxBasicoObj.municipio = value.municipio;
               auxBasicoObj.departamento = value.departamento;
               //TODO Freelancer - Remove comments on the ubication codes
-              auxObj.c_digo_dane_del_municipio = int.parse(value.c_digo_dane_del_municipio);
-              auxObj.c_digo_dane_del_departamento = int.parse(value.c_digo_dane_del_departamento);
+              auxObj.cityCode = int.parse(value.c_digo_dane_del_municipio);
+              auxObj.stateCode = int.parse(value.c_digo_dane_del_departamento);
             }),
             autofocus: false,
             validator: (user) => user == null ? 'Campo obligatorio.' : null,
@@ -642,10 +642,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             enabled: true,
             //Not required
             onSaved: (val) => setState(() {
-              auxObj.movil = int.parse(val);
+              auxObj.movilPhone = int.parse(val);
             }),
             onChanged: (val){
-              auxObj.movil = int.parse(val);
+              auxObj.movilPhone = int.parse(val);
             },
             onFieldSubmitted: (_){
               FocusScope.of(context).requestFocus(_fijoFocus);
@@ -671,11 +671,11 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               return null;
             },
             onChanged: (val){
-              auxObj.fijo = int.parse(val);
+              auxObj.phone = int.parse(val);
               auxBasicoObj.fijo = int.parse(val);
             },
             onSaved: (val) => setState(() {
-              auxObj.fijo = int.parse(val);
+              auxObj.phone = int.parse(val);
               auxBasicoObj.fijo = int.parse(val);
             }),
             keyboardType: TextInputType.phone,
@@ -702,10 +702,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               return null;
             },
             onChanged: (val){
-              auxObj.correo = val;
+              auxObj.email = val;
             },
             onSaved: (val) {
-              auxObj.correo = val;
+              auxObj.email = val;
             },
             keyboardType: TextInputType.emailAddress,
           ),
@@ -746,8 +746,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               );
             }).toList(),
             onSaved: (val) => setState(() {
-              auxObj.descAgencia = val.descripcion;
-              auxObj.agencia = val.registro;
+              auxObj.agency = val.descripcion;
+              auxObj.agencyCode = val.registro;
             }),
           ),
         ),
@@ -769,10 +769,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               FocusScope.of(context).requestFocus(_claveFocus);
             },
             onChanged: (val){
-              auxObj.descPuntoVenta = val;
+              auxObj.pointOfSale = val;
             },
             onSaved: (val) => setState(() {
-              auxObj.descPuntoVenta = val;
+              auxObj.pointOfSale = val;
             }),
           ),
         ),
@@ -794,10 +794,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               FocusScope.of(context).requestFocus(_comCumpFocus);
             },
             onChanged: (val){
-              auxObj.clave = int.parse(val);
+              auxObj.companyKey = int.parse(val);
             },
             onSaved: (val) => setState(() {
-              auxObj.clave = int.parse(val);
+              auxObj.companyKey = int.parse(val);
             }),
           ),
         ),
@@ -819,10 +819,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               FocusScope.of(context).requestFocus(_delegaCumpFocus);
             },
             onChanged: (val){
-              auxObj.comCumplimiento = double.parse(val) / 100;
+              auxObj.cumplimientoComision = double.parse(val) / 100;
             },
             onSaved: (val) => setState(() {
-              auxObj.comCumplimiento = double.parse(val) / 100;
+              auxObj.cumplimientoComision = double.parse(val) / 100;
             }),
           ),
         ),
@@ -841,10 +841,10 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               return null;
             },
             onChanged: (val){
-              auxObj.delegacionCumpl = int.parse(val);
+              auxObj.authorizedIssueQuota = int.parse(val);
             },
             onSaved: (val) => setState(() {
-              auxObj.delegacionCumpl = int.parse(val);
+              auxObj.authorizedIssueQuota = int.parse(val);
             }),
           ),
         ),
@@ -980,7 +980,7 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
             form.save();
             //Firestore.instance.collection("terceros").add({"Chao":"Andy"});
             //Firestore.instance.document("terceros/${auxObj.identificacion}").setData(auxObj.toMap());
-            print("Identificacion despuès de validad ${auxObj.identificacion}");
+            print("Identificacion despuès de validad ${auxObj.id}");
             saveToFirebase();
             showDialog<void>(
               context: context,
@@ -992,9 +992,9 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
                     child: ListBody(
                       children: <Widget>[
                         Text(
-                            'El ${auxObj.tipoTercero} ${auxObj.primerNombre != null ? auxObj.primerNombre : ""} ${auxObj.primerApellido}'),
+                            'El ${auxObj.thirdPartyType} ${auxObj.firstName != null ? auxObj.firstName : ""} ${auxObj.surname}'),
                         Text(
-                            'con identificación ${auxObj.identificacion} ha sido creado exitosamente'),
+                            'con identificación ${auxObj.id} ha sido creado exitosamente'),
                       ],
                     ),
                   ),
@@ -1074,12 +1074,12 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
 
   void saveToFirebase() {
     terceroRef
-        .child("${auxObj.tipoTercero}")
-        .child("${auxObj.identificacion}")
+        .child("${auxObj.thirdPartyType}")
+        .child("${auxObj.id}")
         .set(auxObj.toMap());
     terceroBasicoRef
-        .child("${auxObj.tipoTercero}")
-        .child("${auxObj.identificacion}")
+        .child("${auxObj.thirdPartyType}")
+        .child("${auxObj.id}")
         .set(auxBasicoObj.toMap());
   }
 }

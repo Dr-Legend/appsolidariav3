@@ -141,7 +141,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                   }
                     selectedAuxBasico = value;
                     if (value != null) {
-                      auxBasicoController.text = polizaObj.policyBuyer.primerApellido;
+                      auxBasicoController.text = polizaObj.policyBuyer.surname;
                       //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                     }
                 },
@@ -266,7 +266,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
-                  polizaObj.beneficiary.tipoTercero = "Beneficiario";
+                  polizaObj.beneficiary.thirdPartyType = "Beneficiario";
                     selectedAsegBasico = value;
                     if (value != null) {
                       auxBasicoController.text = value.primerApellido;
@@ -281,7 +281,7 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
                     }
-                    polizaObj.beneficiary.tipoTercero = "Beneficiario" ;
+                    polizaObj.beneficiary.thirdPartyType = "Beneficiario" ;
                 },
                 onFieldSubmitted: (_){
                   polizaObj.notifyListeners();
