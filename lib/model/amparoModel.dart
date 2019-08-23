@@ -16,7 +16,7 @@ class Amparo {
   int policy;
 
   String coverName; //Nombre del amparo
-  String inicialDate;
+  String initialDate;
   String finalDate;
   int additionalTerm; //Plazo adicional del amparo en años
 
@@ -32,7 +32,7 @@ class Amparo {
     this.policy,
 
     this.coverName,
-    this.inicialDate,
+    this.initialDate,
     this.finalDate,
     this.additionalTerm,
 
@@ -49,7 +49,7 @@ class Amparo {
     policy: json["poliza"],
 
     coverName: json["concepto"],
-    inicialDate: json["fechaInicial"],
+    initialDate: json["fechaInicial"],
     finalDate: json["fechaFinal"],
     additionalTerm: json["plazoAdic"],
 
@@ -63,7 +63,7 @@ class Amparo {
 
   Map<String, dynamic> toMap() => {
     "concepto": coverName,
-    "fechaInicial": inicialDate,
+    "fechaInicial": initialDate,
     "fechaFinal": finalDate,
     "plazoAdic" :additionalTerm,
 
@@ -77,7 +77,7 @@ class Amparo {
   @override
   String toString() {
     return "Cover: $cover, Policy: $policy, CoverNAme: $coverName, "
-        "CoverInitialDate: $inicialDate, CoverFinalDate: $finalDate, AditionalTerm: $additionalTerm, Porcentage: $porcentage,"
+        "CoverInitialDate: $initialDate, CoverFinalDate: $finalDate, AditionalTerm: $additionalTerm, Porcentage: $porcentage,"
         "InsuredValue: $insuredValue, CoverRate: $coverRate, MinimumInsuranceRate: $minimumRate,"
         "Premium: $insurancePremium";
   }

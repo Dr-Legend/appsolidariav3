@@ -44,7 +44,7 @@ class Poliza with ChangeNotifier{
   String policyFinalDate;  //Not in the form TODO 1. Calcular con la máxima fecha de los amparos
   int avaliableQuota;
 
-  String exchangeRate = "Pesos"; //Not in the form
+  String currency = "Pesos"; //Not in the form
   //Cobra iva siempre
   String productConditions; //Dropdown in the form "Clausulado1: "Lorem ipsum", "Clausulado2":"Lorem ipsum2", "Clausuado3":"Lorem ipsum3"
   String textProdConditions;
@@ -95,7 +95,7 @@ class Poliza with ChangeNotifier{
 
   Poliza({this.listDatesCovers, this.intermediary,this.policyBuyer,this.contractor,this.beneficiary,
     this.avaliableQuota,this.insuranceBranch, this.issueDate, this.policyInitialDate, this.policyFinalDate,
-    this.exchangeRate, this.productConditions, this.textProdConditions, this.operationType,
+    this.currency, this.productConditions, this.textProdConditions, this.operationType,
     this.polizaType, this.businessType, this.temporaryNumber,
     this.polizaNumber, this.contractorId, this.treatyNumber,
     this.treatyValue, this.excecutionTime, this.treatyInitialDate,
@@ -105,7 +105,7 @@ class Poliza with ChangeNotifier{
   factory Poliza.fromMap(Map<String, dynamic> json) => new Poliza(
       intermediary: json["intermediario"], policyBuyer:  json["afianzado"], contractor:  json["contratante"],
       avaliableQuota: json["cupoDisponible"], beneficiary: json["beneficiario"], insuranceBranch: json["descRamo"], issueDate: json["fechaEmision"],
-      policyInitialDate: json["vigDesde"], policyFinalDate: json["vigHasta"], exchangeRate: json["tipoCambio"],
+      policyInitialDate: json["vigDesde"], policyFinalDate: json["vigHasta"], currency: json["tipoCambio"],
       productConditions: json["productoClausulado"],textProdConditions: json["textoClausulado"],
       operationType: json["descTipoOperacion"], polizaType: json["descTipoPoliza"],
       businessType: json["descTipoNegocio"], temporaryNumber: json["temporario"], polizaNumber: json["numPoliza"],
@@ -121,7 +121,7 @@ class Poliza with ChangeNotifier{
     "intermediario" : intermediary, "afianzado" : policyBuyer, "contratante" : contractor,
     "cupoDisponible": avaliableQuota,"beneficiario": beneficiary, "descRamo" : insuranceBranch ,
     "fechaEmision": issueDate, "vigDesde": policyInitialDate, "vigHasta": policyFinalDate,
-    "tipoCambio": exchangeRate, "productoClausulado": productConditions, "textoClausulado":textProdConditions, "descTipoOperacion": operationType,
+    "tipoCambio": currency, "productoClausulado": productConditions, "textoClausulado":textProdConditions, "descTipoOperacion": operationType,
     "descTipoPoliza": polizaType, "descTipoNegocio": businessType, "temporario": temporaryNumber,
     "numPoliza": polizaNumber, "nitContratante": contractorId, "numeroContrato": treatyNumber,
     "valorContrato": treatyValue, "plazoEjecucion": excecutionTime, "fechaFinContrato": treatyInitialDate,
@@ -134,7 +134,7 @@ class Poliza with ChangeNotifier{
   @override
   String toString() {
     return 'PolicyInitialDate: $policyInitialDate, PolicyFinalDate $policyFinalDate, listDateCover: ${listDatesCovers.toString()}, Intermediarie: $intermediary, PolicyBuyer: $policyBuyer, Contractor: $contractor, Beneficiary: $beneficiary,'
-    'AvaliableQuota: $avaliableQuota, _InsuranceBranch: $insuranceBranch, IssueDate: $issueDate, ExchangeRate: $exchangeRate, ProdConditions: $productConditions, TextProdConditions: $textProdConditions, OperationType: $operationType,'
+    'AvaliableQuota: $avaliableQuota, _InsuranceBranch: $insuranceBranch, IssueDate: $issueDate, ExchangeRate: $currency, ProdConditions: $productConditions, TextProdConditions: $textProdConditions, OperationType: $operationType,'
     'PolicyType: $polizaType, BusinessType: $businessType, TemporaryNumber: $temporaryNumber,'
     'PolicyNumber: $polizaNumber, ContractorID: $contractorId, TreatyNumber: $treatyNumber,'
     'TreatyValue: $treatyValue, ExecutionTime: $excecutionTime, TreatyEndDateContract: $treatyInitialDate,'

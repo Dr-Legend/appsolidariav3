@@ -149,6 +149,13 @@ class _PolizaFormState extends State<PolizaForm> {
                   if (form.validate()) {
                     //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                     form.save();
+                    /*
+                    polizaObj.listDatesCovers = List();
+                    polizaObj.covers.map((cov){
+                      polizaObj.listDatesCovers.add(DateTime.parse(cov.finalDate.substring(6,10)+cov.finalDate.substring(3,5)+cov.finalDate.substring(0,2)));
+                    });
+                    */
+
                     //Navigator.pop(context);
                   } else {
                     current_step = 0;

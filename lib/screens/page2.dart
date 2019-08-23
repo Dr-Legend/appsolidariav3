@@ -13,6 +13,7 @@ class Page2 extends StatefulWidget {
 
 class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
   TextEditingController periodoController = TextEditingController();
+  TextEditingController treatyValueTEC = TextEditingController();
 
   String objetoValue;
 
@@ -29,9 +30,20 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
   ];
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var polizaObj = Provider.of<Poliza>(context);
-
+    /*
+    //Check if works
+    if(treatyValueTEC.text != ""){
+      treatyValueTEC.addListener(vlrAmparoCalc(polizaObj));
+    }
+   */
     return Container(
       child: Card(
           child: Column(
@@ -60,7 +72,10 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                       child: Text(value),
                     );
                   }).toList(),
-                  onSaved: (val) => setState(() => polizaObj.insuranceObject = val),
+                  onSaved: (val) {
+                    polizaObj.insuranceObject = val;
+                    polizaObj.notifyListeners();
+                  },
                 ),
               ),
               ///Campo numero de contrato
@@ -79,9 +94,14 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                     }
                     return null;
                   },
-                  onSaved: (val) => setState(() {
+                  onChanged: (val){
+                    setState(() {
+                      polizaObj.treatyNumber = val;
+                    });
+                  },
+                  onSaved: (val){
                     polizaObj.treatyNumber = val;
-                  }),
+                  },
                   keyboardType: TextInputType.number,
                 ),
               ),
@@ -90,9 +110,11 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  //controller: cupoController,
+                  controller: treatyValueTEC,
                   onChanged: (val) {
-                    setState(() => polizaObj.treatyValue = double.parse(val));
+                    setState(() {
+                      polizaObj.treatyValue = double.parse(val);
+                    });
                     //polizaObj.notifyListeners();
                   },
                   onFieldSubmitted: (_) {
@@ -116,7 +138,6 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
                       setState(() => polizaObj.treatyValue = double.parse(val)),
                 ),
               ),
-
               ///Campo Plazo ejecución
               Padding(
                 //TODO Make it optional
@@ -155,6 +176,19 @@ class _Page2State extends State<Page2> with AutomaticKeepAliveClientMixin {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  //TODO implement the treaty value notifier
+  /*
+  vlrAmparoCalc(Poliza poliza) {
+    //Check if value is null
+    if(treatyValueTEC.text != "" && treatyValueTEC != null && poliza.covers != null){
+      print("TreatyValue in listener: ${treatyValueTEC.text}");
+      for (int i = 0; i<poliza.covers.length;i++){
+        poliza.covers[i].insuredValue = double.parse(treatyValueTEC.text)*poliza.covers[i].porcentage;
+      }
+    }
+  }
+  */
 }
 
 class Page3 extends StatefulWidget {
@@ -185,8 +219,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
     initializeDateFormatting();
     dateFormat = new DateFormat('dd-MM-yyyy'); //new DateFormat.yMMMMd('es');
     ///Define fecha mínima como control del sistema.
-    minDate = DateTime(
-        _fechaEmision.year, _fechaEmision.month - 5, _fechaEmision.day);
+    minDate = DateTime(_fechaEmision.year, _fechaEmision.month - 5, _fechaEmision.day);
 
     super.initState();
   }
@@ -216,266 +249,284 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
     return Container(
       child: Card(
           margin: const EdgeInsets.all(10.0),
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
             children: <Widget>[
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount:
-                  polizaObj.covers != null ? polizaObj.covers.length : 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    listPorcentajeTEC = polizaObj.covers.map((a){
-                      return TextEditingController();
-                    }).toList();
-                    listVlrAmparoTEC = polizaObj.covers.map((a){
-                      return TextEditingController();
-                    }).toList();
-                    listInitialDateTEC = polizaObj.covers.map((a){
-                      return TextEditingController();
-                    }).toList();
-                    listFinalDateTEC = polizaObj.covers.map((a){
-                      return TextEditingController();
-                    }).toList();
-
-
-                    listPorcentajeTEC[index].text = polizaObj.covers[index].porcentage.toString();
-                    listVlrAmparoTEC[index].text = (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString();
-                    listInitialDateTEC[index].text = polizaObj.policyInitialDate; //DateTime.parse((polizaObj.policyInitialDate.substring(6, 10) + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))).toString();
-                              listFinalDateTEC[index].text = dateFormat.format(DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))));
-                    /*
-                    listVlrAmparoTEC[index] = TextEditingController();
-                    listInitialDateTEC[index] = TextEditingController();
-                    listFinalDateTEC[index] = TextEditingController();
-                    */
-                    //listPorcentajeTEC[index].text = polizaObj.amparos[index].porcentaje.toString();
+              ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      polizaObj.covers != null ? polizaObj.covers.length : 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        listPorcentajeTEC = polizaObj.covers.map((a){
+                          return TextEditingController();
+                        }).toList();
+                        listVlrAmparoTEC = polizaObj.covers.map((a){
+                          return TextEditingController();
+                        }).toList();
+                        listInitialDateTEC = polizaObj.covers.map((a){
+                          return TextEditingController();
+                        }).toList();
+                        listFinalDateTEC = polizaObj.covers.map((a){
+                          return TextEditingController();
+                        }).toList();
 
 
 
-                    ///Campo amparos -------------------------------------------------------
-                    return Dismissible(
-                        key: UniqueKey(),
-                        //confirmDismiss: ,
-                        background: Container(
-                          padding: EdgeInsets.all(12.0),
-                          color: Colors.green,
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(
-                                Icons.check_circle_outline,
-                                color: Colors.white,
-                                size: 30.0,
-                              ),
-                              Padding(padding: EdgeInsets.all(4.0)),
-                              Text(
-                                "Confirmar",
-                                style: TextStyle(
+                        print("valor contrato: ${polizaObj.treatyValue}");  //Exception due to treatyValue = null
+                        listPorcentajeTEC[index].text = polizaObj.covers[index].porcentage.toString();
+                        listVlrAmparoTEC[index].text = (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString(); //polizaObj.covers[index].insuredValue.toString(); //
+
+                        listInitialDateTEC[index].text = polizaObj.policyInitialDate; //DateTime.parse((polizaObj.policyInitialDate.substring(6, 10) + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))).toString();
+                        //listFinalDateTEC[index].text = dateFormat.format(DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))));
+                        polizaObj.covers[index].initialDate = listInitialDateTEC[index].text;
+                        //polizaObj.covers[index].finalDate = listFinalDateTEC[index].text;
+
+
+                        //polizaObj.notifyListeners();
+
+                        /*
+                        listVlrAmparoTEC[index] = TextEditingController();
+                        listInitialDateTEC[index] = TextEditingController();
+                        listFinalDateTEC[index] = TextEditingController();
+                        */
+                        //listPorcentajeTEC[index].text = polizaObj.amparos[index].porcentaje.toString();
+
+
+
+                        ///Campo amparos -------------------------------------------------------
+                        return Dismissible(
+                            key: UniqueKey(),
+                            //confirmDismiss: ,
+                            background: Container(
+                              padding: EdgeInsets.all(12.0),
+                              color: Colors.green,
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.check_circle_outline,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        secondaryBackground: Container(
-                          padding: EdgeInsets.all(12.0),
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Icon(
-                                Icons.delete,
-                                color: Colors.white,
+                                    size: 30.0,
+                                  ),
+                                  Padding(padding: EdgeInsets.all(4.0)),
+                                  Text(
+                                    "Confirmar",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
-                              Padding(padding: EdgeInsets.all(4.0)),
-                              Text(
-                                "Eliminar",
-                                style: TextStyle(
+                            ),
+                            secondaryBackground: Container(
+                              padding: EdgeInsets.all(12.0),
+                              color: Colors.red,
+                              alignment: Alignment.centerRight,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.delete,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                        onDismissed: (direction) {
-                          setState(() {
-                            if (direction == DismissDirection.endToStart) {
-                              polizaObj.covers.removeAt(index);
-                            } else {
-                              print("Amparo confirmado");
-                            }
-                          });
-                        },
+                                  ),
+                                  Padding(padding: EdgeInsets.all(4.0)),
+                                  Text(
+                                    "Eliminar",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onDismissed: (direction) {
+                              setState(() {
+                                if (direction == DismissDirection.endToStart) {
+                                  polizaObj.covers.removeAt(index);
+                                } else {
+                                  print("Amparo confirmado");
+                                }
+                              });
+                            },
 
-                        ///Porcentage Field
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ExpansionTile(
-                            initiallyExpanded: true,
-                            title: Text(polizaObj.covers[index].coverName),
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: listPorcentajeTEC[index],
-                                  decoration: InputDecoration(
-                                      labelText: "Porcentaje:",
-                                      icon: Icon(Icons.assessment)),
-                                  //initialValue: polizaObj.amparos[index].porcentaje.toString(),
-                                  onChanged: (val) {
-                                    polizaObj.covers[index].porcentage = double.parse(val);
-                                    /*
-                                    Future.delayed(const Duration(seconds: 3)).then((val){
-                                      polizaObj.notifyListeners();
-                                    });
+                            ///Porcentage Field
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: ExpansionTile(
+                                initiallyExpanded: true,
+                                title: Text(polizaObj.covers[index].coverName),
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: listPorcentajeTEC[index],
+                                      decoration: InputDecoration(
+                                          labelText: "Porcentaje:",
+                                          icon: Icon(Icons.assessment)),
+                                      //initialValue: polizaObj.amparos[index].porcentaje.toString(),
+                                      onChanged: (val) {
+                                        polizaObj.covers[index].porcentage = double.parse(val);
+                                        /*
+                                        Future.delayed(const Duration(seconds: 3)).then((val){
+                                          polizaObj.notifyListeners();
+                                        });
+                                        */
+                                      },
+                                      onFieldSubmitted: (_) {
+                                        polizaObj.notifyListeners();
+                                      },
+                                      onSaved: (val) {
+                                        polizaObj.covers[index].porcentage = double.parse(val);
+                                      },
+                                    ),
+                                  ),
+
+                                  ///Cover Insured Value Field
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: listVlrAmparoTEC[index],
+                                      decoration: InputDecoration(
+                                          labelText: "Vlr. Asegurado amparo:",
+                                          icon: Icon(Icons.assessment)),
+                                      onChanged: (val){
+                                        polizaObj.covers[index].insuredValue = double.parse(val);
+                                      },
+                                      onSaved: (val){
+                                        polizaObj.covers[index].insuredValue = double.parse(val);
+                                        listVlrAmparoTEC[index].text = val;
+                                      },
+                                      //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
+                                    ),
+                                  ),
+
+                                  ///Initial Date Cover Field
+                                  DateTimeField(
+                                    format: dateFormat,
+                                    controller: listInitialDateTEC[index],
+                                    //Lo agregue ver si es necesario
+                                    onShowPicker: (context, currentValue) async {
+                                      final date = await showDatePicker(
+                                          context: context,
+                                          firstDate: DateTime(1900),
+                                          initialDate: currentValue ?? DateTime.now(),
+                                          lastDate: DateTime(2100));
+                                      /*
+                                      if (date != null) {
+                                        final time = await showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.fromDateTime(
+                                              currentValue ?? DateTime.now()),
+                                        );
+                                        return DateTimeField.combine(date, time);
+                                      } else {
+                                        return currentValue;
+                                      }
+                                      */
+                                      return date;
+                                    },
+                                    autovalidate: true,
+                                    //TODO FIX Validator
+                        /*
+                        validator: (value) {
+                                      print("Value in fecha Inicial $value");
+                                      if (value == null) {
+                                        return 'Debe ingresar una fecha inicial valida';
+                                      } else if (minDate.isAfter(value)) {
+                                        return 'Retroactividad máxima superada';
+                                      }
+                                      return "";
+                                    },
                                     */
-                                  },
-                                  onFieldSubmitted: (_) {
-                                    polizaObj.notifyListeners();
-                                  },
-                                  onSaved: (val) {
-                                    polizaObj.covers[index].porcentage = double.parse(val);
-                                  },
-                                ),
-                              ),
+                                    //initialValue: (polizaObj.policyInitialDate != null && polizaObj.policyInitialDate.length == 10) ? DateTime.parse((polizaObj.policyInitialDate.substring(6, 10) + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))) : DateTime.now(),
+                                    onChanged: (date){
+                                        //polizaObj.covers[index].initialDate = date.toString();
+                                        //polizaObj.listDatesCovers[index] = date;
+                                        listInitialDateTEC[index].text = dateFormat.format(date);
+                                    },
+                                    onSaved: (DateTime date) {
+                                      print("InitialDate: $date");
+                                      listInitialDateTEC[index].text = dateFormat.format(date);
+                                      polizaObj.covers[index].initialDate = listInitialDateTEC[index].text;
+                                    },
+                                    onFieldSubmitted: (val){
+                                      polizaObj.notifyListeners();
+                                    },
+                                    resetIcon: Icon(Icons.delete),
+                                    readOnly: false,
+                                    decoration: InputDecoration(
+                                        icon: Icon(Icons.date_range),
+                                        labelText: 'Vigencia Desde amparo'),
+                                  ),
+                                  Text("Initial Date: ${listInitialDateTEC[index].text}"),
 
-                              ///Cover Insured Value Field
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: listVlrAmparoTEC[index],
-                                  decoration: InputDecoration(
-                                      labelText: "Vlr. Asegurado amparo:",
-                                      icon: Icon(Icons.assessment)),
-                                  onChanged: (val){
-                                    listVlrAmparoTEC[index].text = val;
-                                  },
-                                  onSaved: (val){
-                                    polizaObj.covers[index].insuredValue = double.parse(val);
-                                  },
-                                  //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
-                                ),
-                              ),
-
-                              ///Initial Date Cover Field
-                              DateTimeField(
-                                format: dateFormat,
-                                controller: listInitialDateTEC[index],
-                                //Lo agregue ver si es necesario
-                                onShowPicker: (context, currentValue) async {
-                                  final date = await showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime(1900),
-                                      initialDate: currentValue ?? DateTime.now(),
-                                      lastDate: DateTime(2100));
+                                  ///Final Date Cover Field
                                   /*
-                                  if (date != null) {
-                                    final time = await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.fromDateTime(
-                                          currentValue ?? DateTime.now()),
-                                    );
-                                    return DateTimeField.combine(date, time);
-                                  } else {
-                                    return currentValue;
-                                  }
+                                  DateTimeField(
+                                    format: dateFormat,
+                                    controller: listFinalDateTEC[index],
+                                    onShowPicker: (context, currentValue) async {
+                                      final date = await showDatePicker(
+                                          context: context,
+                                          firstDate: DateTime(1900),
+                                          initialDate: currentValue ?? DateTime.now(),
+                                          lastDate: DateTime(2100));
+                                      /*
+                                      if (date != null) {
+                                        final time = await showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.fromDateTime(
+                                              currentValue ?? DateTime.now()),
+                                        );
+                                        return DateTimeField.combine(date, time);
+                                      } else {
+                                        return currentValue;
+                                      }
+                                      */
+                                      return date;
+                                    },
+                                    autovalidate: true,
+                                    /*
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Debe ingresar una fecha inicial valida';
+                                      } else if (minDate.isAfter(value)) {
+                                        return 'Retroactividad máxima superada';
+                                      }
+                                      return null;
+                                    },
+                                    */
+                                    //initialValue: polizaObj.policyInitialDate != null ? DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))) : null,
+                                    onChanged: (date) {
+                                      polizaObj.covers[index].finalDate = date.toString();
+                                    },
+                                    onSaved: (date) {
+                                      //print("FinalDate: ${listFinalDateTEC[index].text}");
+                                        polizaObj.covers[index].finalDate = date.toString();
+                                    },
+                                    onFieldSubmitted: (_){
+                                      //polizaObj.covers[index].finalDate = date.toString();
+                                      polizaObj.notifyListeners();
+                                    },
+                                    resetIcon: Icon(Icons.delete),
+                                    readOnly: false,
+                                    decoration: InputDecoration(
+                                        icon: Icon(Icons.date_range),
+                                        labelText: 'Vigencia Hasta amparo'),
+                                  ),
                                   */
-                                  return date;
-                                },
-                                autovalidate: true,
-                                //TODO FIX Validator
-                    /*
-                    validator: (value) {
-                                  print("Value in fecha Inicial $value");
-                                  if (value == null) {
-                                    return 'Debe ingresar una fecha inicial valida';
-                                  } else if (minDate.isAfter(value)) {
-                                    return 'Retroactividad máxima superada';
-                                  }
-                                  return "";
-                                },
-                                */
-                                //initialValue: (polizaObj.policyInitialDate != null && polizaObj.policyInitialDate.length == 10) ? DateTime.parse((polizaObj.policyInitialDate.substring(6, 10) + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))) : DateTime.now(),
-                                onChanged: (date){
-                                  listInitialDateTEC[index].text = dateFormat.format(date);
-                                },
-                                onSaved: (DateTime date) {
-                                  print("InitialDate: $date");
-                                    listInitialDateTEC[index].text = dateFormat.format(date);
-                                    polizaObj.covers[index].inicialDate = listInitialDateTEC[index].text;
-                                },
-                                onFieldSubmitted: (val){
-                                  polizaObj.notifyListeners();
-                                },
-                                resetIcon: Icon(Icons.delete),
-                                readOnly: false,
-                                decoration: InputDecoration(
-                                    icon: Icon(Icons.date_range),
-                                    labelText: 'Vigencia Desde amparo'),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
                               ),
-
-                              ///Final Date Cover Field
-                              DateTimeField(
-                                format: dateFormat,
-                                controller: listFinalDateTEC[index],
-                                onShowPicker: (context, currentValue) async {
-                                  final date = await showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime(1900),
-                                      initialDate: currentValue ?? DateTime.now(),
-                                      lastDate: DateTime(2100));
-                                  /*
-                                  if (date != null) {
-                                    final time = await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.fromDateTime(
-                                          currentValue ?? DateTime.now()),
-                                    );
-                                    return DateTimeField.combine(date, time);
-                                  } else {
-                                    return currentValue;
-                                  }
-                                  */
-                                  return date;
-                                },
-                                autovalidate: true,
-                                /*
-                                validator: (value) {
-                                  if (value == null) {
-                                    return 'Debe ingresar una fecha inicial valida';
-                                  } else if (minDate.isAfter(value)) {
-                                    return 'Retroactividad máxima superada';
-                                  }
-                                  return null;
-                                },
-                                */
-                                //initialValue: polizaObj.policyInitialDate != null ? DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))) : null,
-                                onChanged: (date) {
-                                  listFinalDateTEC[index].text = dateFormat.format(date);
-                                  polizaObj.covers[index].finalDate = dateFormat.format(date);
-                                },
-                                onSaved: (val) {
-                                  print("FinalDate: ${listFinalDateTEC[index].text}");
-                                    polizaObj.covers[index].finalDate = listFinalDateTEC[index].text;
-                                },
-                                onFieldSubmitted: (_){
-                                  polizaObj.covers[index].finalDate = listFinalDateTEC[index].text;
-                                  polizaObj.notifyListeners();
-                                },
-                                resetIcon: Icon(Icons.delete),
-                                readOnly: false,
-                                decoration: InputDecoration(
-                                    icon: Icon(Icons.date_range),
-                                    labelText: 'Vigencia Hasta amparo'),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        ));
-                  }),
+                            ));
+                      }),
+                ],
+              ),
             ],
           )),
     );

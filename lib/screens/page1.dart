@@ -254,24 +254,22 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     aux.identificacion.toString().contains(search))
                     .toList(),
                 itemFromString: (string) => contratantes.singleWhere(
-                        (auxbasico) =>
-                    auxbasico.primerApellido.toLowerCase() ==
-                        string.toLowerCase(),
+                        (auxbasico) => auxbasico.primerApellido.toLowerCase() == string.toLowerCase(),
                     orElse: () => null),
                 onChanged: (value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
                   if (value != null) {
                     polizaObj.beneficiary = await afianzadoRef.child("${value.identificacion}").once().then((val){
+                      //polizaObj.beneficiary.thirdPartyType = "Beneficiario";
                       print("Beneficiario Snapshot ${val.value}");
+
+                      selectedAsegBasico = value;
+                      auxBasicoController.text = value.primerApellido;
+                      //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
-                  polizaObj.beneficiary.thirdPartyType = "Beneficiario";
-                    selectedAsegBasico = value;
-                    if (value != null) {
-                      auxBasicoController.text = value.primerApellido;
-                      //print("Selected ubicacion departamento: ${auxObj.departamento},municipio: ${auxObj.municipio}");
-                    }
+
                 },
                 onSaved: (value) async{
                     selectedAsegBasico = value;
@@ -414,12 +412,14 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
     var polizaObj = Provider.of<Poliza>(context);
 
     //TODO Freelancer verify if this is the right place to put this. What happen if afianzado==null?
-    setState(() {
+
+    /*
       if(polizaObj.policyBuyer != null){
         print("Cupo disponible ${polizaObj.policyBuyer.cupoDisponible}");
-      cupoController.text = polizaObj.policyBuyer.cupoDisponible.toString();
+        cupoController.text = polizaObj.policyBuyer.cupoDisponible.toString();
+        //polizaObj.notifyListeners();
       }
-    });
+*/
 
     return Card(
       elevation: 8.0,
@@ -482,21 +482,21 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
             resetIcon: Icon(Icons.delete),
             readOnly: false,
           ),
-          Text("Fecha Inicial: ${polizaObj.policyInitialDate}"),
-          Text("Fecha Inicial en TEC: ${initialDate.text}"),
 
           ///Campo Clausulado
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButtonFormField<Clausulado>(
+              value: clausuladoValue,
               decoration: InputDecoration(
                   labelText: "Clausulado", icon: Icon(Icons.text_fields)),
-              value: clausuladoValue,
               onChanged: (Clausulado newValue) {
                 setState(() {
                   clausuladoValue = newValue;
-                  print("clausulado value ${clausuladoValue.textoClausulado}");
+                  cupoController.text = polizaObj.policyBuyer.cupoDisponible.toString();
                 });
+                  //polizaObj.notifyListeners();
+                  print("clausulado value ${clausuladoValue.textoClausulado}");
               },
               validator: (Clausulado value) {
                 if (value == null ?? true) {
@@ -513,7 +513,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               onSaved: (val) {
                 polizaObj.textProdConditions = val.textoClausulado;
                 polizaObj.productConditions = val.prodClausulado;
-                polizaObj.notifyListeners();
+                //polizaObj.notifyListeners();
               },
             ),
           ),
@@ -555,12 +555,20 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               value: tipoNegocioValue,
               onChanged: (String newValue) async {
                 amparos = List();
-                amparosMap = await getAmparos(newValue);
+                await getAmparos(newValue).then((value){
+                  value.data.forEach((key, value) {
+                    amparos.add(Amparo.fromMap(value.cast<String, dynamic>()));
+                  });
+                });
+                /*
                 amparosMap.data.forEach((key, value) {
                   amparos.add(Amparo.fromMap(value.cast<String, dynamic>()));
                 });
+                */
                 setState(() {
                   tipoNegocioValue = newValue;
+
+                  //Asign amparos list to the object
                   polizaObj.covers = amparos;
                   //Notify listeners updates the object and refresh all the UI
                   polizaObj.notifyListeners();
