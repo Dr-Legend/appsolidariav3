@@ -495,7 +495,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
                   clausuladoValue = newValue;
                   cupoController.text = polizaObj.policyBuyer.cupoDisponible.toString();
                 });
-                  //polizaObj.notifyListeners();
+                  polizaObj.notifyListeners();
                   print("clausulado value ${clausuladoValue.textoClausulado}");
               },
               validator: (Clausulado value) {
@@ -513,7 +513,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
               onSaved: (val) {
                 polizaObj.textProdConditions = val.textoClausulado;
                 polizaObj.productConditions = val.prodClausulado;
-                //polizaObj.notifyListeners();
+                polizaObj.notifyListeners();
               },
             ),
           ),

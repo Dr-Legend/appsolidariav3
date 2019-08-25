@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:appsolidariav3/model/amparoModel.dart';
 import 'package:appsolidariav3/model/polizaModel.dart';
+import 'package:appsolidariav3/screens/dates_test.dart';
 import 'package:appsolidariav3/screens/page1.dart';
 import 'package:appsolidariav3/screens/page2.dart';
+import 'package:appsolidariav3/screens/page3.dart';
 import 'package:appsolidariav3/screens/page4.dart';
 import 'package:appsolidariav3/theme/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -149,6 +151,7 @@ class _PolizaFormState extends State<PolizaForm> {
                   if (form.validate()) {
                     //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                     form.save();
+                    //calculatePolicyFinalDate(context);
                     /*
                     polizaObj.listDatesCovers = List();
                     polizaObj.covers.map((cov){
@@ -211,6 +214,18 @@ class _PolizaFormState extends State<PolizaForm> {
         .collection("tipoNeg")
         .document("All")
         .get();
+  }
+
+  void calculatePolicyFinalDate(BuildContext context) {
+    var polizaObj = Provider.of<Poliza>(context);
+    var coverDates = polizaObj.listDatesCovers;
+
+    ///sorting list of cover date to date hiest date possible.
+    coverDates.sort((a, b) => b.compareTo(a));
+
+    ///saving highest date in policyFinalDate
+    polizaObj.policyFinalDate = coverDates.first.toString();
+    print("Final Date is : => ${polizaObj.policyFinalDate}");
   }
 
 }

@@ -18,7 +18,7 @@ class PaginaInicio extends StatefulWidget {
   _PaginaInicioState createState() => _PaginaInicioState();
 }
 
-class _PaginaInicioState extends State<PaginaInicio>{
+class _PaginaInicioState extends State<PaginaInicio> {
   final List<MenuRoute> menu = <MenuRoute>[
     MenuRoute("Poliza Nueva", '/poliza',
         Icon(Icons.add, size: 60.0, color: amarilloSolidaria1)),
@@ -28,15 +28,18 @@ class _PaginaInicioState extends State<PaginaInicio>{
         Icon(Icons.picture_as_pdf, size: 60.0, color: amarilloSolidaria1)),
     MenuRoute("ML Kit", '/mlKit',
         Icon(Icons.add_circle_outline, size: 60.0, color: amarilloSolidaria1)),
+    MenuRoute("Dates", '/datesTest',
+        Icon(Icons.date_range, size: 60.0, color: amarilloSolidaria1)),
   ];
+
   //Crear instancia de Base de datos de firebase
   final FirebaseDatabase database = FirebaseDatabase.instance;
   DatabaseReference intermediarioRef;
 
-
   @override
-  void initState(){
-    intermediarioRef = database.reference().child("terceros").child("Intermediario");
+  void initState() {
+    intermediarioRef =
+        database.reference().child("terceros").child("Intermediario");
     super.initState();
   }
 
@@ -56,7 +59,7 @@ class _PaginaInicioState extends State<PaginaInicio>{
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.fromLTRB(0.0,60.0,0.0,8.0),
+              padding: EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 8.0),
               alignment: Alignment.topCenter,
               child: Image.asset(
                 "assets/logo1.png",
@@ -77,8 +80,9 @@ class _PaginaInicioState extends State<PaginaInicio>{
                     return InkWell(
                       onTap: () async {
                         Navigator.pushNamed(context, entry.route);
-                        if(entry.route == "/poliza"){
-                          polizaObj.intermediary = await intermediarioInit(intermediarioRef, 1234);
+                        if (entry.route == "/poliza") {
+                          polizaObj.intermediary =
+                              await intermediarioInit(intermediarioRef, 1234);
                           polizaObj.notifyListeners();
                           print("PolizaObj en ruta ${polizaObj.toString()}");
                         }
@@ -115,16 +119,16 @@ class _PaginaInicioState extends State<PaginaInicio>{
     );
   }
 
-  Future<Auxiliar> intermediarioInit(DatabaseReference dbRef, int idInterm) async {
+  Future<Auxiliar> intermediarioInit(
+      DatabaseReference dbRef, int idInterm) async {
     Auxiliar intermediario;
-    intermediario = await dbRef.child("$idInterm").once().then((val){
-      if(val.value != null){
+    intermediario = await dbRef.child("$idInterm").once().then((val) {
+      if (val.value != null) {
         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
-      } else{
+      } else {
         return null;
       }
     });
     return intermediario;
   }
 }
-

@@ -11,8 +11,7 @@ String amparoToJson(Amparo data) {
 }
 
 class Amparo {
-  
-  int cover;
+
   int policy;
 
   String coverName; //Nombre del amparo
@@ -28,7 +27,7 @@ class Amparo {
   
 
   Amparo({
-    this.cover,
+
     this.policy,
 
     this.coverName,
@@ -45,7 +44,7 @@ class Amparo {
   });
 
   factory Amparo.fromMap(Map<String, dynamic> json) => new Amparo(
-    cover: json["amparo"],
+
     policy: json["poliza"],
 
     coverName: json["concepto"],
@@ -76,7 +75,7 @@ class Amparo {
 
   @override
   String toString() {
-    return "Cover: $cover, Policy: $policy, CoverNAme: $coverName, "
+    return "Policy: $policy, CoverNAme: $coverName, "
         "CoverInitialDate: $initialDate, CoverFinalDate: $finalDate, AditionalTerm: $additionalTerm, Porcentage: $porcentage,"
         "InsuredValue: $insuredValue, CoverRate: $coverRate, MinimumInsuranceRate: $minimumRate,"
         "Premium: $insurancePremium";

@@ -1,4 +1,5 @@
 import 'package:appsolidariav3/screens/auxPage.dart';
+import 'package:appsolidariav3/screens/dates_test.dart';
 import 'package:appsolidariav3/screens/inicio.dart';
 import 'package:appsolidariav3/screens/pdf/pdfmain.dart';
 import 'package:appsolidariav3/screens/poliza.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Poliza>(
-      builder: (context) => Poliza(issueDate: DateTime.now().toString(),insuranceBranch: "Cumplimiento",currency: "Pesos", polizaNumber: 123, temporaryNumber: 432, treatyValue: 100, excecutionTime: 1),
+      builder: (context) => Poliza(issueDate: DateTime.now().toString(),insuranceBranch: "Cumplimiento",currency: "Pesos", polizaNumber: 123, temporaryNumber: 432, treatyValue: 100, excecutionTime: 1, operationType: "100% Compañía"),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: appTheme(),
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           '/terceros': (context) => AuxiliarPage(),
           //'/test': (context) => PageSelectorDemo(),
           '/pdfdemo': (context) => PdfDemo(),
+          '/datesTest': (context) => DatesTest(),
 
         },
         //home: MyHomePage(title: 'Flutter Demo Home Page'),
