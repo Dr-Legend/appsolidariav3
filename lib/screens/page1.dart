@@ -216,6 +216,10 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                         print("Contratante Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
+                      if(_isSelected){
+                        polizaObj.beneficiary = polizaObj.contractor;
+                        polizaObj.notifyListeners();
+                      }
                     }
                 },
                 onFieldSubmitted: (_){

@@ -60,7 +60,6 @@ class Poliza with ChangeNotifier{
   int polizaNumber = 1234; //TODO Revisar la cantidad the caracteres
 
   ///Information of the contractor treaty
-  int contractorId;
   String treatyNumber;
   double treatyValue;  //Nivel anexo
   int excecutionTime;   //En años
@@ -98,7 +97,7 @@ class Poliza with ChangeNotifier{
     this.avaliableQuota,this.insuranceBranch, this.issueDate, this.policyInitialDate, this.policyFinalDate,
     this.currency, this.productConditions, this.textProdConditions, this.operationType,
     this.polizaType, this.businessType, this.temporaryNumber,
-    this.polizaNumber, this.contractorId, this.treatyNumber,
+    this.polizaNumber, this.treatyNumber,
     this.treatyValue, this.excecutionTime, this.treatyInitialDate,
     this.insuranceObject, this.aclaratoryText, this.objectText, this.covers, this.issueState,
     this.insuranceTotalValue, this.totalPremium, this.comisionValue});
@@ -110,7 +109,7 @@ class Poliza with ChangeNotifier{
       productConditions: json["productoClausulado"],textProdConditions: json["textoClausulado"],
       operationType: json["descTipoOperacion"], polizaType: json["descTipoPoliza"],
       businessType: json["descTipoNegocio"], temporaryNumber: json["temporario"], polizaNumber: json["numPoliza"],
-      contractorId: json["nitContratante"], treatyNumber: json["numeroContrato"],
+      treatyNumber: json["numeroContrato"],
       treatyValue: json["valorContrato"], excecutionTime: json["plazoEjecucion"], treatyInitialDate: json["fechaFinContrato"],
       insuranceObject: json["objetoSeguro"], aclaratoryText: json["textoAclaratorio"], objectText: json["objectText"],
       covers: json["amparos"], issueState: json["estado"], insuranceTotalValue: json["valAsegTotal"],
@@ -124,7 +123,7 @@ class Poliza with ChangeNotifier{
     "fechaEmision": issueDate, "vigDesde": policyInitialDate, "vigHasta": policyFinalDate,
     "tipoCambio": currency, "productoClausulado": productConditions, "textoClausulado":textProdConditions, "descTipoOperacion": operationType,
     "descTipoPoliza": polizaType, "descTipoNegocio": businessType, "temporario": temporaryNumber,
-    "numPoliza": polizaNumber, "nitContratante": contractorId, "numeroContrato": treatyNumber,
+    "numPoliza": polizaNumber, "numeroContrato": treatyNumber,
     "valorContrato": treatyValue, "plazoEjecucion": excecutionTime, "fechaFinContrato": treatyInitialDate,
     "objetoSeguro": insuranceObject, "textoAclaratorio": aclaratoryText, "objectText" : objectText, "amparos": covers, "estado": issueState,
     "valAsegTotal": insuranceTotalValue, "primaTotal": totalPremium, "valComision": comisionValue,
@@ -137,7 +136,7 @@ class Poliza with ChangeNotifier{
     return 'PolicyInitialDate: $policyInitialDate, PolicyFinalDate $policyFinalDate, listDateCover: ${listDatesCovers.toString()}, Intermediarie: $intermediary, PolicyBuyer: $policyBuyer, Contractor: $contractor, Beneficiary: $beneficiary,'
     'AvaliableQuota: $avaliableQuota, _InsuranceBranch: $insuranceBranch, IssueDate: $issueDate, ExchangeRate: $currency, ProdConditions: $productConditions, TextProdConditions: $textProdConditions, OperationType: $operationType,'
     'PolicyType: $polizaType, BusinessType: $businessType, TemporaryNumber: $temporaryNumber,'
-    'PolicyNumber: $polizaNumber, ContractorID: $contractorId, TreatyNumber: $treatyNumber,'
+    'PolicyNumber: $polizaNumber, TreatyNumber: $treatyNumber,'
     'TreatyValue: $treatyValue, ExecutionTime: $excecutionTime, TreatyEndDateContract: $treatyInitialDate,'
     'InsuranceObject: $insuranceObject, AclaratoryText: $aclaratoryText, Object Text: $objectText, PolicyIssueState: $issueState,'
     'TotalInsuranceValue: $insuranceTotalValue, TotalPremium: $totalPremium, ComisionValue: $comisionValue, Covers:---$covers,';

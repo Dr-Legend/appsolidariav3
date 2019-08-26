@@ -134,8 +134,30 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                     ///Campo amparos -------------------------------------------------------
                     return Dismissible(
                       key: ValueKey(polizaObj.covers[index].coverName),
-                      background: Container(color:Colors.green),
-                      onDismissed: (direction){
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        padding: EdgeInsets.all(12.0),
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            Padding(padding: EdgeInsets.all(4.0)),
+                            Text(
+                              "Eliminar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      onDismissed: (direction) {
                         setState(() {
                           polizaObj.covers.removeAt(index);
                         });
