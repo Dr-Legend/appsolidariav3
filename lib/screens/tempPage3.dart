@@ -180,11 +180,10 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                     */
                             },
                             onFieldSubmitted: (_) {
-                              //polizaObj.notifyListeners();
+                              polizaObj.notifyListeners();
                             },
                             onSaved: (val) {
-                              polizaObj.covers[index].porcentage =
-                                  double.parse(val);
+                              polizaObj.covers[index].porcentage = double.parse(val);
                             },
                           ),
                         ),
@@ -196,6 +195,13 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 labelText: "Vlr. Asegurado amparo:",
                                 icon: Icon(Icons.assessment)),
                             initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
+                            onChanged: (val){
+                              polizaObj.covers[index].insuredValue = double.parse(val);
+                            },
+                            onSaved: (val){
+                              polizaObj.covers[index].insuredValue = double.parse(val);
+                              polizaObj.notifyListeners();
+                            },
                           ),
                         ),
 

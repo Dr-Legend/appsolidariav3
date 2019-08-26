@@ -16,6 +16,8 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
   TextEditingController vlrAmparoTEC;
   List<TextEditingController> listPorcentajeTEC;
   List<TextEditingController> listVlrAmparoTEC;
+  List<TextEditingController> listTasaAmparoTEC;
+  List<TextEditingController> listPrimaAmparoTEC;
   List<TextEditingController> listInitialDateTEC;
   List<TextEditingController> listFinalDateTEC;
 
@@ -50,6 +52,12 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
     listVlrAmparoTEC.map((tec) {
       tec.dispose();
     });
+    listTasaAmparoTEC.map((tec) {
+      tec.dispose();
+    });
+    listPrimaAmparoTEC.map((tec) {
+      tec.dispose();
+    });
     super.dispose();
   }
 
@@ -71,10 +79,18 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                   itemCount:
                       polizaObj.covers != null ? polizaObj.covers.length : 0,
                   itemBuilder: (BuildContext context, int index) {
+
+                    //Initialice TextEditingControllers lists
                     listPorcentajeTEC = polizaObj.covers.map((a) {
                       return TextEditingController();
                     }).toList();
                     listVlrAmparoTEC = polizaObj.covers.map((a) {
+                      return TextEditingController();
+                    }).toList();
+                    listTasaAmparoTEC = polizaObj.covers.map((a) {
+                      return TextEditingController();
+                    }).toList();
+                    listPrimaAmparoTEC = polizaObj.covers.map((a) {
                       return TextEditingController();
                     }).toList();
                     /*
@@ -88,6 +104,12 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                       //Inicialize percentage and insured value TEC
                       listPorcentajeTEC[index].text = polizaObj.covers[index].porcentage.toString();
                       listVlrAmparoTEC[index].text = (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toStringAsFixed(2);
+
+                      //Inicialize cover premium rate TEC
+                      listTasaAmparoTEC[index].text = polizaObj.covers[index].coverRate.toString();
+
+                      //Inicialize cover premium TEC with object values
+                      listPrimaAmparoTEC[index].text = (polizaObj.covers[index].coverRate * polizaObj.covers[index].porcentage * polizaObj.treatyValue).toStringAsFixed(2);
 
                       //Inicialize insured value TEC
                       polizaObj.covers[index].insuredValue = polizaObj.covers[index].porcentage * polizaObj.treatyValue;
@@ -113,52 +135,6 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                     return ExpansionTile(
                       title: Text(polizaObj.covers[index].coverName),
                       children: <Widget>[
-
-                        ///Porcentage field
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            controller: listPorcentajeTEC[index],
-                            decoration: InputDecoration(
-                                labelText: "Porcentaje:",
-                                icon: Icon(Icons.assessment)),
-                            //initialValue: polizaObj.amparos[index].porcentaje.toString(),
-                            onChanged: (val) {
-                              polizaObj.covers[index].porcentage =
-                                  double.parse(val);
-                              /*
-                                    Future.delayed(const Duration(seconds: 3)).then((val){
-                                      polizaObj.notifyListeners();
-                                    });
-                                    */
-                            },
-                            onFieldSubmitted: (_) {
-                              //polizaObj.notifyListeners();
-                            },
-                            onSaved: (val) {
-                              polizaObj.covers[index].porcentage =
-                                  double.parse(val);
-                            },
-                          ),
-                        ),
-
-                        ///Vlr. Asegurado amparo
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            controller: listVlrAmparoTEC != null ? listVlrAmparoTEC[index]: vlrAmparoTEC,
-                            decoration: InputDecoration(
-                                labelText: "Vlr. Asegurado amparo:",
-                                icon: Icon(Icons.assessment)),
-                            //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
-                            onChanged: (val){
-                              polizaObj.covers[index].insuredValue = double.parse(val);
-                            },
-                            onSaved: (val){
-                              polizaObj.covers[index].insuredValue = double.parse(val);
-                            },
-                          ),
-                        ),
 
                         ///Initial Date Field
                         DateTimeField(
@@ -284,6 +260,100 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                           resetIcon: Icon(Icons.delete),
                           readOnly: false,
                         ),
+                        ///Porcentage field
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: listPorcentajeTEC[index],
+                            decoration: InputDecoration(
+                                suffixIcon: GestureDetector(child: Icon(Icons.update),onTap: (){
+                                  polizaObj.notifyListeners();
+                                },),
+                                labelText: "Porcentaje:",
+                                icon: Icon(Icons.assessment)),
+                            //initialValue: polizaObj.amparos[index].porcentaje.toString(),
+                            onChanged: (val) {
+                              polizaObj.covers[index].porcentage =
+                                  double.parse(val);
+                              /*
+                                    Future.delayed(const Duration(seconds: 3)).then((val){
+                                      polizaObj.notifyListeners();
+                                    });
+                                    */
+                            },
+                            onFieldSubmitted: (_) {
+                              //polizaObj.notifyListeners();
+                            },
+                            onSaved: (val) {
+                              polizaObj.covers[index].porcentage =
+                                  double.parse(val);
+                            },
+                          ),
+                        ),
+
+                        ///Vlr. Asegurado amparo
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: listVlrAmparoTEC != null ? listVlrAmparoTEC[index]: vlrAmparoTEC,
+                            decoration: InputDecoration(
+                                labelText: "Vlr. Asegurado amparo:",
+                                icon: Icon(Icons.assessment)),
+                            //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
+                            onChanged: (val){
+                              polizaObj.covers[index].insuredValue = double.parse(val);
+                            },
+                            onSaved: (val){
+                              polizaObj.covers[index].insuredValue = double.parse(val);
+                            },
+                          ),
+                        ),
+
+                        ///Cover premium rate
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: listTasaAmparoTEC[index],
+                            decoration: InputDecoration(
+                              suffixIcon: GestureDetector(child: Icon(Icons.update),onTap: (){
+                                polizaObj.notifyListeners();
+                              },),
+                                labelText: "Tasa Amparo:",
+                                icon: Icon(Icons.assessment)),
+                            //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
+                            onChanged: (val){
+                              polizaObj.covers[index].coverRate = double.parse(val);
+                              listPrimaAmparoTEC[index].text = (double.parse(val) * polizaObj.covers[index].insuredValue).toStringAsFixed(2);
+
+                            },
+                            onSaved: (val){
+                              polizaObj.covers[index].coverRate = double.parse(val);
+                            },
+                          ),
+                        ),
+
+                        ///Cover Premium field
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: listPrimaAmparoTEC[index],
+                            decoration: InputDecoration(
+                                labelText: "Prima amparo:",
+                                icon: Icon(Icons.assessment)),
+                            //initialValue: polizaObj.treatyValue != null ? (polizaObj.covers[index].porcentage * polizaObj.treatyValue).toString() : "",
+                            onChanged: (val){
+                              polizaObj.covers[index].insurancePremium = double.parse(double.parse(val).toStringAsFixed(2)); //TODO Please simplify this
+                            },
+                            onSaved: (val){
+                              polizaObj.covers[index].insurancePremium = double.parse(double.parse(val).toStringAsFixed(2)); //TODO Please simplify this
+                            },
+                          ),
+                        ),
+
+
+
                         SizedBox(
                           height: 10,
                         ),
