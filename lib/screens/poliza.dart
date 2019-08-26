@@ -151,6 +151,8 @@ class _PolizaFormState extends State<PolizaForm> {
                   if (form.validate()) {
                     //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                     form.save();
+                    polizaObj.filledState = 1;
+                    polizaObj.notifyListeners();
                     //calculatePolicyFinalDate(context);
                     /*
                     polizaObj.listDatesCovers = List();

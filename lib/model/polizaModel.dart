@@ -15,6 +15,8 @@ String polizaToJson(Poliza data) {
 
 class Poliza with ChangeNotifier{
 
+  int filledState;
+
   ///NOT IN THE FORM
   Auxiliar intermediary;
   Auxiliar policyBuyer;
@@ -100,7 +102,7 @@ class Poliza with ChangeNotifier{
     this.polizaNumber, this.treatyNumber,
     this.treatyValue, this.excecutionTime, this.treatyInitialDate,
     this.insuranceObject, this.aclaratoryText, this.objectText, this.covers, this.issueState,
-    this.insuranceTotalValue, this.totalPremium, this.comisionValue});
+    this.insuranceTotalValue, this.totalPremium, this.comisionValue, this.filledState});
 
   factory Poliza.fromMap(Map<String, dynamic> json) => new Poliza(
       intermediary: json["intermediario"], policyBuyer:  json["afianzado"], contractor:  json["contratante"],

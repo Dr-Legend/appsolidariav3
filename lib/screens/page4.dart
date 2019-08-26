@@ -47,7 +47,7 @@ class _Page4State extends State<Page4> {
   @override
   Widget build(BuildContext context) {
     var polizaObj = Provider.of<Poliza>(context);
-    return Column(
+    return polizaObj.filledState == 1 ? Column(
       children: <Widget>[
         SectionText(title: "Tipo de Poliza"),
         TitleTextValue(title: "Tipo de póliza", value: polizaObj.polizaType),
@@ -93,6 +93,6 @@ class _Page4State extends State<Page4> {
           }).toList(),
         ),
       ],
-    );
+    ) : Center(child: Text("No info yet"));
   }
 }
