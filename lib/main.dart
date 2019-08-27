@@ -1,6 +1,7 @@
 import 'package:appsolidariav3/screens/auxPage.dart';
 import 'package:appsolidariav3/screens/dates_test.dart';
 import 'package:appsolidariav3/screens/inicio.dart';
+import 'package:appsolidariav3/screens/login.dart';
 import 'package:appsolidariav3/screens/pdf/pdfmain.dart';
 import 'package:appsolidariav3/screens/poliza.dart';
 import 'package:appsolidariav3/theme/style.dart';
@@ -19,11 +20,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: appTheme(),
-        initialRoute: '/',
+        initialRoute: '/login',
+        onGenerateRoute: _getRoute,
         routes: {
           // When navigating to the "/" route, build the FirstScreen widget.
-          '/': (context) => PaginaInicio(),
+          '/': (context) => LoginPage(),
           // When navigating to the "/second" route, build the SecondScreen widget.
+          '/inicio': (context) => PaginaInicio(),
           '/poliza': (context) => PolizaForm(),
           '/terceros': (context) => AuxiliarPage(),
           //'/test': (context) => PageSelectorDemo(),
@@ -34,10 +37,22 @@ class MyApp extends StatelessWidget {
         //home: MyHomePage(title: 'Flutter Demo Home Page'),
         //https://flutter.dev/docs/cookbook/navigation/named-routes
         // "Warning: When using initialRoute, don’t define a home property."
-
       ),
     );
   }
+
+  Route<dynamic> _getRoute(RouteSettings settings) {
+    if (settings.name != '/login') {
+      return null;
+    }
+
+    return MaterialPageRoute<void>(
+      settings: settings,
+      builder: (BuildContext context) => LoginPage(),
+      fullscreenDialog: true,
+    );
+  }
+
 }
 
 class MyHomePage extends StatefulWidget {

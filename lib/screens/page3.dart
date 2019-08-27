@@ -46,16 +46,18 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
   void dispose() {
     porcentajeTEC.dispose();
     vlrAmparoTEC.dispose();
-    listPorcentajeTEC.map((tec) {
+
+    //Include the ? to not execute map if TEC == null
+    listPorcentajeTEC?.map((tec) {
       tec.dispose();
     });
-    listVlrAmparoTEC.map((tec) {
+    listVlrAmparoTEC?.map((tec) {
       tec.dispose();
     });
-    listTasaAmparoTEC.map((tec) {
+    listTasaAmparoTEC?.map((tec) {
       tec.dispose();
     });
-    listPrimaAmparoTEC.map((tec) {
+    listPrimaAmparoTEC?.map((tec) {
       tec.dispose();
     });
     super.dispose();
@@ -162,8 +164,8 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                           polizaObj.covers.removeAt(index);
                         });
                       },
-                      child: ExpansionTile(
-                        title: Text(polizaObj.covers[index].coverName),
+                      child:ExpansionTile(
+                        title: Text("${polizaObj.covers[index].coverName}"),
                         children: <Widget>[
 
                           ///Initial Date Field
@@ -190,11 +192,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 return currentValue;
                               }
                               */
-                              if(date == null){
-                                return currentValue;
-                              } else {
-                                return date;
-                              }
+                              return date;
                             },
                             autovalidate: false,
                             //validator: (date) => date == null ? 'Invalid date' : null,
@@ -253,12 +251,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 return currentValue;
                               }
                               */
-                              if(date == null){
-                                return currentValue;
-                              } else {
-                                return date;
-                              }
-
+                              return date;
                             },
                             autovalidate: false,
                             //validator: (date) => date == null ? 'Invalid date' : null,
@@ -277,8 +270,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 if (minDate.isAfter(date)) {
                                   print("Fecha invalida ${date}");
                                 } else {
-                                  polizaObj.covers[index].finalDate =
-                                      date.toString();
+                                  polizaObj.covers[index].finalDate = date.toString();
                                   print(
                                       "Fecha en objeto ${polizaObj.covers[index].initialDate}");
                                 }
@@ -286,6 +278,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                             }),
                             onSaved: (date) => setState(() {
                               polizaObj.covers[index].finalDate = date.toString();
+                              polizaObj.notifyListeners();
                             }),
                             resetIcon: Icon(Icons.delete),
                             readOnly: false,

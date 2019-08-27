@@ -629,8 +629,6 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 
   Future<DocumentSnapshot> getAmparos(String newValue) async {
-    var prueba = Firestore.instance.collection("tipoNeg").document("Suministro");
-    print("$prueba");
     return Firestore.instance.collection("tipoNeg").document("$newValue").get();
   }
 }

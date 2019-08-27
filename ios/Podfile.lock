@@ -128,6 +128,8 @@ PODS:
   - printing (0.0.1):
     - Flutter
   - Protobuf (3.9.0)
+  - shared_preferences (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -137,6 +139,7 @@ DEPENDENCIES:
   - flutter_full_pdf_viewer (from `.symlinks/plugins/flutter_full_pdf_viewer/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - printing (from `.symlinks/plugins/printing/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -175,6 +178,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   printing:
     :path: ".symlinks/plugins/printing/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -203,6 +208,7 @@ SPEC CHECKSUMS:
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   printing: 9c146c534e1fc018eadf438687a54b0dd5c0cfa3
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
 
 PODFILE CHECKSUM: 2dfb0181216afd10a8ff9d681c38a137a21dce27
 

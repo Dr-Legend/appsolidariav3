@@ -626,8 +626,8 @@ class _AuxiliarPageState extends State<AuxiliarPage> {
               auxBasicoObj.municipio = value.municipio;
               auxBasicoObj.departamento = value.departamento;
               //TODO Freelancer - Remove comments on the ubication codes
-              auxObj.cityCode = int.parse(value.c_digo_dane_del_municipio);
-              auxObj.stateCode = int.parse(value.c_digo_dane_del_departamento);
+              //auxObj.cityCode = int.parse(value.c_digo_dane_del_municipio);
+              //auxObj.stateCode = int.parse(value.c_digo_dane_del_departamento);
             }),
             autofocus: false,
             validator: (user) => user == null ? 'Campo obligatorio.' : null,
