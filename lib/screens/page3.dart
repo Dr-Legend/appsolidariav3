@@ -114,6 +114,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                       listPrimaAmparoTEC[index].text = (polizaObj.covers[index].coverRate * polizaObj.covers[index].porcentage * polizaObj.treatyValue).toStringAsFixed(2);
 
                       //Inicialize insured value TEC
+
                       polizaObj.covers[index].insuredValue = polizaObj.covers[index].porcentage * polizaObj.treatyValue;
 
                       //TODO initialize the cover object insured premium
@@ -121,10 +122,14 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                       //listInitialDateTEC[index].text = polizaObj.policyInitialDate;
                       //polizaObj.covers[index].insuredValue = double.parse(listVlrAmparoTEC[index].text);
 
-                      polizaObj.covers[index].finalDate = dateFormat.format(DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))));
+                      if(polizaObj.covers[index].finalDate == null){
+                        polizaObj.covers[index].finalDate = dateFormat.format(DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))));
+                      }
+                      if(polizaObj.covers[index].initialDate == null){
+                        polizaObj.covers[index].initialDate = polizaObj.policyInitialDate;
+                      }
 
 
-                      polizaObj.covers[index].initialDate = polizaObj.policyInitialDate;
                     }
                     /*
                     listVlrAmparoTEC[index] = TextEditingController();
@@ -164,7 +169,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                           polizaObj.covers.removeAt(index);
                         });
                       },
-                      child:ExpansionTile(
+                      child: ExpansionTile(
                         title: Text("${polizaObj.covers[index].coverName}"),
                         children: <Widget>[
 
@@ -192,6 +197,7 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 return currentValue;
                               }
                               */
+
                               return date;
                             },
                             autovalidate: false,
@@ -211,16 +217,14 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 if (minDate.isAfter(date)) {
                                   print("Fecha invalida ${date}");
                                 } else {
-                                  polizaObj.covers[index].initialDate =
-                                      date.toString();
+                                  polizaObj.covers[index].initialDate = dateFormat.format(date);
                                   print(
                                       "Fecha en objeto ${polizaObj.covers[index].initialDate}");
                                 }
                               }
                             }),
                             onSaved: (date) => setState(() {
-                              polizaObj.covers[index].initialDate =
-                                  date.toString();
+                              polizaObj.covers[index].initialDate = dateFormat.format(date);
                             }),
                             resetIcon: Icon(Icons.delete),
                             readOnly: false,
@@ -270,14 +274,14 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                                 if (minDate.isAfter(date)) {
                                   print("Fecha invalida ${date}");
                                 } else {
-                                  polizaObj.covers[index].finalDate = date.toString();
+                                  polizaObj.covers[index].finalDate = dateFormat.format(date);
                                   print(
                                       "Fecha en objeto ${polizaObj.covers[index].initialDate}");
                                 }
                               }
                             }),
                             onSaved: (date) => setState(() {
-                              polizaObj.covers[index].finalDate = date.toString();
+                              polizaObj.covers[index].finalDate = dateFormat.format(date);
                               polizaObj.notifyListeners();
                             }),
                             resetIcon: Icon(Icons.delete),
