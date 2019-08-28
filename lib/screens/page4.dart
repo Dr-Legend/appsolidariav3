@@ -49,23 +49,22 @@ class _Page4State extends State<Page4> {
     var polizaObj = Provider.of<Poliza>(context);
     return polizaObj.filledState == 1 ? Column(
       children: <Widget>[
+        SectionText(title: "Lista de fechas"),
+        TitleTextValue(title: "Lista de fechas", value: polizaObj.listDatesCovers.toString()),
         SectionText(title: "Tipo de Poliza"),
         TitleTextValue(title: "Tipo de póliza", value: polizaObj.polizaType),
         TitleTextValue(title: "Clausulado", value: polizaObj.productConditions),
         TitleTextValue(title: "Texto", value: polizaObj.textProdConditions),
         SectionText(title: "Información de Terceros"),
-        TitleTextValue(
-            title: "Afinazado", value: polizaObj.policyBuyer.surname),
+        //TODO Bug for some reason surname is called on null the other fields don't have the problem
+        polizaObj.policyBuyer != null ? TitleTextValue(title: "Afinazado", value: polizaObj.policyBuyer.surname): null,
         TitleTextValue(title: "Nit", value: polizaObj.policyBuyer.id),
-        TitleTextValue(
-            title: "Tomador/Asegurado", value: polizaObj.contractor.surname),
+        polizaObj.contractor.surname != null ? TitleTextValue(title: "Tomador/Asegurado", value: polizaObj.contractor.surname) : null,
         TitleTextValue(title: "Nit", value: polizaObj.contractor.id),
-        TitleTextValue(
-            title: "Beneficiario", value: polizaObj.beneficiary.surname),
+        polizaObj.beneficiary.surname != null ? TitleTextValue(title: "Beneficiario", value: polizaObj.beneficiary.surname) : null,
         TitleTextValue(title: "Nit", value: polizaObj.contractor.id),
         SectionText(title: "Vigencia de la póliza"),
-        TitleTextValue(
-            title: "Fecha desde", value: polizaObj.policyInitialDate),
+        TitleTextValue(title: "Fecha desde", value: polizaObj.policyInitialDate),
         TitleTextValue(title: "Fecha hasta", value: polizaObj.policyFinalDate),
         SectionText(title: "Información del contrato"),
         TitleTextValue(title: "Tipo de Negocio", value: polizaObj.businessType),

@@ -68,8 +68,6 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
     var polizaObj = Provider.of<Poliza>(context);
     Poliza poliza = Poliza();
 
-    print("Poliza en pagina 3: ${polizaObj.toString()}");
-
     return Container(
       child: Card(
           margin: const EdgeInsets.all(10.0),
@@ -282,6 +280,16 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                             }),
                             onSaved: (date) => setState(() {
                               polizaObj.covers[index].finalDate = dateFormat.format(date);
+
+                              ///Add final date to de list of dates, to then calculate the biggest
+                              if(polizaObj.listDatesCovers==null){
+                                polizaObj.listDatesCovers.insert(index, date);
+                                print("Despues de asignar un valor ${polizaObj.listDatesCovers[index]}");
+                                if(polizaObj.listDatesCovers[index]!=null){
+                                  polizaObj.listDatesCovers.insert(index, polizaObj.listDatesCovers.removeAt(index));
+                                  print("Update ListDate covers en index $index: ${polizaObj.listDatesCovers.toString()}");
+                                }
+                              }
                               polizaObj.notifyListeners();
                             }),
                             resetIcon: Icon(Icons.delete),

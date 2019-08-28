@@ -80,8 +80,6 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     var polizaObj = Provider.of<Poliza>(context);
 
-    print("Poliza en pagina 1: ${polizaObj.toString()}");
-
     return Column(
       children: <Widget>[
         Card(
