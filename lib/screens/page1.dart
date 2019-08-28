@@ -130,10 +130,12 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                         string.toLowerCase(),
                     orElse: () => null),
                 onChanged: (AuxBasico value) async {
+
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+
+                  ///Get All the info for the policyBuyer / Afianzado
                   if (value != null) {
                     polizaObj.policyBuyer = await afianzadoRef.child("${value.identificacion}").once().then((val){
-                      print("Afianzado Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
@@ -146,9 +148,9 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 onSaved: (value) async {
                     //TODO AFR Evaluar si es necesario guardar algo en este punto. Ej. Realizar la consulta del nit nuevamente
                     selectedAuxBasico = value;
+                    ///Get All the info for the policyBuyer / Afianzado
                     if (value != null) {
                       polizaObj.policyBuyer = await afianzadoRef.child("${value.identificacion}").once().then((val){
-                        print("Afianzado Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
                     }
@@ -195,9 +197,10 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     orElse: () => null),
                 onChanged: (value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+
+                  ///Get All the info for the Contractor
                   if (value != null) {
                     polizaObj.contractor = await contratanteRef.child("${value.identificacion}").once().then((val){
-                      print("Contratante Snapshot ${val.value}");
                       return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                     });
                   }
@@ -209,9 +212,10 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 },
                 onSaved: (value) async {
                     selectedAsegBasico = value;
+
+                    ///Get All the info for the Contractor
                     if (value != null) {
                       polizaObj.contractor = await contratanteRef.child("${value.identificacion}").once().then((val){
-                        print("Contratante Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
                       if(_isSelected){
@@ -260,10 +264,11 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                     orElse: () => null),
                 onChanged: (value) async {
                   //TODO Importante!!! Debe ser actualizado con el servidor para traer los ultimos valores de Cumulo
+
+                  ///Get All the info for the beneficiary
                   if (value != null) {
                     polizaObj.beneficiary = await afianzadoRef.child("${value.identificacion}").once().then((val){
                       //polizaObj.beneficiary.thirdPartyType = "Beneficiario";
-                      print("Beneficiario Snapshot ${val.value}");
 
                       selectedAsegBasico = value;
                       auxBasicoController.text = value.primerApellido;
@@ -275,9 +280,10 @@ class _Page0State extends State<Page0> with AutomaticKeepAliveClientMixin {
                 },
                 onSaved: (value) async{
                     selectedAsegBasico = value;
+
+                    ///Get All the info for the beneficiary
                     if (value != null) {
                       polizaObj.beneficiary = await afianzadoRef.child("${value.identificacion}").once().then((val){
-                        print("Afianzado Snapshot ${val.value}");
                         return Auxiliar.fromMap(val.value.cast<String, dynamic>());
                       });
                     }

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Poliza>(
-      builder: (context) => Poliza(issueDate: DateTime.now().toString(),insuranceBranch: "Cumplimiento",currency: "Pesos", polizaNumber: 123, temporaryNumber: 432, treatyValue: 100, excecutionTime: 1, operationType: "100% Compañía",listDatesCovers: List(), filledState: 0),
+      builder: (context) => Poliza(issueDate: DateTime.now().toString(),insuranceBranch: "Cumplimiento",currency: "Pesos", polizaNumber: 123, temporaryNumber: 432, treatyValue: 100, excecutionTime: 1, operationType: "100% Compañía", listDatesCovers: List(),filledState: 0),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: appTheme(),

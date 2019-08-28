@@ -153,7 +153,7 @@ class _PolizaFormState extends State<PolizaForm> {
                     form.save();
                     polizaObj.filledState = 1;
                     polizaObj.notifyListeners();
-                    //calculatePolicyFinalDate(context);
+                    calculatePolicyFinalDate(context);
                     /*
                     polizaObj.listDatesCovers = List();
                     polizaObj.covers.map((cov){

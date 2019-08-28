@@ -120,14 +120,15 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                       //listInitialDateTEC[index].text = polizaObj.policyInitialDate;
                       //polizaObj.covers[index].insuredValue = double.parse(listVlrAmparoTEC[index].text);
 
+                      ///Initialize dates
                       if(polizaObj.covers[index].finalDate == null){
                         polizaObj.covers[index].finalDate = dateFormat.format(DateTime.parse(((int.parse(polizaObj.policyInitialDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.policyInitialDate.substring(3, 5) + polizaObj.policyInitialDate.substring(0, 2))));
+                        polizaObj.listDatesCovers.insert(index,DateTime.
+                            parse(((int.parse(polizaObj.covers[index].finalDate.substring(6, 10)) + polizaObj.excecutionTime + polizaObj.covers[index].additionalTerm).toString() + polizaObj.covers[index].finalDate.substring(3, 5) + polizaObj.covers[index].finalDate.substring(0, 2))));
                       }
                       if(polizaObj.covers[index].initialDate == null){
                         polizaObj.covers[index].initialDate = polizaObj.policyInitialDate;
                       }
-
-
                     }
                     /*
                     listVlrAmparoTEC[index] = TextEditingController();
@@ -281,12 +282,14 @@ class _Page3State extends State<Page3> with AutomaticKeepAliveClientMixin {
                             onSaved: (date) => setState(() {
                               polizaObj.covers[index].finalDate = dateFormat.format(date);
 
+                              print("EStoy vivo!!");
                               ///Add final date to de list of dates, to then calculate the biggest
                               if(polizaObj.listDatesCovers==null){
                                 polizaObj.listDatesCovers.insert(index, date);
                                 print("Despues de asignar un valor ${polizaObj.listDatesCovers[index]}");
                                 if(polizaObj.listDatesCovers[index]!=null){
-                                  polizaObj.listDatesCovers.insert(index, polizaObj.listDatesCovers.removeAt(index));
+                                  polizaObj.listDatesCovers.insert(index, date);
+                                  polizaObj.listDatesCovers.removeAt(index+1);
                                   print("Update ListDate covers en index $index: ${polizaObj.listDatesCovers.toString()}");
                                 }
                               }
